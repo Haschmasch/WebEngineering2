@@ -1,0 +1,1 @@
+Die Datei ist hier, weil Git leere Ordner ignoriert. Bitte löschen, wenn hier richtige Dateien abliegen.
