@@ -5,11 +5,12 @@ class UserBase(BaseModel):
     email: str
     name: str
     phone_number: str
+    timecreated: str
 
 
 class UserCreate(UserBase):
     password: str
-    timecreated: str
+
 
 class User(UserBase):
     id: int
