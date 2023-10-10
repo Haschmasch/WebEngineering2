@@ -54,6 +54,7 @@ class User(Base):
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     name = Column(String(150), nullable=False)
     email = Column(String(200), nullable=False)
+    password_salt = Column(Text, nullable=False)
     password_hash = Column(Text, nullable=False)
     phone_number = Column(Text)
     __table_args__ = (UniqueConstraint('name', 'email', name='ue_users'),)
