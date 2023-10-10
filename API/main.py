@@ -1,14 +1,16 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from Crud import *
-from . import models, schemas
+from Schemas import *
+from . import models
 from .database import SessionLocal, engine
-
 import uvicorn
+
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
 
 def run_api():
     print("Starting HTTP server in run_api()", flush=True)

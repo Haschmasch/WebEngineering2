@@ -2,9 +2,9 @@ from pydantic import BaseModel
 
 
 class ChatBase(BaseModel):
-    offer_id: int
-    creator_id: int
-    time_opened: str
+    offerid: int
+    creatorid: int
+    timeopened: str
 
 
 class ChatCreate(ChatBase):

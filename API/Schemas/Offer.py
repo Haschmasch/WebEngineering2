@@ -8,9 +8,9 @@ class OfferBase(BaseModel):
     price: float
     currency: str
     userid: int
-    time_posted: str
+    timeposted: str
     closed: bool
-    time_closed: str
+    timeclosed: str
     postcode: str
     city: str
     address: str
