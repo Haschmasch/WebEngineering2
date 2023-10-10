@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from .. import models, schemas
-
+from .. import models
+from ..Schemas import Chat
 
 def create_chat():
     return 0

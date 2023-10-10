@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
+from ..Utils import Hashing
+from .. import models
+from ..Schemas import User
 
-from .. import models, schemas
 
-
-def create_user():
+def create_user(db: Session):
     return 0
 
 
