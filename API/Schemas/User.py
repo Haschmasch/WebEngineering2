@@ -9,7 +9,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-
+    timecreated: str
 
 class User(UserBase):
     id: int

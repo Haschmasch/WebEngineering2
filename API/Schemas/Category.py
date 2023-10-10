@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+import Subcategory
 
 
 class CategoryBase(BaseModel):
@@ -13,3 +14,8 @@ class Category(CategoryBase):
     id: int
     class Config:
         orm_mode = True
+
+
+class CategoryWithSubcategories(Category):
+    subcategories: list[Subcategory] = []
+

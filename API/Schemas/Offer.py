@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+import Subcategory
+import Category
 
 
 class OfferBase(BaseModel):
@@ -7,20 +9,27 @@ class OfferBase(BaseModel):
     subcategory_id: int
     price: float
     currency: str
-    userid: int
-    timeposted: str
-    closed: bool
-    timeclosed: str
     postcode: str
     city: str
     address: str
+    description: str
 
 
 class OfferCreate(OfferBase):
-    pass
+    userid: int
+    timeposted: str
 
 
-class Offer(OfferBase):
+class Offer(OfferCreate):
     id: int
+    closed: bool
+    timeclosed: str
+
     class Config:
         orm_mode = True
+
+
+class OfferWithCategories(Offer):
+    subcategory: Subcategory = None
+    category: Category
+

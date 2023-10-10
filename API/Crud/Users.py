@@ -8,8 +8,8 @@ from ..Schemas import User
 def create_user(db: Session, user: User.UserCreate):
     salt = Hashing.generate_salt()
     hash_value = Hashing.generate_hash(user.password, salt)
-    db_user = models.User(email=user.email, name=user.name, password_hash=hash_value,
-                          password_salt=salt, phone_number=user.phone_number)
+    db_user = models.User(email=user.email, name=user.name, passwordhash=hash_value,
+                          passwordsalt=salt, phonenumber=user.phone_number, timecreated=user.timecreated)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -19,7 +19,7 @@ def create_user(db: Session, user: User.UserCreate):
 def update_user(db: Session, user: User.User):
     result = db.execute(update(models.User)
                         .where(models.User.id == user.id)
-                        .values(name=user.name, email=user.email, phone_number=user.phone_number))
+                        .values(name=user.name, email=user.email, phonenumber=user.phone_number))
     return result.first()
 
 
@@ -28,7 +28,7 @@ def update_user_password(db: Session, user_id: int, user: User.UserCreate):
     hash_value = Hashing.generate_hash(user.password, salt)
     result = db.execute(update(models.User)
                         .where(models.User.id == user_id)
-                        .values(password_salt=salt, password_hash=hash_value))
+                        .values(passwordsalt=salt, passwordhash=hash_value))
     return result.first()
 
 

@@ -10,5 +10,6 @@ CREATE TABLE users
     passwordsalt text NOT NULL,
     passwordhash text NOT NULL,
     phonenumber text,
+    timecreated timestamptz NOT NULL,
     CONSTRAINT ue_users UNIQUE (name, email)
 )

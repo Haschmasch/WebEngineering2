@@ -1,27 +1,28 @@
 from sqlalchemy.orm import Session
-
+from sqlalchemy import select, insert, update
 from .. import models
 from ..Schemas import Chat
 
-def create_chat():
+
+def create_chat(db: Session):
     return 0
 
 
-def delete_chat():
+def delete_chat(db: Session):
     return 0
 
 
-def update_chat():
+def update_chat(db: Session):
     return 0
 
 
-def get_chat():
+def get_chat(db: Session):
     return 0
 
 
-def get_chat_by_user():
+def get_chat_by_user(db: Session):
     return 0
 
 
-def get_chat_by_offer():
+def get_chat_by_offer(db: Session):
     return 0

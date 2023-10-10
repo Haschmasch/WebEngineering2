@@ -1,6 +1,9 @@
 from sqlalchemy import Boolean, ForeignKey, Column, Integer, String, Text, Sequence, UniqueConstraint, \
     TIMESTAMP, CheckConstraint, Numeric, CHAR
 import datetime
+
+from sqlalchemy.orm import relationship
+
 from .database import Base
 
 
@@ -8,6 +11,7 @@ class Category(Base):
     __tablename__ = 'categories'
     id = Column(Integer, Sequence('category_id_seq'), primary_key=True)
     name = Column(String(50))
+    subcategories = relationship("Subcategory", back_populates="category")
 
 
 class Chat(Base):
@@ -48,6 +52,7 @@ class Subcategory(Base):
     id = Column(Integer, Sequence('subcategory_id_seq'), primary_key=True)
     categoryid = Column(Integer, ForeignKey('categories.id'))
     name = Column(String(50))
+    category = relationship("Category", back_populates="subcategories")
 
 
 class User(Base):
@@ -58,6 +63,7 @@ class User(Base):
     passwordsalt = Column(Text, nullable=False)
     passwordhash = Column(Text, nullable=False)
     phonenumber = Column(Text)
+    timecreated = Column(TIMESTAMP(timezone=True), nullable=False)
     __table_args__ = (UniqueConstraint('name', 'email', name='ue_users'),)
 
 
