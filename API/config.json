@@ -1,5 +1,5 @@
 {
   "ConnectionString" : "postgresql://user:password@postgresserver/web2_db",
-  "OrderRootDir" : "../Storage/Orders",
+  "OfferRootDir" : "../Storage/Offers",
   "ChatRootDir" : "../Storage/Chats"
 }
