@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete
-from .. import models
-from ..Schemas import Subcategory
+from API import models
+from API.Schemas import Subcategory
 
 
 def create_subcategory(db: Session, subcategory: Subcategory.SubcategoryCreate):

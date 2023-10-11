@@ -12,5 +12,6 @@ class SubcategoryCreate(SubcategoryBase):
 
 class Subcategory(SubcategoryBase):
     id: int
+
     class Config:
-        orm_mode = True
+        from_attributes = True

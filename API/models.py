@@ -11,8 +11,8 @@ class Category(Base):
     __tablename__ = 'categories'
     id = Column(Integer, Sequence('category_id_seq'), primary_key=True)
     name = Column(String(50))
-    subcategories = relationship("Subcategory", back_populates="category", cascade="all, delete")
-    offers = relationship("Offer", back_populates="category")
+    related_subcategories = relationship("Subcategory", back_populates="related_category", cascade="all, delete")
+    related_offers = relationship("Offer", back_populates="related_category")
 
 
 class Subcategory(Base):
@@ -20,8 +20,8 @@ class Subcategory(Base):
     id = Column(Integer, Sequence('subcategory_id_seq'), primary_key=True)
     categoryid = Column(Integer, ForeignKey('categories.id'))
     name = Column(String(50))
-    category = relationship("Category", back_populates="subcategories")
-    offers = relationship("Offer", back_populates="subcategory")
+    related_category = relationship("Category", back_populates="related_subcategories")
+    related_offers = relationship("Offer", back_populates="related_subcategory")
 
 
 class Chat(Base):
@@ -30,7 +30,7 @@ class Chat(Base):
     offerid = Column(Integer, ForeignKey('offers.id'), index=True)
     creatorid = Column(Integer, ForeignKey('users.id'))
     timeopened = Column(TIMESTAMP(timezone=True), default=datetime.datetime.utcnow)
-    offer = relationship("Offer", back_populates="chats")
+    related_offer = relationship("Offer", back_populates="related_chats")
 
 
 class Following(Base):
@@ -39,7 +39,7 @@ class Following(Base):
     offerid = Column(Integer, ForeignKey('offers.id'))
     userid = Column(Integer, ForeignKey('users.id'))
     timefollowed = Column(TIMESTAMP(timezone=True), nullable=False)
-    offer = relationship("Offer", back_populates="followings")
+    related_offer = relationship("Offer", back_populates="related_followings")
 
 
 class Offer(Base):
@@ -57,10 +57,10 @@ class Offer(Base):
     postcode = Column(String)
     city = Column(String)
     address = Column(String)
-    subcategory = relationship("Subcategory", back_populates="offers")
-    category = relationship("Category", back_populates="offers")
-    followings = relationship("Following", back_populates="offer")
-    chats = relationship("Chat", back_populates="Offer")
+    related_subcategory = relationship("Subcategory", back_populates="related_offers")
+    related_category = relationship("Category", back_populates="related_offers")
+    related_followings = relationship("Following", back_populates="related_offer")
+    related_chats = relationship("Chat", back_populates="related_offer")
 
 
 class User(Base):

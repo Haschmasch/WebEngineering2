@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete
-from .. import models
-from ..Schemas import Following
+from API import models
+from API.Schemas import Following
 
 
 def create_following(db: Session, following: Following.FollowingCreate):

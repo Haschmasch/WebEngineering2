@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete
 from fastapi import UploadFile
-from .. import models
-from ..Utils import FileOperations
-from ..Schemas import Offer
+from API import models
+from API.Utils import FileOperations
+from API.Schemas import Offer
 import os
 import zipfile
 import io

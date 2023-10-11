@@ -1,11 +1,12 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-from Crud import *
-from Schemas import *
-import models
-from database import SessionLocal, engine
+import Crud.Users
+from API.Crud import Users
+from API.Schemas import User
+from API import models
+from database import SessionLocal, engine, config
 import uvicorn
-
+import datetime
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -26,6 +27,15 @@ def get_db():
 
 
 def main():
+    # Hier kann man was zum testen rein schreiben. Später kommt hier nur run_api() rein.
+    createUser = User.UserCreate(email="m.m@example.com",
+                                 name="test",
+                                 phone_number="1681561",
+                                 timecreated=datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
+                                 password="123456")
+    db = SessionLocal()
+    Users.create_user(db, createUser)
+    db.close()
     print("Hallo")
 
 

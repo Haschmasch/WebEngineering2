@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update
-from ..Utils import Hashing
-from .. import models
-from ..Schemas import User
+from API.Utils import Hashing
+from API import models
+from API.Schemas import User
 
 
 def create_user(db: Session, user: User.UserCreate):
