@@ -33,5 +33,11 @@ def write_uploaded_file(path, uploaded_file: UploadFile):
         uploaded_file.file.close()
 
 
+def remove_directory(path):
+    if path.isdir(path):
+        shutil.rmtree(path)
+
+
+
 def get_file_paths(directory):
     return [f for f in listdir(directory) if isfile(join(directory, f))]

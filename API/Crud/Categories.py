@@ -10,9 +10,7 @@ def create_category(db: Session, category: Category.CategoryCreate):
 
 
 def delete_category(db: Session, category_id: int):
-    result = db.execute(delete(models.Category)
-                        .where(models.Category.id == models.Subcategory.id)
-                        .where(models.Subcategory.id == category_id))
+    result = db.execute(delete(models.Category).where(models.Category.id == category_id))
     return result.first()
 
 
@@ -30,11 +28,6 @@ def get_category(db: Session, category_id: int):
 
 def get_categories(db: Session, first: int, last: int):
     result = db.execute(select(models.Category).offset(first).limit(last))
-    return result.all()
-
-
-def get_categories_and_subcategories(db: Session, first: int, last: int):
-    result = db.execute(select(models.CategoryWithSubcategories).offset(first).limit(last))
     return result.all()
 
 

@@ -31,5 +31,5 @@ class Offer(OfferCreate):
 
 class OfferWithCategories(Offer):
     subcategory: Subcategory = None
-    category: Category
+    category: Category = None
 
