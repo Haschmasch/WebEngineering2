@@ -1,10 +1,11 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert, update
+from sqlalchemy import select, insert, update, or_
 from API.Utils import Hashing
 from API import models
 from API.Schemas import User
 
 
+# TODO Catch constraint exceptions and output an appropiate error message
 def create_user(db: Session, user: User.UserCreate):
     salt = Hashing.generate_salt()
     hash_value = Hashing.generate_hash(user.password, salt)
@@ -50,3 +51,13 @@ def get_user_by_email(db: Session, email: str):
 def get_user_by_name(db: Session, name: str):
     result = db.execute(select(models.User).where(models.User.name == name))
     return result.first()
+
+
+def check_user_exists(db: Session, user: User.UserLogin):
+    result = db.execute(select(models.User).where(or_(models.User.email == user.email, models.User.name == user.email)))
+    db_user = result.first()
+    if db_user:
+        hash_value = Hashing.generate_hash(user.password, db_user.salt)
+        if hash_value == db_user.passwordhash:
+            return db_user
+    return None

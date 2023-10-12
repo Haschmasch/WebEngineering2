@@ -6,7 +6,7 @@ from Utils import FileOperations
 
 # Use this variable to access the configuration file via the key of the variable
 config = FileOperations.read_json("config.json")
-DB_URL = config["ConnectionString"]          #TODO: change to own database url
+DB_URL = config["ConnectionString"]
 
 engine = create_engine(DB_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -14,3 +14,9 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

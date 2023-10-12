@@ -18,14 +18,6 @@ def run_api():
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
 def main():
     # Hier kann man was zum testen rein schreiben. Später kommt hier nur run_api() rein.
     createUser = User.UserCreate(email="m.m@example.com",
