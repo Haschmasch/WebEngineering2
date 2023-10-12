@@ -17,14 +17,13 @@ def main():
                                  phone_number="1681561",
                                  timecreated=datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
                                  password="123456")
-    # Users.create_user(db, createUser)
+    Users.create_user(db, createUser)
 
 
     createCategory = Category.CategoryCreate(name="TestCategory")
     res = Categories.create_category(db, createCategory)
     res1 = Categories.get_categories(db, 0, 100)
-    anal = res[0]
-    createSubcategory = Subcategory.SubcategoryCreate(categoryid=anal,
+    createSubcategory = Subcategory.SubcategoryCreate(categoryid=res[0],
                                                       name="TestSubcategory")
     Subcategories.create_subcategory(db, createSubcategory)
 
