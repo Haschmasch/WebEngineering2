@@ -15,12 +15,14 @@ def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: st
                                                     categoryid=offer.category_id,
                                                     subcategoryid=offer.subcategory_id,
                                                     price=offer.price,
-                                                    currency=offer.price,
+                                                    currency=offer.currency,
                                                     userid=offer.userid,
-                                                    timeposted=offer.timeposted,
+                                                    timeposted=offer.time_posted,
                                                     postcode=offer.postcode,
                                                     city=offer.city,
-                                                    address=offer.address))
+                                                    address=offer.address,
+                                                    primaryimage=offer.primary_image))
+    db.commit()
     primary_key = result.inserted_primary_key[0]
     path = get_description_path(offer_root_directory, offer.userid, primary_key)
     FileOperations.write_text_file(path, offer.description)
@@ -61,6 +63,7 @@ def get_offer_images(db: Session, offer_id: int, offer_root_directory: str):
 def delete_offer(db: Session, offer_id: int, offer_root_directory: str):
     offer = get_offer(db, offer_id, offer_root_directory)
     result = db.execute(delete(models.Offer).where(models.Offer.id == offer_id))
+    db.commit()
     FileOperations.remove_directory(f"{offer_root_directory}/{offer.userid}/{offer.id}")
     return result.first()
 
@@ -79,9 +82,11 @@ def update_offer(db: Session, offer: Offer.Offer, offer_root_directory: str):
                                 city=offer.city,
                                 address=offer.address,
                                 closed=offer.closed,
-                                timeclosed=offer.timeclosed))
+                                timeclosed=offer.time_closed,
+                                primaryimage=offer.primary_image))
     # Note, that the userid and timeposted fields are purposefully not overwritten here,
     # since they only receive an initial value.
+    db.commit()
     path = get_description_path(offer_root_directory, offer.userid, offer.id)
     FileOperations.write_text_file(path, offer.description)
     return result.first()

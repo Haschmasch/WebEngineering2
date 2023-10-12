@@ -5,19 +5,24 @@ from API.Schemas import Subcategory
 
 
 def create_subcategory(db: Session, subcategory: Subcategory.SubcategoryCreate):
-    result = db.execute(insert(models.Subcategory).values(name=subcategory.name, categoryid=subcategory.categoryid))
-    return result.first()
+    result = db.execute(insert(models.Subcategory).values(name=subcategory.name, categoryid=subcategory.category_id))
+    db.commit()
+    key = result.inserted_primary_key
+    result.close()
+    return key
 
 
 def delete_subcategory(db: Session, subcategory_id):
     result = db.execute(delete(models.Subcategory).where(models.Subcategory.id == subcategory_id))
+    db.commit()
     return result.first()
 
 
 def update_subcategory(db: Session, subcategory: Subcategory.Subcategory):
     result = db.execute(update(models.Subcategory)
                         .where(models.Subcategory.id == subcategory.id)
-                        .values(name=subcategory.name, categoryid=subcategory.categoryid))
+                        .values(name=subcategory.name, categoryid=subcategory.category_id))
+    db.commit()
     return result.first()
 
 

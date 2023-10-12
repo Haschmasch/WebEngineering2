@@ -2,9 +2,9 @@ from pydantic import BaseModel
 
 
 class FollowingBase(BaseModel):
-    offerid: int
-    userid: int
-    timefollowed: str
+    offer_id: int
+    user_id: int
+    time_followed: str
 
 
 class FollowingCreate(FollowingBase):

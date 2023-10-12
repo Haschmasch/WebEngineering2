@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-import Subcategory
+from API.Schemas.Subcategory import Subcategory
 
 
 class CategoryBase(BaseModel):

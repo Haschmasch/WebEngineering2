@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-import Subcategory
-import Category
+from API.Schemas.Subcategory import Subcategory
+from API.Schemas.Category import Category
 
 
 class OfferBase(BaseModel):
@@ -13,17 +13,18 @@ class OfferBase(BaseModel):
     city: str
     address: str
     description: str
+    primary_image: str
 
 
 class OfferCreate(OfferBase):
-    userid: int
-    timeposted: str
+    user_id: int
+    time_posted: str
 
 
 class Offer(OfferCreate):
     id: int
     closed: bool
-    timeclosed: str
+    time_closed: str
 
     class Config:
         from_attributes = True

@@ -6,11 +6,15 @@ from API.Schemas import Category
 
 def create_category(db: Session, category: Category.CategoryCreate):
     result = db.execute(insert(models.Category).values(name=category.name))
-    return result.first()
+    db.commit()
+    key = result.inserted_primary_key
+    result.close()
+    return key
 
 
 def delete_category(db: Session, category_id: int):
     result = db.execute(delete(models.Category).where(models.Category.id == category_id))
+    db.commit()
     return result.first()
 
 
@@ -18,6 +22,7 @@ def update_category(db: Session, category: Category.Category):
     result = db.execute(update(models.User)
                         .where(models.User.id == category.id)
                         .values(name=category.name))
+    db.commit()
     return result.first()
 
 

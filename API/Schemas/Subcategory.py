@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class SubcategoryBase(BaseModel):
-    categoryid: int
+    category_id: int
     name: str
 
 
