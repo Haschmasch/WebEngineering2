@@ -76,9 +76,3 @@ class User(Base):
     __table_args__ = (UniqueConstraint('name', 'email', name='ue_users'),)
 
 
-class Message(Base):
-    __tablename__ = 'messages'
-    id = Column(Integer, primary_key=True, index=True)
-    chatid = Column(Integer, ForeignKey('chats.id'), index=True)
-    content = Column(String)
-    timestamp = Column(TIMESTAMP(timezone=True), default=datetime.datetime.utcnow)
