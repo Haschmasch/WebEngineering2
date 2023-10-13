@@ -6,23 +6,26 @@ from API.Schemas import Following
 
 def create_following(db: Session, following: Following.FollowingCreate):
     result = db.execute(insert(models.Following)
-                        .values(offerid=following.offerid,
-                                userid=following.userid,
-                                timefollowed=following.timefollowed))
+                        .values(offerid=following.offer_id,
+                                userid=following.user_id,
+                                timefollowed=following.time_followed))
+    db.commit()
     return result.first()
 
 
 def delete_following(db: Session, following_id: int):
     result = db.execute(delete(models.Following).where(models.Following.id == following_id))
+    db.commit()
     return result.first()
 
 
 def update_following(db: Session, following: Following.Following):
     result = db.execute(update(models.Following)
                         .where(models.Following.id == following.id)
-                        .values(offerid=following.offerid,
-                                userid=following.userid,
-                                timefollowed=following.timefollowed))
+                        .values(offerid=following.offer_id,
+                                userid=following.user_id,
+                                timefollowed=following.time_followed))
+    db.commit()
     return result.first()
 
 

@@ -12,7 +12,7 @@ class UserLogin(UserBase):
 
 
 class UserCreate(UserLogin):
-    timecreated: str
+    time_created: str
 
 
 class User(UserBase):

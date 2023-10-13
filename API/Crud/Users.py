@@ -5,12 +5,12 @@ from API import models
 from API.Schemas import User
 
 
-# TODO Catch constraint exceptions and output an appropiate error message
+# TODO Catch constraint exceptions and output an appropriate error message
 def create_user(db: Session, user: User.UserCreate):
     salt = Hashing.generate_salt()
     hash_value = Hashing.generate_hash(user.password, salt)
     db_user = models.User(email=user.email, name=user.name, passwordhash=hash_value,
-                          passwordsalt=salt, phonenumber=user.phone_number, timecreated=user.timecreated)
+                          passwordsalt=salt, phonenumber=user.phone_number, timecreated=user.time_created)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -21,6 +21,7 @@ def update_user(db: Session, user: User.User):
     result = db.execute(update(models.User)
                         .where(models.User.id == user.id)
                         .values(name=user.name, email=user.email, phonenumber=user.phone_number))
+    db.commit()
     return result.first()
 
 
@@ -30,6 +31,7 @@ def update_user_password(db: Session, user_id: int, user: User.UserCreate):
     result = db.execute(update(models.User)
                         .where(models.User.id == user_id)
                         .values(passwordsalt=salt, passwordhash=hash_value))
+    db.commit()
     return result.first()
 
 
