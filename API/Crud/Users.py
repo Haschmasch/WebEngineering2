@@ -45,11 +45,6 @@ def get_users(db: Session, first: int, last: int):
     return result.all()
 
 
-def get_user_by_email(db: Session, email: str):
-    result = db.execute(select(models.User).where(models.User.email == email))
-    return result.first()
-
-
 def get_user_by_name(db: Session, name: str):
     result = db.execute(select(models.User).where(models.User.name == name))
     return result.first()

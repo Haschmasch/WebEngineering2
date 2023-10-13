@@ -19,3 +19,5 @@ class ConfigManager:
     def db_url(self):
         return self.config_data['ConnectionString']
 
+
+configuration = ConfigManager()

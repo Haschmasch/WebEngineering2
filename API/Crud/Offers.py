@@ -10,6 +10,7 @@ import io
 from fastapi.responses import Response
 
 
+# TODO: Modify offer to return model instead of result (applies to all creates)
 def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: str):
     result = db.execute(insert(models.Offer).values(title=offer.title,
                                                     categoryid=offer.category_id,
@@ -95,8 +96,6 @@ def update_offer(db: Session, offer: Offer.Offer, offer_root_directory: str):
 # TODO: Add description to returned offers.
 def get_offer(db: Session, offer_id: int, offer_root_directory: str):
     result = db.execute(select(models.Offer)
-                        .join(models.Offer.category)
-                        .join(models.Offer.subcategory)
                         .where(models.Offer.id == offer_id))
     offer = result.first()
     offer.description = FileOperations.read_text_file(
@@ -106,33 +105,7 @@ def get_offer(db: Session, offer_id: int, offer_root_directory: str):
 
 def get_offers(db: Session, first: int, last: int, offer_root_directory: str):
     result = db.execute(select(models.Offer)
-                        .join(models.Offer.category)
-                        .join(models.Offer.subcategory)
                         .offset(first).limit(last))
-    return add_description_to_results(result, offer_root_directory)
-
-
-def get_offers_by_user(db: Session, user_id: int, offer_root_directory: str):
-    result = db.execute(select(models.Offer)
-                        .join(models.Offer.category)
-                        .join(models.Offer.subcategory)
-                        .where(models.Offer.userid == user_id))
-    return add_description_to_results(result, offer_root_directory)
-
-
-def get_offers_by_category(db: Session, category_id: int, offer_root_directory: str):
-    result = db.execute(select(models.Offer)
-                        .join(models.Offer.category)
-                        .join(models.Offer.subcategory)
-                        .where(models.Offer.categoryid == category_id))
-    return add_description_to_results(result, offer_root_directory)
-
-
-def get_offers_by_subcategory(db: Session, subcategory_id: int, offer_root_directory: str):
-    result = db.execute(select(models.Offer)
-                        .join(models.Offer.category)
-                        .join(models.Offer.subcategory)
-                        .where(models.Offer.subcategoryid == subcategory_id))
     return add_description_to_results(result, offer_root_directory)
 
 

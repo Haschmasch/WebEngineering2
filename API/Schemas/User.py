@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from API.models import Offer
+
 
 class UserBase(BaseModel):
     email: str
@@ -20,4 +22,8 @@ class User(UserBase):
 
     class Config:
         from_attributes = True
+
+
+class UserWithOffers(User):
+    related_offers: list[Offer] = []
 

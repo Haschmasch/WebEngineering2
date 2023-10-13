@@ -1,14 +1,11 @@
 from API.Crud import Users, Offers, Categories, Subcategories, Chats
 from API.Schemas import User, Offer, Category, Subcategory, Chat
 
-from database import SessionLocal, engine
-from setup import run_api
+from setup_database import SessionLocal, engine
+from setup_api import run_api
 import datetime
-from Utils.ConfigManager import ConfigManager
+from Utils.ConfigManager import configuration
 
-
-#TODO: instantiate ConfigManager as a singleton avoiding circular imports (database.py <> setup.py)
-config_manager = ConfigManager()
 
 def main():
 
@@ -43,13 +40,14 @@ def main():
                                     time_posted=datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
                                     primary_image="Test.jpg")
 
-    Offers.create_offer(db, createOffer, config_manager.offer_root_dir)
+    Offers.create_offer(db, createOffer, configuration.offer_root_dir)
     createChat = Chat.ChatCreate(offerid=1, creatorid=1,
                                  timeopened=datetime.datetime.now(tz=datetime.timezone.utc).isoformat())
     Chats.create_chat(db, createChat)
     db.close()
     print("Hallo")
     run_api()
+
 
 if __name__ == "__main__":
     main()

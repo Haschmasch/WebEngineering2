@@ -2,7 +2,7 @@ import json
 import shutil
 from fastapi import UploadFile
 from os import listdir
-from os.path import isfile, join, isabs
+from os.path import isfile, join, isabs, abspath
 from pathlib import Path
 
 
@@ -59,7 +59,6 @@ def mkdir_and_resolve_relative_path(path):
 def try_resolve_relative_path(path):
     resolved_path = path
     if not isabs(path):
-        mod_path = Path(__file__).parent
-        resolved_path = (mod_path / path).resolve()
+        resolved_path = abspath(path)
     return resolved_path
 

@@ -4,7 +4,7 @@ import datetime
 
 from sqlalchemy.orm import relationship
 
-from database import Base
+from setup_database import Base
 
 
 class Category(Base):
@@ -62,6 +62,7 @@ class Offer(Base):
     related_category = relationship("Category", back_populates="related_offers")
     related_followings = relationship("Following", back_populates="related_offer")
     related_chats = relationship("Chat", back_populates="related_offer")
+    related_user = relationship("User", back_populates="related_offers")
 
 
 class User(Base):
@@ -73,6 +74,7 @@ class User(Base):
     passwordhash = Column(Text, nullable=False)
     phonenumber = Column(Text)
     timecreated = Column(TIMESTAMP(timezone=True), nullable=False)
+    related_offers = relationship("Offer", back_populates="related_user")
     __table_args__ = (UniqueConstraint('name', 'email', name='ue_users'),)
 
 
