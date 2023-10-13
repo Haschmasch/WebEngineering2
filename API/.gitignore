@@ -1,1 +1,6 @@
 __pycache__/
+Crud/__pycache__/
+Endpoints/__pycache__/
+Schemes/__pycache__/
+Utils/__pycache__/
+Storage/
