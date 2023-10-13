@@ -16,7 +16,7 @@ def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: st
                                                     subcategoryid=offer.subcategory_id,
                                                     price=offer.price,
                                                     currency=offer.currency,
-                                                    userid=offer.userid,
+                                                    userid=offer.user_id,
                                                     timeposted=offer.time_posted,
                                                     postcode=offer.postcode,
                                                     city=offer.city,
@@ -24,7 +24,7 @@ def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: st
                                                     primaryimage=offer.primary_image))
     db.commit()
     primary_key = result.inserted_primary_key[0]
-    path = get_description_path(offer_root_directory, offer.userid, primary_key)
+    path = get_description_path(offer_root_directory, offer.user_id, primary_key)
     FileOperations.write_text_file(path, offer.description)
     return result.first()
 
