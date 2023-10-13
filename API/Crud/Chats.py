@@ -5,7 +5,7 @@ from ..Schemas import Chat
 
 
 def create_chat(db: Session, chat: Chat.ChatCreate):
-    result = db.execute(insert(models.Chat).values(offerid=chat.offerid, creatorid=chat.creatorid))
+    result = db.execute(insert(models.Chat).values(offerid=chat.offerid, creatorid=chat.creatorid, timeopened=chat.timeopened))
     db.commit()
     return result.first()
 
@@ -38,7 +38,8 @@ def get_chats(db: Session, first: int, last: int):
 
 def get_chat_by_offer(db: Session, offer_id: int):
     result = db.execute(select(models.Chat).where(models.Chat.offerid == offer_id))
-    return result.all()
+    return result.first()
+
 
 
 def get_chat_by_user(db: Session, user_id: int):
