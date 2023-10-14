@@ -11,6 +11,7 @@ from fastapi.responses import Response
 
 
 def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: str):
+    offer.short_description = get_short_description(offer.description)
     db_offer = models.Offer(title=offer.title,
                             categoryid=offer.category_id,
                             subcategoryid=offer.subcategory_id,
@@ -21,20 +22,24 @@ def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: st
                             postcode=offer.postcode,
                             city=offer.city,
                             address=offer.address,
-                            primaryimage=offer.primary_image)
+                            primaryimage=offer.primary_image,
+                            shortdescription=offer.short_description)
     db.add(db_offer)
     db.commit()
     db.refresh(db_offer)
-    path = get_description_path(offer_root_directory, db_offer.userid, db_offer.id)
-    FileOperations.write_text_file(path, offer.description)
+    desc_path = get_description_path(offer_root_directory, db_offer.userid, db_offer.id)
+    image_path = get_image_directory(offer_root_directory, db_offer.userid, db_offer.id)
+    FileOperations.create_thumbnail(f"{image_path}/{db_offer.primaryimage}")
+    FileOperations.write_text_file(desc_path, offer.description)
     return db_offer
 
 
-def save_offer_images(db: Session, offer_root_directory: str, offer_id: int, files: list[UploadFile]):
+def save_offer_images(db: Session, offer_id: int, offer_root_directory: str, files: list[UploadFile]):
     offer = get_offer(db, offer_id, offer_root_directory)
     path = get_image_directory(offer_root_directory, offer.userid, offer_id)
     for file in files:
         FileOperations.write_uploaded_file(f"{path}/{file.filename}", file)
+    FileOperations.create_thumbnail(f"{path}/{offer.primary_image}")
 
 
 def get_offer_images(db: Session, offer_id: int, offer_root_directory: str):
@@ -61,6 +66,23 @@ def get_offer_images(db: Session, offer_id: int, offer_root_directory: str):
     return resp
 
 
+def get_image_path(db: Session, offer_id: int, image_name: str, offer_root_directory: str):
+    offer = get_offer(db, offer_id, offer_root_directory)
+    path = get_image_directory(offer_root_directory, offer.userid, offer_id)
+    return f"{path}/{image_name}"
+
+
+def get_thumbnail_path(db: Session, offer_id: int, offer_root_directory: str):
+    offer = get_offer(db, offer_id, offer_root_directory)
+    path = get_image_directory(offer_root_directory, offer.userid, offer_id)
+    FileOperations.get_thumbnail_path(f"{path}/{offer.primaryimage}")
+
+
+def delete_offer_image(db: Session, offer_id: int, image_name: str, offer_root_directory: str):
+    path = get_image_path(db, offer_id, image_name, offer_root_directory)
+    FileOperations.remove_file(path)
+
+
 def delete_offer(db: Session, offer_id: int, offer_root_directory: str):
     offer = get_offer(db, offer_id, offer_root_directory)
     result = db.execute(delete(models.Offer).where(models.Offer.id == offer_id))
@@ -72,6 +94,7 @@ def delete_offer(db: Session, offer_id: int, offer_root_directory: str):
 # This is inefficient, because the whole offer is updated, even if only a single value changes
 # This can also lead to the removal of values in the database, if an empty value is set here
 def update_offer(db: Session, offer: Offer.Offer, offer_root_directory: str):
+    offer.short_description = get_short_description(offer.description)
     result = db.execute(update(models.Offer)
                         .where(models.Offer.id == offer.id)
                         .values(title=offer.title,
@@ -84,11 +107,14 @@ def update_offer(db: Session, offer: Offer.Offer, offer_root_directory: str):
                                 address=offer.address,
                                 closed=offer.closed,
                                 timeclosed=offer.time_closed,
-                                primaryimage=offer.primary_image))
+                                primaryimage=offer.primary_image,
+                                shortdescription=offer.short_description))
     # Note, that the userid and timeposted fields are purposefully not overwritten here,
     # since they only receive an initial value.
     db.commit()
-    path = get_description_path(offer_root_directory, offer.userid, offer.id)
+    path = get_description_path(offer_root_directory, offer.user_id, offer.id)
+    image_path = get_image_directory(offer_root_directory, offer.user_id, offer.id)
+    FileOperations.create_thumbnail(f"{image_path}/{offer.primary_image}")
     FileOperations.write_text_file(path, offer.description)
     return result.first()
 
@@ -123,3 +149,18 @@ def get_description_path(offer_root_directory, user_id, offer_id):
 
 def get_image_directory(offer_root_directory, user_id, offer_id):
     return f"{offer_root_directory}/{user_id}/{offer_id}/images"
+
+
+def get_short_description(description: str):
+    short_description = description
+    if len(short_description) > 50:
+        short_description = description[0:49]
+        last_blank = short_description.rfind(' ')
+        while last_blank > 46:
+            last_blank = short_description.rfind(' ',0,last_blank)
+        short_description = description[0:last_blank]
+    return short_description
+
+
+
+

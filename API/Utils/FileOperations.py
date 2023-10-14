@@ -1,9 +1,11 @@
 import json
+import os
 import shutil
 from fastapi import UploadFile
 from os import listdir
 from os.path import isfile, join, isabs, abspath
 from pathlib import Path
+from PIL import Image
 
 
 def read_json(path):
@@ -39,10 +41,42 @@ def write_uploaded_file(path, uploaded_file: UploadFile):
         uploaded_file.file.close()
 
 
+def remove_file(path):
+    resolved_path = try_resolve_relative_path(path)
+    if isfile(resolved_path):
+        os.remove(resolved_path)
+
+
+# TODO: Maybe remove parent dir, when the specified dir is the only dir under the parent. This can lead to
+#  emtpy directories otherwise.
 def remove_directory(path):
     resolved_path = try_resolve_relative_path(path)
     if path.isdir(resolved_path):
         shutil.rmtree(resolved_path)
+
+
+def create_thumbnail(path):
+    resolved_path = mkdir_and_resolve_relative_path(path)
+    thumbnail_path = get_thumbnail_path(resolved_path)
+    # Create thumbnail if the source file exists, and it does not exist
+    if isfile(resolved_path) and not isfile(thumbnail_path):
+        image = Image.open(resolved_path)
+        image.thumbnail((256, 256))
+        image.save(thumbnail_path)
+
+    # Delete all other thumbnails in the directory
+    files = get_file_paths(os.path.dirname(path))
+    t_name, t_directory = os.path.split(thumbnail_path)
+    for file in files:
+        name, directory = os.path.split(file)
+        if name is not t_name and "_thumbnail" in file:
+            remove_file(file)
+
+
+def get_thumbnail_path(path):
+    resolved_path = try_resolve_relative_path(path)
+    filename, file_extension = os.path.splitext(resolved_path)
+    return f"{filename}_thumbnail.{file_extension}"
 
 
 def get_file_paths(directory):

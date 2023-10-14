@@ -2,6 +2,32 @@ from API.Schemas.Category import Category
 from API.Schemas.Subcategory import Subcategory
 from API.Schemas.Offer import Offer
 from API.Schemas.User import User
+from API.Schemas.Following import Following
+
+
+class OfferWithRelations(Offer):
+    related_subcategory: Subcategory | None = None
+    related_category: Category | None = None
+    related_user: User | None = None
+
+
+class OfferWithCategoryRelations(Offer):
+    related_subcategory: Subcategory | None = None
+    related_user: User | None = None
+
+
+class OfferWithSubcategoryRelations(Offer):
+    related_category: Category | None = None
+    related_user: User | None = None
+
+
+class OfferWithUserRelations(Offer):
+    related_subcategory: Subcategory | None = None
+    related_category: Category | None = None
+
+
+class FollowingWithOffer(Following):
+    related_offer: Offer | None = None
 
 
 class SubcategoryWithCategory(Subcategory):
@@ -13,19 +39,13 @@ class CategoryWithSubcategories(Category):
 
 
 class SubcategoryWithOffers(Subcategory):
-    related_offers: list[Offer] = []
+    related_offers: list[OfferWithSubcategoryRelations] = []
 
 
 class CategoryWithOffers(Category):
-    related_offers: list[Offer] = []
+    related_offers: list[OfferWithCategoryRelations] = []
 
 
 class UserWithOffers(User):
-    related_offers: list[Offer] = []
-
-
-class OfferWithRelations(Offer):
-    related_subcategory: Subcategory = None
-    related_category: Category = None
-    related_user: User = None
+    related_offers: list[OfferWithUserRelations] = []
 

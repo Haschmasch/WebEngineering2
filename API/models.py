@@ -58,6 +58,7 @@ class Offer(Base):
     city = Column(String)
     address = Column(String)
     primaryimage = Column(String)
+    shortdescription = Column(String(50))
     related_subcategory = relationship("Subcategory", back_populates="related_offers")
     related_category = relationship("Category", back_populates="related_offers")
     related_followings = relationship("Following", back_populates="related_offer")

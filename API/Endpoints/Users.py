@@ -1,14 +1,20 @@
 from API import setup_database
 from API.Crud import Users
 from API.Schemas import User
+from API.Schemas import Relations
 from sqlalchemy.orm import Session
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
-from API.setup_api import app
 
 
-@app.post("/users/", response_model=User.User, status_code=status.HTTP_201_CREATED)
-def register_user(user: User.UserCreate, db: Session = Depends(setup_database.get_db())):
+router = APIRouter(
+    prefix="/users",
+    tags=["users"]
+)
+
+
+@router.post("/", response_model=User.User, status_code=status.HTTP_201_CREATED)
+def register_user(user: User.UserCreate, db: Session = Depends(setup_database.get_db)):
     try:
         return Users.create_user(db, user)
     except exc.DatabaseError as e:
@@ -16,8 +22,8 @@ def register_user(user: User.UserCreate, db: Session = Depends(setup_database.ge
 
 
 # TODO: Implement proper login (maybe with jwt tokens)
-@app.post("/users/login", response_model=User.User)
-def login_user(user: User.UserLogin, db: Session = Depends(setup_database.get_db())):
+@router.post("/login", response_model=User.User)
+def login_user(user: User.UserLogin, db: Session = Depends(setup_database.get_db)):
     try:
         user = Users.check_user_exists(db, user)
         if user is None:
@@ -27,44 +33,41 @@ def login_user(user: User.UserLogin, db: Session = Depends(setup_database.get_db
         raise HTTPException(status_code=400, detail=e.detail)
 
 
-@app.put("/users/", response_model=User.User)
-def update_user(user: User.User, db: Session = Depends(setup_database.get_db())):
+@router.put("/", response_model=User.User)
+def update_user(user: User.User, db: Session = Depends(setup_database.get_db)):
     try:
         return Users.update_user(db, user)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
 
 
-@app.get("/users/{user_id}", response_model=User.User)
-def get_user(user_id: int, db: Session = Depends(setup_database.get_db())):
+@router.get("/{user_id}", response_model=User.User)
+def get_user(user_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         return Users.get_user(db, user_id)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
 
 
-@app.get("/users/name/{user_name}", response_model=User.User)
-def get_user_by_name(user_name: str, db: Session = Depends(setup_database.get_db())):
-    try:
-        return Users.get_user_by_name(db, user_name)
-    except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
-
-
-# TODO: Integrate relations for offers
-@app.get("/users/{user_id}/offers", response_model=User.UserWithOffers)
-def get_user_with_offers(user_id: int, db: Session = Depends(setup_database.get_db())):
-    try:
-        return Users.get_user(db, user_id)
-    except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
-
-
-@app.get("/users/", response_model=list[User.User])
-def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(setup_database.get_db())):
+@router.get("/", response_model=list[User.User])
+def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(setup_database.get_db)):
     try:
         return Users.get_users(db, skip, limit)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
 
 
+@router.get("/name/{user_name}", response_model=User.User)
+def get_user_by_name(user_name: str, db: Session = Depends(setup_database.get_db)):
+    try:
+        return Users.get_user_by_name(db, user_name)
+    except exc.DatabaseError as e:
+        raise HTTPException(status_code=400, detail=e.detail)
+
+
+@router.get("/{user_id}/offers", response_model=Relations.UserWithOffers)
+def get_user_with_offers(user_id: int, db: Session = Depends(setup_database.get_db)):
+    try:
+        return Users.get_user(db, user_id)
+    except exc.DatabaseError as e:
+        raise HTTPException(status_code=400, detail=e.detail)

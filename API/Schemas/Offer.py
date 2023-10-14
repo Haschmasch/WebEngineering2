@@ -12,6 +12,7 @@ class OfferBase(BaseModel):
     address: str
     description: str
     primary_image: str
+    short_description: str | None = None
 
 
 class OfferCreate(OfferBase):
