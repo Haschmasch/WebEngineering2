@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from API.models import Offer
+from API.Schemas.Offer import Offer
 
 
 class UserBase(BaseModel):

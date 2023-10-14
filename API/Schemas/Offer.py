@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from API.Schemas.Subcategory import Subcategory
 from API.Schemas.Category import Category
-from API.models import User
+from API.Schemas.User import User
 
 
 class OfferBase(BaseModel):
