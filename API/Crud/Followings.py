@@ -5,12 +5,13 @@ from API.Schemas import Following
 
 
 def create_following(db: Session, following: Following.FollowingCreate):
-    result = db.execute(insert(models.Following)
-                        .values(offerid=following.offer_id,
-                                userid=following.user_id,
-                                timefollowed=following.time_followed))
+    db_following = models.Following(offerid=following.offer_id,
+                                    userid=following.user_id,
+                                    timefollowed=following.time_followed)
+    db.add(db_following)
     db.commit()
-    return result.first()
+    db.refresh(db_following)
+    return db_following
 
 
 def delete_following(db: Session, following_id: int):

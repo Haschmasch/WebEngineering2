@@ -5,11 +5,11 @@ from API.Schemas import Category
 
 
 def create_category(db: Session, category: Category.CategoryCreate):
-    result = db.execute(insert(models.Category).values(name=category.name))
+    db_category = models.Category(name=category.name)
+    db.add(db_category)
     db.commit()
-    key = result.inserted_primary_key
-    result.close()
-    return key
+    db.refresh(db_category)
+    return db_category
 
 
 def delete_category(db: Session, category_id: int):

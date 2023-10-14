@@ -5,7 +5,6 @@ from API import models
 from API.Schemas import User
 
 
-# TODO Catch constraint exceptions and output an appropriate error message
 def create_user(db: Session, user: User.UserCreate):
     salt = Hashing.generate_salt()
     hash_value = Hashing.generate_hash(user.password, salt)

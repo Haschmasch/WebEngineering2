@@ -5,9 +5,11 @@ from ..Schemas import Chat
 
 
 def create_chat(db: Session, chat: Chat.ChatCreate):
-    result = db.execute(insert(models.Chat).values(offerid=chat.offerid, creatorid=chat.creatorid, timeopened=chat.timeopened))
+    db_chat = models.Chat(offerid=chat.offerid, creatorid=chat.creatorid, timeopened=chat.timeopened)
+    db.add(db_chat)
     db.commit()
-    return result.first()
+    db.refresh(db_chat)
+    return db_chat
 
 
 def delete_chat(db: Session, chat_id: int):

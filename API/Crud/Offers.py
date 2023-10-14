@@ -10,24 +10,24 @@ import io
 from fastapi.responses import Response
 
 
-# TODO: Modify offer to return model instead of result (applies to all creates)
 def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: str):
-    result = db.execute(insert(models.Offer).values(title=offer.title,
-                                                    categoryid=offer.category_id,
-                                                    subcategoryid=offer.subcategory_id,
-                                                    price=offer.price,
-                                                    currency=offer.currency,
-                                                    userid=offer.user_id,
-                                                    timeposted=offer.time_posted,
-                                                    postcode=offer.postcode,
-                                                    city=offer.city,
-                                                    address=offer.address,
-                                                    primaryimage=offer.primary_image))
+    db_offer = models.Offer(title=offer.title,
+                            categoryid=offer.category_id,
+                            subcategoryid=offer.subcategory_id,
+                            price=offer.price,
+                            currency=offer.currency,
+                            userid=offer.user_id,
+                            timeposted=offer.time_posted,
+                            postcode=offer.postcode,
+                            city=offer.city,
+                            address=offer.address,
+                            primaryimage=offer.primary_image)
+    db.add(db_offer)
     db.commit()
-    primary_key = result.inserted_primary_key[0]
-    path = get_description_path(offer_root_directory, offer.user_id, primary_key)
+    db.refresh(db_offer)
+    path = get_description_path(offer_root_directory, db_offer.user_id, db_offer.id)
     FileOperations.write_text_file(path, offer.description)
-    return result.first()
+    return db_offer
 
 
 def save_offer_images(db: Session, offer_root_directory: str, offer_id: int, files: list[UploadFile]):

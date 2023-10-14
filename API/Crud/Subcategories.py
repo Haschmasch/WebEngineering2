@@ -5,11 +5,11 @@ from API.Schemas import Subcategory
 
 
 def create_subcategory(db: Session, subcategory: Subcategory.SubcategoryCreate):
-    result = db.execute(insert(models.Subcategory).values(name=subcategory.name, categoryid=subcategory.category_id))
+    db_subcategory = models.Subcategory(name=subcategory.name, categoryid=subcategory.category_id)
+    db.add(db_subcategory)
     db.commit()
-    key = result.inserted_primary_key
-    result.close()
-    return key
+    db.refresh(db_subcategory)
+    return db_subcategory
 
 
 def delete_subcategory(db: Session, subcategory_id):
