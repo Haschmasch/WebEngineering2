@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 from fastapi import UploadFile
 from os import listdir
@@ -6,9 +7,9 @@ from os.path import isfile, join, isabs, abspath
 from pathlib import Path
 
 
-def read_json(path):
-    resolved_path = try_resolve_relative_path(path)
-    with open(resolved_path, 'r', encoding='utf-8') as json_file:
+def read_json(file_name):
+    path = get_file_path(file_name)
+    with open(path, 'r', encoding='utf-8') as json_file:
         return json.load(json_file)
 
 
@@ -61,4 +62,10 @@ def try_resolve_relative_path(path):
     if not isabs(path):
         resolved_path = abspath(path)
     return resolved_path
+
+def get_file_path(file_name):
+    dir_path = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(dir_path, file_name)
+    return path
+
 
