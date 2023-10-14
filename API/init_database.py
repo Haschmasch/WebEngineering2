@@ -1,5 +1,5 @@
-import models
-from setup_database import engine
+from API import models
+from API.setup_database import engine
 
 
 def init_db():
