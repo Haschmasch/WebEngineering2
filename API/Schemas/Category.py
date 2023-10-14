@@ -1,6 +1,4 @@
 from pydantic import BaseModel
-from API.Schemas.Subcategory import Subcategory
-from API.Schemas.Offer import Offer
 
 
 class CategoryBase(BaseModel):
@@ -16,10 +14,3 @@ class Category(CategoryBase):
     class Config:
         from_attributes = True
 
-
-class CategoryWithSubcategories(Category):
-    related_subcategories: list[Subcategory] = []
-
-
-class CategoryWithOffers(Category):
-    related_offers: list[Offer] = []

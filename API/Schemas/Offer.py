@@ -1,7 +1,4 @@
 from pydantic import BaseModel
-from API.Schemas.Subcategory import Subcategory
-from API.Schemas.Category import Category
-from API.Schemas.User import User
 
 
 class OfferBase(BaseModel):
@@ -29,10 +26,3 @@ class Offer(OfferCreate):
 
     class Config:
         from_attributes = True
-
-
-class OfferWithRelations(Offer):
-    related_subcategory: Subcategory = None
-    related_category: Category = None
-    related_user: User = None
-
