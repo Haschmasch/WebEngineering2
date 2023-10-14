@@ -1,11 +1,11 @@
-from setup_database import SessionLocal, engine
-from API.Crud import Users, Offers, Categories, Subcategories, Chats
-import init_database
-from API.Schemas import User, Offer, Category, Subcategory, Chat
-from setup_api import run_api
+from API.setup_database import SessionLocal
+from API.Crud import Offers, Chats
+from API.init_database import init_db
+from API.Schemas import Offer, Chat
+from API.setup_api import run_api
 import datetime
+from API.Utils.ConfigManager import configuration
 
-from Utils.ConfigManager import configuration
 
 
 def main():
