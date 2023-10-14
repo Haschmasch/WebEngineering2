@@ -1,15 +1,15 @@
-from setup_database import SessionLocal, engine
-from API.Crud import Users, Offers, Categories, Subcategories, Chats
-import init_database
-from API.Schemas import User, Offer, Category, Subcategory, Chat
-from setup_api import run_api
+from API.setup_database import SessionLocal
+from API.Crud import Offers, Chats
+from API.init_database import init_db
+from API.Schemas import Offer, Chat
+from API.setup_api import run_api
 import datetime
+from API.Utils.ConfigManager import configuration
 
-from Utils.ConfigManager import configuration
 
 
 def main():
-    init_database.init_db()
+    init_db()
     # Hier kann man was zum testen rein schreiben. Später kommt hier nur run_api() rein.
     db = SessionLocal()
     '''
@@ -19,7 +19,7 @@ def main():
                                  time_created=datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
                                  password="123456")
     Users.create_user(db, createUser)
-    '''
+   
 
     createCategory = Category.CategoryCreate(name="TestCategory")
     res = Categories.create_category(db, createCategory)
@@ -27,14 +27,14 @@ def main():
     createSubcategory = Subcategory.SubcategoryCreate(category_id=res.id,
                                                       name="TestSubcategory")
     Subcategories.create_subcategory(db, createSubcategory)
-
-    createOffer = Offer.OfferCreate(title="TestTitle",
-                                    category_id=1,
+    '''
+    createOffer = Offer.OfferCreate(title="Auto",
+                                    category_id=28,
                                     subcategory_id=1,
-                                    price=float(1),
+                                    price=float(10.3),
                                     currency="€",
                                     postcode="048654",
-                                    city="TestCity",
+                                    city="Hamburg",
                                     address="TestAddress",
                                     description="I am a test description",
                                     user_id=1,
