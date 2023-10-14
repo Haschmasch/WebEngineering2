@@ -2,9 +2,9 @@ from sqlalchemy import Boolean, ForeignKey, Column, Integer, String, Text, Ident
     TIMESTAMP, CheckConstraint, Numeric, CHAR
 import datetime
 
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, declarative_base
 
-from setup_database import Base
+Base = declarative_base()
 
 
 class Category(Base):

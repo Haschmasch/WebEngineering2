@@ -3,7 +3,7 @@ from API.Utils.FileOperations import read_json
 
 
 class ConfigManager:
-    def __init__(self, config_path="config.json"):
+    def __init__(self, config_path="Utils/config.json"):
         self.config_path = config_path
         self.config_data = read_json(self.config_path)
 

@@ -25,7 +25,7 @@ def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: st
     db.add(db_offer)
     db.commit()
     db.refresh(db_offer)
-    path = get_description_path(offer_root_directory, db_offer.user_id, db_offer.id)
+    path = get_description_path(offer_root_directory, db_offer.userid, db_offer.id)
     FileOperations.write_text_file(path, offer.description)
     return db_offer
 

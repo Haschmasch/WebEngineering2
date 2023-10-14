@@ -20,6 +20,10 @@ class CategoryWithOffers(Category):
     related_offers: list[Offer] = []
 
 
+class UserWithOffers(User):
+    related_offers: list[Offer] = []
+
+
 class OfferWithRelations(Offer):
     related_subcategory: Subcategory = None
     related_category: Category = None

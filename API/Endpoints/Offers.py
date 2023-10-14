@@ -58,13 +58,18 @@ def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(setup_datab
 
 # TODO: Implement
 @app.get("/offers/{offer_id}/images", response_model=list[Offer.OfferWithRelations])
-def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(setup_database.get_db())):
+def get_image(offer_id: int, limit: int = 100, db: Session = Depends(setup_database.get_db())):
+    pass
+
+
+@app.post("/offers/{offer_id}/images", response_model=list[Offer.OfferWithRelations])
+def create_image(offer_id: int, limit: int = 100, db: Session = Depends(setup_database.get_db())):
     pass
 
 
 # TODO: Implement
 @app.get("/offers/{offer_id}/images/{image_id}", response_model=list[Offer.OfferWithRelations])
-def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(setup_database.get_db())):
+def get_users(offer_id: int, image_id: int, db: Session = Depends(setup_database.get_db())):
     pass
 
 

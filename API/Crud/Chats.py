@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import insert, update, delete, select
-from .. import models
-from ..Schemas import Chat
+from API import models
+from API.Schemas import Chat
 
 
 def create_chat(db: Session, chat: Chat.ChatCreate):

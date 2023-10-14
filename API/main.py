@@ -1,14 +1,15 @@
-from API.Crud import Users, Offers, Categories, Subcategories, Chats
-from API.Schemas import User, Offer, Category, Subcategory, Chat
-
 from setup_database import SessionLocal, engine
+from API.Crud import Users, Offers, Categories, Subcategories, Chats
+import init_database
+from API.Schemas import User, Offer, Category, Subcategory, Chat
 from setup_api import run_api
 import datetime
+
 from Utils.ConfigManager import configuration
 
 
 def main():
-
+    init_database.init_db()
     # Hier kann man was zum testen rein schreiben. Später kommt hier nur run_api() rein.
     db = SessionLocal()
     '''
@@ -23,7 +24,7 @@ def main():
     createCategory = Category.CategoryCreate(name="TestCategory")
     res = Categories.create_category(db, createCategory)
     res1 = Categories.get_categories(db, 0, 100)
-    createSubcategory = Subcategory.SubcategoryCreate(category_id=res[0],
+    createSubcategory = Subcategory.SubcategoryCreate(category_id=res.id,
                                                       name="TestSubcategory")
     Subcategories.create_subcategory(db, createSubcategory)
 
