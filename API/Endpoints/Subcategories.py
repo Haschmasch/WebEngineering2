@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
 
+from API.Utils.Exceptions import EntryNotFoundException
 
 router = APIRouter(
     prefix="/subcategories",
@@ -18,7 +19,9 @@ def add_subcategory(subcategory: Subcategory.SubcategoryCreate, db: Session = De
     try:
         return Subcategories.create_subcategory(db, subcategory)
     except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.put("/", response_model=Subcategory.Subcategory)
@@ -26,7 +29,9 @@ def update_subcategory(subcategory: Subcategory.Subcategory, db: Session = Depen
     try:
         return Subcategories.update_subcategory(db, subcategory)
     except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.delete("/")
@@ -34,7 +39,9 @@ def delete_subcategory(subcategory_id: int, db: Session = Depends(setup_database
     try:
         Subcategories.delete_subcategory(db, subcategory_id)
     except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.get("/{subcategory_id}", response_model=Subcategory.Subcategory)
@@ -42,7 +49,9 @@ def get_subcategory(subcategory_id: int, db: Session = Depends(setup_database.ge
     try:
         return Subcategories.get_subcategory(db, subcategory_id)
     except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.get("/", response_model=list[Subcategory.Subcategory])
@@ -50,7 +59,9 @@ def get_subcategories(skip: int = 0, limit: int = 100, db: Session = Depends(set
     try:
         return Subcategories.get_subcategories(db, skip, limit)
     except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.get("/name/{subcategory_name}", response_model=Subcategory.Subcategory)
@@ -58,7 +69,9 @@ def get_subcategory_by_name(subcategory_name: str, db: Session = Depends(setup_d
     try:
         return Subcategories.get_subcategory_by_name(db, subcategory_name)
     except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.get("/{subcategory_id}/offers", response_model=Relations.SubcategoryWithOffers)
@@ -66,7 +79,9 @@ def get_subcategory_with_offers(subcategory_id: int, db: Session = Depends(setup
     try:
         return Subcategories.get_subcategory(db, subcategory_id)
     except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.get("/{subcategory_id}/category", response_model=Relations.SubcategoryWithCategory)
@@ -74,4 +89,6 @@ def get_subcategory_with_category(subcategory_id: int, db: Session = Depends(set
     try:
         return Subcategories.get_subcategory(db, subcategory_id)
     except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)

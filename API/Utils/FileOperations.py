@@ -51,7 +51,7 @@ def remove_file(path):
 #  emtpy directories otherwise.
 def remove_directory(path):
     resolved_path = try_resolve_relative_path(path)
-    if path.isdir(resolved_path):
+    if os.path.isdir(resolved_path):
         shutil.rmtree(resolved_path)
 
 

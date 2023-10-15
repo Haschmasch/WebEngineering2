@@ -3,6 +3,7 @@ from sqlalchemy import select, insert, update, delete, or_
 from API.Utils import Hashing
 from API import models
 from API.Schemas import User
+from API.Utils.Exceptions import EntryNotFoundException
 
 
 def create_user(db: Session, user: User.UserCreate):
@@ -16,13 +17,26 @@ def create_user(db: Session, user: User.UserCreate):
     return db_user
 
 
+def delete_user(db: Session, user_id: int):
+    user = get_user(db, user_id)
+    if user is not None:
+        db.execute(delete(models.User).where(models.User.id == user_id))
+        db.commit()
+    else:
+        raise EntryNotFoundException(f"No database entry found for user_id: {user_id}")
+
+
 def update_user(db: Session, user: User.User):
     result = db.scalars(update(models.User)
                         .returning(models.User)
                         .where(models.User.id == user.id)
                         .values(name=user.name, email=user.email, phone_number=user.phone_number))
     db.commit()
-    return result.first()
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for user: {user.id}")
 
 
 def update_user_password(db: Session, user_id: int, user: User.UserCreate):
@@ -33,27 +47,38 @@ def update_user_password(db: Session, user_id: int, user: User.UserCreate):
                         .where(models.User.id == user_id)
                         .values(password_salt=salt, password_hash=hash_value))
     db.commit()
-    return result.first()
-
-
-def delete_user(db: Session, user_id: int):
-    db.execute(delete(models.User).where(models.User.id == user_id))
-    db.commit()
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for user_id: {user_id}")
 
 
 def get_user(db: Session, user_id: int):
     result = db.scalars(select(models.User).where(models.User.id == user_id))
-    return result.first()
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for user_id: {user_id}")
 
 
 def get_users(db: Session, first: int, last: int):
     result = db.scalars(select(models.User).offset(first).limit(last))
-    return result.all()
+    res = result.all()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for first: {first}, last: {last}")
 
 
 def get_user_by_name(db: Session, name: str):
     result = db.scalars(select(models.User).where(models.User.name == name))
-    return result.first()
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for name: {name}")
 
 
 def check_user_exists(db: Session, user: User.UserLogin):

@@ -1,0 +1,4 @@
+
+
+class EntryNotFoundException(Exception):
+    pass

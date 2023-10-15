@@ -1,5 +1,5 @@
 import datetime
-
+from API.Utils.Exceptions import EntryNotFoundException
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete
 from fastapi import UploadFile
@@ -36,10 +36,13 @@ def create_offer(db: Session, offer: Offer.OfferCreate, offer_root_directory: st
 
 
 def delete_offer(db: Session, offer_id: int, offer_root_directory: str):
-    offer = get_offer(db, offer_id, offer_root_directory)
-    db.execute(delete(models.Offer).where(models.Offer.id == offer_id))
-    db.commit()
-    FileOperations.remove_directory(f"{offer_root_directory}/{offer.user_id}/{offer.id}")
+    offer = get_offer(db, offer_id)
+    if offer is not None:
+        db.execute(delete(models.Offer).where(models.Offer.id == offer_id))
+        db.commit()
+        FileOperations.remove_directory(f"{offer_root_directory}/{offer.user_id}/{offer.id}")
+    else:
+        raise EntryNotFoundException(f"No database entry found for offer_id: {offer_id}")
 
 
 # This is inefficient, because the whole offer is updated, even if only a single value changes
@@ -57,7 +60,7 @@ def update_offer(db: Session, offer: Offer.Offer, offer_root_directory: str):
                                 category_id=offer.category_id,
                                 subcategory_id=offer.subcategory_id,
                                 price=offer.price,
-                                currency=offer.price,
+                                currency=offer.currency,
                                 postcode=offer.postcode,
                                 city=offer.city,
                                 address=offer.address,
@@ -71,19 +74,31 @@ def update_offer(db: Session, offer: Offer.Offer, offer_root_directory: str):
     db.commit()
     image_path = get_image_directory(offer_root_directory, offer.user_id, offer.id)
     FileOperations.create_thumbnail(f"{image_path}/{offer.primary_image}")
-    return result.first()
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for offer: {offer.id}")
 
 
 def get_offer(db: Session, offer_id: int):
     result = db.scalars(select(models.Offer)
                         .where(models.Offer.id == offer_id))
-    return result.first()
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for offer_id: {offer_id}")
 
 
 def get_offers(db: Session, first: int, last: int):
     result = db.scalars(select(models.Offer)
                         .offset(first).limit(last))
-    return result.all()
+    res = result.all()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for first: {first}, last: {last}")
 
 
 def save_offer_images(db: Session, offer_id: int, offer_root_directory: str, files: list[UploadFile]):

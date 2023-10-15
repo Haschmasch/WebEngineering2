@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete
 from API import models
 from API.Schemas import Category
+from API.Utils.Exceptions import EntryNotFoundException
 
 
 def create_category(db: Session, category: Category.CategoryCreate):
@@ -13,30 +14,49 @@ def create_category(db: Session, category: Category.CategoryCreate):
 
 
 def delete_category(db: Session, category_id: int):
-    db.execute(delete(models.Category).where(models.Category.id == category_id))
-    db.commit()
+    category = get_category(db, category_id)
+    if category is not None:
+        db.execute(delete(models.Category).where(models.Category.id == category_id))
+        db.commit()
+    else:
+        raise EntryNotFoundException(f"No database entry found for category_id: {category_id}")
 
 
 def update_category(db: Session, category: Category.Category):
     result = db.scalars(update(models.Category)
                         .returning(models.Category)
                         .where(models.Category.id == category.id)
-                        .values(name=category.name)).first()
+                        .values(name=category.name))
     db.commit()
-    return result
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for category: {category.id}")
 
 
 def get_category(db: Session, category_id: int):
     result = db.scalars(select(models.Category).where(models.Category.id == category_id))
-    return result.first()
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for category_id: {category_id}")
 
 
 def get_categories(db: Session, first: int, last: int):
     result = db.scalars(select(models.Category).offset(first).limit(last))
-    return result.all()
+    res = result.all()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for first: {first}, last: {last}")
 
 
 def get_category_by_name(db: Session, name: str):
     result = db.scalars(select(models.Category).where(models.Category.name == name))
-    return result.first()
-
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for name: {name}")
