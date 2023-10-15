@@ -102,7 +102,7 @@ def get_offers(db: Session, first: int, last: int):
 
 
 def save_offer_images(db: Session, offer_id: int, offer_root_directory: str, files: list[UploadFile]):
-    offer = get_offer(db, offer_id, offer_root_directory)
+    offer = get_offer(db, offer_id)
     path = get_image_directory(offer_root_directory, offer.user_id, offer_id)
     for file in files:
         FileOperations.write_uploaded_file(f"{path}/{file.filename}", file)
@@ -111,10 +111,10 @@ def save_offer_images(db: Session, offer_id: int, offer_root_directory: str, fil
 
 def get_offer_images(db: Session, offer_id: int, offer_root_directory: str):
     # See: https://stackoverflow.com/questions/61163024/return-multiple-files-from-fastapi for more info
-    offer = get_offer(db, offer_id, offer_root_directory)
+    offer = get_offer(db, offer_id)
     zip_filename = f"{offer.id}_images.zip"
     path = get_image_directory(offer_root_directory, offer.user_id, offer_id)
-
+    path = FileOperations.try_resolve_relative_path(path)
     s = io.BytesIO()
     zf = zipfile.ZipFile(s, "w")
 
@@ -134,15 +134,15 @@ def get_offer_images(db: Session, offer_id: int, offer_root_directory: str):
 
 
 def get_image_path(db: Session, offer_id: int, image_name: str, offer_root_directory: str):
-    offer = get_offer(db, offer_id, offer_root_directory)
+    offer = get_offer(db, offer_id)
     path = get_image_directory(offer_root_directory, offer.user_id, offer_id)
     return f"{path}/{image_name}"
 
 
 def get_thumbnail_path(db: Session, offer_id: int, offer_root_directory: str):
-    offer = get_offer(db, offer_id, offer_root_directory)
+    offer = get_offer(db, offer_id)
     path = get_image_directory(offer_root_directory, offer.user_id, offer_id)
-    FileOperations.get_thumbnail_path(f"{path}/{offer.primary_image}")
+    return FileOperations.get_thumbnail_path(f"{path}/{offer.primary_image}")
 
 
 def delete_offer_image(db: Session, offer_id: int, image_name: str, offer_root_directory: str):

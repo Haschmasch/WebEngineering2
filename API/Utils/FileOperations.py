@@ -5,7 +5,7 @@ from fastapi import UploadFile
 from os import listdir
 from os.path import isfile, join, isabs, abspath
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 def read_json(file_name):
@@ -45,6 +45,8 @@ def remove_file(path):
     resolved_path = try_resolve_relative_path(path)
     if isfile(resolved_path):
         os.remove(resolved_path)
+    else:
+        raise FileNotFoundError(f"File to delete not found")
 
 
 # TODO: Maybe remove parent dir, when the specified dir is the only dir under the parent. This can lead to
@@ -53,6 +55,8 @@ def remove_directory(path):
     resolved_path = try_resolve_relative_path(path)
     if os.path.isdir(resolved_path):
         shutil.rmtree(resolved_path)
+    else:
+        raise FileNotFoundError(f"Directory to delete not found")
 
 
 def create_thumbnail(path):
@@ -62,26 +66,25 @@ def create_thumbnail(path):
     if isfile(resolved_path) and not isfile(thumbnail_path):
         image = Image.open(resolved_path)
         image.thumbnail((256, 256))
-        image.save(thumbnail_path)
+        transposed_img = ImageOps.exif_transpose(image)
+        transposed_img.save(thumbnail_path)
 
     # Delete all other thumbnails in the directory
-    files = get_file_paths(os.path.dirname(path))
-    t_name, t_directory = os.path.split(thumbnail_path)
+    files = get_file_paths(os.path.dirname(resolved_path))
     for file in files:
-        name, directory = os.path.split(file)
-        if name is not t_name and "_thumbnail" in file:
+        if file != thumbnail_path and "_thumbnail" in file:
             remove_file(file)
 
 
 def get_thumbnail_path(path):
     resolved_path = try_resolve_relative_path(path)
     filename, file_extension = os.path.splitext(resolved_path)
-    return f"{filename}_thumbnail.{file_extension}"
+    return f"{filename}_thumbnail{file_extension}"
 
 
 def get_file_paths(directory):
     resolved_dir = try_resolve_relative_path(directory)
-    return [f for f in listdir(resolved_dir) if isfile(join(resolved_dir, f))]
+    return [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in os.walk(resolved_dir) for f in filenames]
 
 
 def mkdir_and_resolve_relative_path(path):
@@ -95,6 +98,7 @@ def try_resolve_relative_path(path):
     if not isabs(path):
         resolved_path = abspath(path)
     return resolved_path
+
 
 def get_file_path(file_name):
     dir_path = os.path.dirname(os.path.abspath(__file__))

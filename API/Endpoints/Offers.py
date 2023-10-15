@@ -83,7 +83,7 @@ def get_offer_images(offer_id: int, db: Session = Depends(setup_database.get_db)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
-        raise HTTPException(status_code=400, detail=os_error.strerror)
+        raise HTTPException(status_code=400, detail=os_error.args)
     except EntryNotFoundException as e:
         raise HTTPException(status_code=404, detail=e.args)
 
@@ -96,9 +96,9 @@ def get_offer_image(offer_id: int, image_name: str, db: Session = Depends(setup_
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except FileNotFoundError as e:
-        raise HTTPException(status_code=400, detail=f"File {e.filename} not found")
+        raise HTTPException(status_code=404, detail=e.args)
     except OSError as os_error:
-        raise HTTPException(status_code=400, detail=os_error.strerror)
+        raise HTTPException(status_code=400, detail=os_error.args)
     except EntryNotFoundException as e:
         raise HTTPException(status_code=404, detail=e.args)
 
@@ -113,7 +113,7 @@ def create_offer_images(offer_id: int, files: list[UploadFile], db: Session = De
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
-        raise HTTPException(status_code=400, detail=os_error.strerror)
+        raise HTTPException(status_code=400, detail=os_error.args)
     except EntryNotFoundException as e:
         raise HTTPException(status_code=404, detail=e.args)
 
@@ -125,9 +125,9 @@ def delete_offer_image(offer_id: int, image_name: str, db: Session = Depends(set
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except FileNotFoundError as e:
-        raise HTTPException(status_code=400, detail=f"File {e.filename} not found")
+        raise HTTPException(status_code=404, detail=e.args)
     except OSError as os_error:
-        raise HTTPException(status_code=400, detail=os_error.strerror)
+        raise HTTPException(status_code=400, detail=os_error.args)
     except EntryNotFoundException as e:
         raise HTTPException(status_code=404, detail=e.args)
 
@@ -142,9 +142,9 @@ def get_offer_thumbnail(offer_id: int, db: Session = Depends(setup_database.get_
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except FileNotFoundError as e:
-        raise HTTPException(status_code=400, detail=f"File {e.filename} not found")
+        raise HTTPException(status_code=404, detail=e.args)
     except OSError as os_error:
-        raise HTTPException(status_code=400, detail=os_error.strerror)
+        raise HTTPException(status_code=400, detail=os_error.args)
     except EntryNotFoundException as e:
         raise HTTPException(status_code=404, detail=e.args)
 
