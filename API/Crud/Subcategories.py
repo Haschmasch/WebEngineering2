@@ -5,7 +5,7 @@ from API.Schemas import Subcategory
 
 
 def create_subcategory(db: Session, subcategory: Subcategory.SubcategoryCreate):
-    db_subcategory = models.Subcategory(name=subcategory.name, categoryid=subcategory.category_id)
+    db_subcategory = models.Subcategory(name=subcategory.name, category_id=subcategory.category_id)
     db.add(db_subcategory)
     db.commit()
     db.refresh(db_subcategory)
@@ -21,7 +21,7 @@ def update_subcategory(db: Session, subcategory: Subcategory.Subcategory):
     result = db.scalars(update(models.Subcategory)
                         .returning(models.Subcategory)
                         .where(models.Subcategory.id == subcategory.id)
-                        .values(name=subcategory.name, categoryid=subcategory.category_id))
+                        .values(name=subcategory.name, category_id=subcategory.category_id))
     db.commit()
     return result.first()
 

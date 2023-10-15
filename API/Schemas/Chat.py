@@ -1,10 +1,12 @@
+import datetime
+
 from pydantic import BaseModel
 
 
 class ChatBase(BaseModel):
-    offerid: int
-    creatorid: int
-    timeopened: str
+    offer_id: int
+    creator_id: int
+    time_opened: datetime.datetime | None = None
 
 
 class ChatCreate(ChatBase):

@@ -20,14 +20,6 @@ def add_following(following: Following.FollowingCreate, db: Session = Depends(se
         raise HTTPException(status_code=400, detail=e.detail)
 
 
-@router.put("/", response_model=Following.Following)
-def update_following(following: Following.Following, db: Session = Depends(setup_database.get_db)):
-    try:
-        return Followings.update_following(db, following)
-    except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.detail)
-
-
 @router.delete("/")
 def delete_following(following_id: int, db: Session = Depends(setup_database.get_db)):
     try:

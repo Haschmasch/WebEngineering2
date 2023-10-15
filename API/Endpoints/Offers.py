@@ -48,7 +48,7 @@ def delete_offer(offer_id: int, db: Session = Depends(setup_database.get_db)):
 @router.get("/{offer_id}", response_model=Relations.OfferWithRelations)
 def get_offer(offer_id: int, db: Session = Depends(setup_database.get_db)):
     try:
-        return Offers.get_offer(db, offer_id, configuration.offer_root_dir)
+        return Offers.get_offer(db, offer_id)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
     except OSError as os_error:
@@ -58,7 +58,7 @@ def get_offer(offer_id: int, db: Session = Depends(setup_database.get_db)):
 @router.get("/", response_model=list[Relations.OfferWithRelations])
 def get_offers(skip: int = 0, limit: int = 100, db: Session = Depends(setup_database.get_db)):
     try:
-        return Offers.get_offers(db, skip, limit, configuration.offer_root_dir)
+        return Offers.get_offers(db, skip, limit)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
     except OSError as os_error:

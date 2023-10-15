@@ -1,3 +1,5 @@
+import datetime
+
 from pydantic import BaseModel
 
 
@@ -12,7 +14,7 @@ class UserLogin(UserBase):
 
 
 class UserCreate(UserLogin):
-    time_created: str
+    time_created: datetime.datetime | None = None
 
 
 class User(UserBase):
