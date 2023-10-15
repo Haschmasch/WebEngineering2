@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
 
-
 router = APIRouter(
     prefix="/followings",
     tags=["followings"]
@@ -29,10 +28,10 @@ def update_following(following: Following.Following, db: Session = Depends(setup
         raise HTTPException(status_code=400, detail=e.detail)
 
 
-@router.delete("/", response_model=Following.Following)
+@router.delete("/")
 def delete_following(following_id: int, db: Session = Depends(setup_database.get_db)):
     try:
-        return Followings.delete_following(db, following_id)
+        Followings.delete_following(db, following_id)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
 
@@ -59,5 +58,3 @@ def get_followings_with_offer(user_id: int, db: Session = Depends(setup_database
         return Followings.get_followings_by_user(db, user_id)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
-
-

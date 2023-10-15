@@ -61,8 +61,8 @@ class Offer(Base):
     shortdescription = Column(String(50))
     related_subcategory = relationship("Subcategory", back_populates="related_offers")
     related_category = relationship("Category", back_populates="related_offers")
-    related_followings = relationship("Following", back_populates="related_offer")
-    related_chats = relationship("Chat", back_populates="related_offer")
+    related_followings = relationship("Following", back_populates="related_offer", cascade="all, delete")
+    related_chats = relationship("Chat", back_populates="related_offer", cascade="all, delete")
     related_user = relationship("User", back_populates="related_offers")
 
 
@@ -75,7 +75,7 @@ class User(Base):
     passwordhash = Column(Text, nullable=False)
     phonenumber = Column(Text)
     timecreated = Column(TIMESTAMP(timezone=True), nullable=False)
-    related_offers = relationship("Offer", back_populates="related_user")
+    related_offers = relationship("Offer", back_populates="related_user", cascade="all, delete")
     __table_args__ = (UniqueConstraint('name', 'email', name='ue_users'),)
 
 

@@ -13,30 +13,30 @@ def create_category(db: Session, category: Category.CategoryCreate):
 
 
 def delete_category(db: Session, category_id: int):
-    result = db.execute(delete(models.Category).where(models.Category.id == category_id))
+    db.execute(delete(models.Category).where(models.Category.id == category_id))
     db.commit()
-    return result.first()
 
 
 def update_category(db: Session, category: Category.Category):
-    result = db.execute(update(models.User)
-                        .where(models.User.id == category.id)
-                        .values(name=category.name))
+    result = db.scalars(update(models.Category)
+                        .returning(models.Category)
+                        .where(models.Category.id == category.id)
+                        .values(name=category.name)).first()
     db.commit()
-    return result.first()
+    return result
 
 
 def get_category(db: Session, category_id: int):
-    result = db.execute(select(models.Category).where(models.Category.id == category_id))
+    result = db.scalars(select(models.Category).where(models.Category.id == category_id))
     return result.first()
 
 
 def get_categories(db: Session, first: int, last: int):
-    result = db.execute(select(models.Category).offset(first).limit(last))
+    result = db.scalars(select(models.Category).offset(first).limit(last))
     return result.all()
 
 
 def get_category_by_name(db: Session, name: str):
-    result = db.execute(select(models.Category).where(models.Category.name == name))
+    result = db.scalars(select(models.Category).where(models.Category.name == name))
     return result.first()
 

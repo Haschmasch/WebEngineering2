@@ -35,10 +35,10 @@ def update_offer(offer: Offer.Offer, db: Session = Depends(setup_database.get_db
         raise HTTPException(status_code=400, detail=os_error.strerror)
 
 
-@router.delete("/", response_model=Offer.Offer)
+@router.delete("/")
 def delete_offer(offer_id: int, db: Session = Depends(setup_database.get_db)):
     try:
-        return Offers.delete_offer(db, offer_id, configuration.offer_root_dir)
+        Offers.delete_offer(db, offer_id, configuration.offer_root_dir)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
     except OSError as os_error:

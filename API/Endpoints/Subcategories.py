@@ -29,10 +29,10 @@ def update_subcategory(subcategory: Subcategory.Subcategory, db: Session = Depen
         raise HTTPException(status_code=400, detail=e.detail)
 
 
-@router.delete("/", response_model=Subcategory.Subcategory)
+@router.delete("/")
 def delete_subcategory(subcategory_id: int, db: Session = Depends(setup_database.get_db)):
     try:
-        return Subcategories.delete_subcategory(db, subcategory_id)
+        Subcategories.delete_subcategory(db, subcategory_id)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.detail)
 

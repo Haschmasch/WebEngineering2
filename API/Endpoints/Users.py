@@ -41,6 +41,14 @@ def update_user(user: User.User, db: Session = Depends(setup_database.get_db)):
         raise HTTPException(status_code=400, detail=e.detail)
 
 
+@router.delete("/")
+def delete_user(user_id: int, db: Session = Depends(setup_database.get_db)):
+    try:
+        return Users.delete_user(db, user_id)
+    except exc.DatabaseError as e:
+        raise HTTPException(status_code=400, detail=e.detail)
+
+
 @router.get("/{user_id}", response_model=User.User)
 def get_user(user_id: int, db: Session = Depends(setup_database.get_db)):
     try:

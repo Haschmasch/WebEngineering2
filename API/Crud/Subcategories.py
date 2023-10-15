@@ -13,13 +13,13 @@ def create_subcategory(db: Session, subcategory: Subcategory.SubcategoryCreate):
 
 
 def delete_subcategory(db: Session, subcategory_id):
-    result = db.execute(delete(models.Subcategory).where(models.Subcategory.id == subcategory_id))
+    db.execute(delete(models.Subcategory).where(models.Subcategory.id == subcategory_id))
     db.commit()
-    return result.first()
 
 
 def update_subcategory(db: Session, subcategory: Subcategory.Subcategory):
-    result = db.execute(update(models.Subcategory)
+    result = db.scalars(update(models.Subcategory)
+                        .returning(models.Subcategory)
                         .where(models.Subcategory.id == subcategory.id)
                         .values(name=subcategory.name, categoryid=subcategory.category_id))
     db.commit()
@@ -27,20 +27,20 @@ def update_subcategory(db: Session, subcategory: Subcategory.Subcategory):
 
 
 def get_subcategory(db: Session, subcategory_id: int):
-    result = db.execute(select(models.Subcategory).where(models.Subcategory.id == subcategory_id))
+    result = db.scalars(select(models.Subcategory).where(models.Subcategory.id == subcategory_id))
     return result.first()
 
 
 def get_subcategories(db: Session, first: int, last: int):
-    result = db.execute(select(models.Subcategory).offset(first).limit(last))
+    result = db.scalars(select(models.Subcategory).offset(first).limit(last))
     return result.all()
 
 
 def get_subcategories_by_category_id(db: Session, category_id: int):
-    result = db.execute(select(models.Subcategory).where(models.Subcategory.categoryid == category_id))
+    result = db.scalars(select(models.Subcategory).where(models.Subcategory.categoryid == category_id))
     return result.all()
 
 
 def get_subcategory_by_name(db: Session, name: str):
-    result = db.execute(select(models.Subcategory).where(models.Subcategory.name == name))
+    result = db.scalars(select(models.Subcategory).where(models.Subcategory.name == name))
     return result.first()

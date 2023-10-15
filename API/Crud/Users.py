@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert, update, or_
+from sqlalchemy import select, insert, update, delete, or_
 from API.Utils import Hashing
 from API import models
 from API.Schemas import User
@@ -17,7 +17,8 @@ def create_user(db: Session, user: User.UserCreate):
 
 
 def update_user(db: Session, user: User.User):
-    result = db.execute(update(models.User)
+    result = db.scalars(update(models.User)
+                        .returning(models.User)
                         .where(models.User.id == user.id)
                         .values(name=user.name, email=user.email, phonenumber=user.phone_number))
     db.commit()
@@ -27,30 +28,36 @@ def update_user(db: Session, user: User.User):
 def update_user_password(db: Session, user_id: int, user: User.UserCreate):
     salt = Hashing.generate_salt()
     hash_value = Hashing.generate_hash(user.password, salt)
-    result = db.execute(update(models.User)
+    result = db.scalars(update(models.User)
+                        .returning(models.User)
                         .where(models.User.id == user_id)
                         .values(passwordsalt=salt, passwordhash=hash_value))
     db.commit()
     return result.first()
 
 
+def delete_user(db: Session, user_id: int):
+    db.execute(delete(models.User).where(models.User.id == user_id))
+    db.commit()
+
+
 def get_user(db: Session, user_id: int):
-    result = db.execute(select(models.User).where(models.User.id == user_id))
+    result = db.scalars(select(models.User).where(models.User.id == user_id))
     return result.first()
 
 
 def get_users(db: Session, first: int, last: int):
-    result = db.execute(select(models.User).offset(first).limit(last))
+    result = db.scalars(select(models.User).offset(first).limit(last))
     return result.all()
 
 
 def get_user_by_name(db: Session, name: str):
-    result = db.execute(select(models.User).where(models.User.name == name))
+    result = db.scalars(select(models.User).where(models.User.name == name))
     return result.first()
 
 
 def check_user_exists(db: Session, user: User.UserLogin):
-    result = db.execute(select(models.User).where(or_(models.User.email == user.email, models.User.name == user.email)))
+    result = db.scalars(select(models.User).where(or_(models.User.email == user.email, models.User.name == user.email)))
     db_user = result.first()
     if db_user:
         hash_value = Hashing.generate_hash(user.password, db_user.salt)

@@ -15,13 +15,13 @@ def create_following(db: Session, following: Following.FollowingCreate):
 
 
 def delete_following(db: Session, following_id: int):
-    result = db.execute(delete(models.Following).where(models.Following.id == following_id))
+    db.execute(delete(models.Following).where(models.Following.id == following_id))
     db.commit()
-    return result.first()
 
 
 def update_following(db: Session, following: Following.Following):
-    result = db.execute(update(models.Following)
+    result = db.scalars(update(models.Following)
+                        .returning(models.Following)
                         .where(models.Following.id == following.id)
                         .values(offerid=following.offer_id,
                                 userid=following.user_id,
@@ -31,15 +31,15 @@ def update_following(db: Session, following: Following.Following):
 
 
 def get_following(db: Session, following_id: int):
-    result = db.execute(select(models.Following).where(models.Following.id == following_id))
+    result = db.scalars(select(models.Following).where(models.Following.id == following_id))
     return result.first()
 
 
 def get_followings(db: Session, first: int, last: int):
-    result = db.execute(select(models.Following).offset(first).limit(last))
+    result = db.scalars(select(models.Following).offset(first).limit(last))
     return result.all()
 
 
 def get_followings_by_user(db: Session, user_id: int):
-    result = db.execute(select(models.Following).where(models.Following.userid == user_id))
+    result = db.scalars(select(models.Following).where(models.Following.userid == user_id))
     return result.all()
