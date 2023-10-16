@@ -34,7 +34,7 @@ def update_subcategory(subcategory: Subcategory.Subcategory, db: Session = Depen
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.delete("/")
+@router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_subcategory(subcategory_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         Subcategories.delete_subcategory(db, subcategory_id)
@@ -74,7 +74,7 @@ def get_subcategory_by_name(subcategory_name: str, db: Session = Depends(setup_d
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/{subcategory_id}/offers", response_model=Relations.SubcategoryWithOffers)
+@router.get("/offers/{subcategory_id}/", response_model=Relations.SubcategoryWithOffers)
 def get_subcategory_with_offers(subcategory_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         return Subcategories.get_subcategory(db, subcategory_id)
@@ -84,7 +84,7 @@ def get_subcategory_with_offers(subcategory_id: int, db: Session = Depends(setup
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/{subcategory_id}/category", response_model=Relations.SubcategoryWithCategory)
+@router.get("category/{subcategory_id}/", response_model=Relations.SubcategoryWithCategory)
 def get_subcategory_with_category(subcategory_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         return Subcategories.get_subcategory(db, subcategory_id)

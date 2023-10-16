@@ -40,7 +40,7 @@ def update_offer(offer: Offer.Offer, db: Session = Depends(setup_database.get_db
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.delete("/")
+@router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_offer(offer_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         Offers.delete_offer(db, offer_id, configuration.offer_root_dir)

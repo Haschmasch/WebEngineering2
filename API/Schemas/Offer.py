@@ -20,7 +20,7 @@ class OfferBase(BaseModel):
 
 class OfferCreate(OfferBase):
     user_id: int
-    time_posted: datetime.datetime  | None = None
+    time_posted: datetime.datetime | None = None
 
 
 class Offer(OfferCreate):

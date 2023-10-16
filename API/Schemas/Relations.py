@@ -3,6 +3,7 @@ from API.Schemas.Subcategory import Subcategory
 from API.Schemas.Offer import Offer
 from API.Schemas.User import User
 from API.Schemas.Following import Following
+from API.Schemas.Chat import Chat
 
 
 class OfferWithRelations(Offer):
@@ -48,4 +49,8 @@ class CategoryWithOffers(Category):
 
 class UserWithOffers(User):
     related_offers: list[OfferWithUserRelations] = []
+
+
+class ChatWithOffer(Chat):
+    related_offer: OfferWithRelations
 

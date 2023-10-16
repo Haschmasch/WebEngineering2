@@ -24,7 +24,7 @@ def add_following(following: Following.FollowingCreate, db: Session = Depends(se
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.delete("/")
+@router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_following(following_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         Followings.delete_following(db, following_id)
@@ -34,7 +34,7 @@ def delete_following(following_id: int, db: Session = Depends(setup_database.get
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/{following_id}", response_model=Following.Following)
+@router.get("/{following_id}", response_model=Relations.FollowingWithOffer)
 def get_following(following_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         return Followings.get_following(db, following_id)
@@ -44,7 +44,7 @@ def get_following(following_id: int, db: Session = Depends(setup_database.get_db
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/", response_model=list[Following.Following])
+@router.get("/", response_model=list[Relations.FollowingWithOffer])
 def get_followings(skip: int = 0, limit: int = 100, db: Session = Depends(setup_database.get_db)):
     try:
         return Followings.get_followings(db, skip, limit)
@@ -55,7 +55,7 @@ def get_followings(skip: int = 0, limit: int = 100, db: Session = Depends(setup_
 
 
 @router.get("/user/{user_id}", response_model=list[Relations.FollowingWithOffer])
-def get_followings_with_offer(user_id: int, db: Session = Depends(setup_database.get_db)):
+def get_followings_by_user(user_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         return Followings.get_followings_by_user(db, user_id)
     except exc.DatabaseError as e:

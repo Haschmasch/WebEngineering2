@@ -9,17 +9,19 @@ class UserBase(BaseModel):
     phone_number: str
 
 
-class UserLogin(UserBase):
+class UserCreate(UserBase):
     password: str
 
 
-class UserCreate(UserLogin):
-    time_created: datetime.datetime | None = None
+class UserLogin(BaseModel):
+    email: str | None = None
+    name: str | None = None
+    password: str
 
 
 class User(UserBase):
     id: int
-
+    time_created: datetime.datetime | None = None
     class Config:
         from_attributes = True
 

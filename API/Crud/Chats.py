@@ -26,13 +26,8 @@ def create_chat(db: Session, chat: Chat.ChatCreate, chat_root_directory: str):
 
 def delete_chat(db: Session, chat_id: int, chat_root_directory: str):
     chat = get_chat(db, chat_id)
-    try:
-        filepath = get_chat_file_path(chat_id, chat_root_directory)
-        remove_file(filepath)
-    except FileNotFoundError:
-        pass
-    except Exception as e:
-        print(f"Failed to delete message history file. Error: {str(e)}")
+    filepath = get_chat_file_path(chat_id, chat_root_directory)
+    remove_file(filepath)
     if chat is not None:
         db.execute(delete(models.Chat).where(models.Chat.id == chat_id))
         db.commit()

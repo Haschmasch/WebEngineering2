@@ -20,8 +20,6 @@ def add_category(category: Category.CategoryCreate, db: Session = Depends(setup_
         return Categories.create_category(db, category)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
-    except EntryNotFoundException as e:
-        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.put("/", response_model=Category.Category)
@@ -34,7 +32,7 @@ def update_category(category: Category.Category, db: Session = Depends(setup_dat
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.delete("/")
+@router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_category(category_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         Categories.delete_category(db, category_id)
@@ -44,7 +42,7 @@ def delete_category(category_id: int, db: Session = Depends(setup_database.get_d
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/{category_id}", response_model=Category.Category)
+@router.get("/{category_id}", response_model=Relations.CategoryWithSubcategories)
 def get_category(category_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         return Categories.get_category(db, category_id)
@@ -54,7 +52,7 @@ def get_category(category_id: int, db: Session = Depends(setup_database.get_db))
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/", response_model=list[Category.Category])
+@router.get("/", response_model=list[Relations.CategoryWithSubcategories])
 def get_categories(skip: int = 0, limit: int = 100, db: Session = Depends(setup_database.get_db)):
     try:
         return Categories.get_categories(db, skip, limit)
@@ -74,18 +72,8 @@ def get_category_by_name(category_name: str, db: Session = Depends(setup_databas
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/{category_id}/offers", response_model=Relations.CategoryWithOffers)
+@router.get("/offers/{category_id}", response_model=Relations.CategoryWithOffers)
 def get_category_with_offers(category_id: int, db: Session = Depends(setup_database.get_db)):
-    try:
-        return Categories.get_category(db, category_id)
-    except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.args)
-    except EntryNotFoundException as e:
-        raise HTTPException(status_code=404, detail=e.args)
-
-
-@router.get("/{category_id}/subcategories", response_model=Relations.CategoryWithSubcategories)
-def get_category_with_subcategories(category_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         return Categories.get_category(db, category_id)
     except exc.DatabaseError as e:

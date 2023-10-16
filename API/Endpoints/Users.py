@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
 
+from API.Utils.Exceptions import EntryNotFoundException
 
 router = APIRouter(
     prefix="/users",
@@ -27,7 +28,7 @@ def login_user(user: User.UserLogin, db: Session = Depends(setup_database.get_db
     try:
         user = Users.check_user_exists(db, user)
         if user is None:
-            raise HTTPException(status_code=400, detail="Invalid user or password")
+            raise HTTPException(status_code=400, detail="Invalid username, email or password")
         return user
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
@@ -39,14 +40,18 @@ def update_user(user: User.User, db: Session = Depends(setup_database.get_db)):
         return Users.update_user(db, user)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.delete("/")
+@router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(user_id: int, db: Session = Depends(setup_database.get_db)):
     try:
-        return Users.delete_user(db, user_id)
+        Users.delete_user(db, user_id)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.get("/{user_id}", response_model=User.User)
@@ -55,6 +60,8 @@ def get_user(user_id: int, db: Session = Depends(setup_database.get_db)):
         return Users.get_user(db, user_id)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.get("/", response_model=list[User.User])
@@ -63,6 +70,8 @@ def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(setup_datab
         return Users.get_users(db, skip, limit)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
 @router.get("/name/{user_name}", response_model=User.User)
@@ -71,9 +80,11 @@ def get_user_by_name(user_name: str, db: Session = Depends(setup_database.get_db
         return Users.get_user_by_name(db, user_name)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/{user_id}/offers", response_model=Relations.UserWithOffers)
+@router.get("/offers/{user_id}/", response_model=Relations.UserWithOffers)
 def get_user_with_offers(user_id: int, db: Session = Depends(setup_database.get_db)):
     try:
         return Users.get_user(db, user_id)

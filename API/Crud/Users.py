@@ -1,3 +1,4 @@
+import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete, or_
 from API.Utils import Hashing
@@ -10,7 +11,8 @@ def create_user(db: Session, user: User.UserCreate):
     salt = Hashing.generate_salt()
     hash_value = Hashing.generate_hash(user.password, salt)
     db_user = models.User(email=user.email, name=user.name, password_hash=hash_value,
-                          password_salt=salt, phone_number=user.phone_number, time_created=user.time_created)
+                          password_salt=salt, phone_number=user.phone_number,
+                          time_created=datetime.datetime.now(tz=datetime.timezone.utc).isoformat())
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -82,10 +84,10 @@ def get_user_by_name(db: Session, name: str):
 
 
 def check_user_exists(db: Session, user: User.UserLogin):
-    result = db.scalars(select(models.User).where(or_(models.User.email == user.email, models.User.name == user.email)))
+    result = db.scalars(select(models.User).where(or_(models.User.email == user.email, models.User.name == user.name)))
     db_user = result.first()
     if db_user:
-        hash_value = Hashing.generate_hash(user.password, db_user.salt)
-        if hash_value == db_user.passwordhash:
+        hash_value = Hashing.generate_hash(user.password, db_user.password_salt)
+        if hash_value == db_user.password_hash:
             return db_user
     return None
