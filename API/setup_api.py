@@ -6,6 +6,7 @@ from API.Endpoints.Users import router as user_router
 from API.Endpoints.Categories import router as category_router
 from API.Endpoints.Subcategories import router as subcategory_router
 from API.Endpoints.Offers import router as offer_router
+from API.Endpoints.Search import router as search_router
 
 description = """
 This is the backend for the GenuineGoods WebApp.
@@ -37,6 +38,7 @@ app.include_router(user_router)
 app.include_router(category_router)
 app.include_router(subcategory_router)
 app.include_router(offer_router)
+app.include_router(search_router)
 
 
 def run_api():

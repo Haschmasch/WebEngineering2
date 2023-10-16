@@ -8,10 +8,10 @@ def search_by_category(db: Session, category_id: int = None, subcategory_id: int
     conditions = []
 
     if category_id:
-        conditions.append(models.Offer.categoryid == category_id)
+        conditions.append(models.Offer.category_id == category_id)
 
     if subcategory_id:
-        conditions.append(models.Offer.subcategoryid == subcategory_id)
+        conditions.append(models.Offer.subcategory_id == subcategory_id)
 
     return conditions
 
@@ -38,10 +38,10 @@ def extended_search(db: Session, min_price: float = None, max_price: float = Non
         conditions.append(models.Offer.price <= max_price)
 
     if min_date:
-        conditions.append(models.Offer.timeposted >= min_date)
+        conditions.append(models.Offer.time_posted >= min_date)
 
     if max_date:
-        conditions.append(models.Offer.timeposted <= max_date)
+        conditions.append(models.Offer.time_posted <= max_date)
 
     return conditions
 
@@ -66,7 +66,6 @@ def search_offers(db: Session, query: str = None, category_id: int = None, subca
     if conditions:
         base_query = base_query.where(and_(*conditions))
 
-    result = db.execute(base_query)
-
+    result = db.scalars(base_query)
     return result.all()
 
