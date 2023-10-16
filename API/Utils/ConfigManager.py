@@ -2,9 +2,9 @@ from API.Utils.FileOperations import read_json
 
 
 class ConfigManager:
-    def __init__(self, file_name="config.json"):
-        self.file_name = file_name
-        self.config_data = read_json(self.file_name)
+    def __init__(self, path="Utils/config.json"):
+        self.path = path
+        self.config_data = read_json(self.path)
 
     @property
     def chat_root_dir(self):
