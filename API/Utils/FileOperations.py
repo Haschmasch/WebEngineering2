@@ -8,8 +8,8 @@ from pathlib import Path
 from PIL import Image, ImageOps
 
 
-def read_json(file_name):
-    path = get_file_path(file_name)
+def read_json(path):
+    path = try_resolve_relative_path(path)
     with open(path, 'r', encoding='utf-8') as json_file:
         return json.load(json_file)
 
@@ -100,9 +100,7 @@ def try_resolve_relative_path(path):
     return resolved_path
 
 
-def get_file_path(file_name):
-    dir_path = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(dir_path, file_name)
-    return path
-
-
+def get_chat_file_path(chat_id, chat_root_directory):
+    filename = f"{chat_id}.json"
+    filepath = os.path.join(chat_root_directory, filename)
+    return filepath
