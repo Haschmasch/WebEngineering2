@@ -83,11 +83,13 @@ def get_user_by_name(db: Session, name: str):
         raise EntryNotFoundException(f"No database entry found for name: {name}")
 
 
-def check_user_exists(db: Session, user: User.UserLogin):
-    result = db.scalars(select(models.User).where(or_(models.User.email == user.email, models.User.name == user.name)))
+def check_user_exists(db: Session, username: str, password: str):
+    # This checks both the name and the email-address of the user, since both are unique in the database,
+    # so the user can login with either. The variable name 'username' comes from the OAuth2 specification.
+    result = db.scalars(select(models.User).where(or_(models.User.name == username, models.User.email == username)))
     db_user = result.first()
     if db_user:
-        hash_value = Hashing.generate_hash(user.password, db_user.password_salt)
+        hash_value = Hashing.generate_hash(password, db_user.password_salt)
         if hash_value == db_user.password_hash:
             return db_user
     return None

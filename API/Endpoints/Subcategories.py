@@ -5,8 +5,11 @@ from API.Schemas import Relations
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
-
 from API.Utils.Exceptions import EntryNotFoundException
+from API.Schemas.User import User
+from API.Utils.Authentication import decode_and_validate_token
+from typing import Annotated
+
 
 router = APIRouter(
     prefix="/subcategories",
@@ -15,7 +18,9 @@ router = APIRouter(
 
 
 @router.post("/", response_model=Subcategory.Subcategory, status_code=status.HTTP_201_CREATED)
-def add_subcategory(subcategory: Subcategory.SubcategoryCreate, db: Session = Depends(setup_database.get_db)):
+def add_subcategory(subcategory: Subcategory.SubcategoryCreate,
+                    current_user: Annotated[User, Depends(decode_and_validate_token)],
+                    db: Session = Depends(setup_database.get_db)):
     try:
         return Subcategories.create_subcategory(db, subcategory)
     except exc.DatabaseError as e:
@@ -25,7 +30,9 @@ def add_subcategory(subcategory: Subcategory.SubcategoryCreate, db: Session = De
 
 
 @router.put("/", response_model=Subcategory.Subcategory)
-def update_subcategory(subcategory: Subcategory.Subcategory, db: Session = Depends(setup_database.get_db)):
+def update_subcategory(subcategory: Subcategory.Subcategory,
+                       current_user: Annotated[User, Depends(decode_and_validate_token)],
+                       db: Session = Depends(setup_database.get_db)):
     try:
         return Subcategories.update_subcategory(db, subcategory)
     except exc.DatabaseError as e:
@@ -35,7 +42,9 @@ def update_subcategory(subcategory: Subcategory.Subcategory, db: Session = Depen
 
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
-def delete_subcategory(subcategory_id: int, db: Session = Depends(setup_database.get_db)):
+def delete_subcategory(subcategory_id: int,
+                       current_user: Annotated[User, Depends(decode_and_validate_token)],
+                       db: Session = Depends(setup_database.get_db)):
     try:
         Subcategories.delete_subcategory(db, subcategory_id)
     except exc.DatabaseError as e:

@@ -16,7 +16,11 @@ class ConfigManager:
 
     @property
     def db_url(self):
-        return self.config_data['ConnectionString']
+        return self.config_data["ConnectionString"]
+
+    @property
+    def jwt_secret(self):
+        return self.config_data["JwtSecret"]
 
 
 configuration = ConfigManager()

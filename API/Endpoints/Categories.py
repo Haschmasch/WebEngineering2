@@ -5,6 +5,9 @@ from API.Schemas import Relations
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
+from API.Schemas.User import User
+from API.Utils.Authentication import decode_and_validate_token
+from typing import Annotated
 
 from API.Utils.Exceptions import EntryNotFoundException
 
@@ -15,7 +18,9 @@ router = APIRouter(
 
 
 @router.post("/", response_model=Category.Category, status_code=status.HTTP_201_CREATED)
-def add_category(category: Category.CategoryCreate, db: Session = Depends(setup_database.get_db)):
+def add_category(category: Category.CategoryCreate, current_user: Annotated[User, Depends(decode_and_validate_token)],
+                 db: Session = Depends(setup_database.get_db)):
+    # TODO: Validate user group
     try:
         return Categories.create_category(db, category)
     except exc.DatabaseError as e:
@@ -23,7 +28,9 @@ def add_category(category: Category.CategoryCreate, db: Session = Depends(setup_
 
 
 @router.put("/", response_model=Category.Category)
-def update_category(category: Category.Category, db: Session = Depends(setup_database.get_db)):
+def update_category(category: Category.Category, current_user: Annotated[User, Depends(decode_and_validate_token)],
+                    db: Session = Depends(setup_database.get_db)):
+    # TODO: Validate user group
     try:
         return Categories.update_category(db, category)
     except exc.DatabaseError as e:
@@ -33,8 +40,10 @@ def update_category(category: Category.Category, db: Session = Depends(setup_dat
 
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
-def delete_category(category_id: int, db: Session = Depends(setup_database.get_db)):
+def delete_category(category_id: int, current_user: Annotated[User, Depends(decode_and_validate_token)],
+                    db: Session = Depends(setup_database.get_db)):
     try:
+        # TODO: Validate user group
         Categories.delete_category(db, category_id)
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)

@@ -5,8 +5,11 @@ from API.Schemas import Relations
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
-
 from API.Utils.Exceptions import EntryNotFoundException
+from API.Schemas.User import User
+from API.Utils.Authentication import decode_and_validate_token
+from typing import Annotated
+
 
 router = APIRouter(
     prefix="/followings",
@@ -15,9 +18,13 @@ router = APIRouter(
 
 
 @router.post("/", response_model=Following.Following, status_code=status.HTTP_201_CREATED)
-def add_following(following: Following.FollowingCreate, db: Session = Depends(setup_database.get_db)):
+def add_following(following: Following.FollowingCreate, current_user: Annotated[User, Depends(decode_and_validate_token)],
+                  db: Session = Depends(setup_database.get_db)):
     try:
-        return Followings.create_following(db, following)
+        # TODO: Validate user group
+        if following.user_id == current_user.id:
+            return Followings.create_following(db, following)
+        raise HTTPException(status_code=400, detail="Adding a following for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except EntryNotFoundException as e:
@@ -25,9 +32,14 @@ def add_following(following: Following.FollowingCreate, db: Session = Depends(se
 
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
-def delete_following(following_id: int, db: Session = Depends(setup_database.get_db)):
+def delete_following(following_id: int, current_user: Annotated[User, Depends(decode_and_validate_token)],
+                     db: Session = Depends(setup_database.get_db)):
     try:
-        Followings.delete_following(db, following_id)
+        # TODO: Validate user group
+        following = Followings.get_following(db, following_id)
+        if following.user_id == current_user.id:
+            Followings.delete_following(db, following_id)
+        raise HTTPException(status_code=400, detail="Deleting a following for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except EntryNotFoundException as e:

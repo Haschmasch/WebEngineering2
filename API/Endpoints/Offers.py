@@ -3,12 +3,15 @@ from API.Crud import Offers
 from API.Schemas import Offer
 from API.Schemas import Relations
 from sqlalchemy.orm import Session
-from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, APIRouter
+from fastapi import HTTPException, Depends, status, UploadFile, APIRouter
 from sqlalchemy import exc
 from API.Utils.ConfigManager import configuration
 from fastapi.responses import Response, FileResponse
-
 from API.Utils.Exceptions import EntryNotFoundException
+from API.Schemas.User import User
+from API.Utils.Authentication import decode_and_validate_token
+from typing import Annotated
+
 
 router = APIRouter(
     prefix="/offers",
@@ -17,9 +20,14 @@ router = APIRouter(
 
 
 @router.post("/", response_model=Offer.Offer, status_code=status.HTTP_201_CREATED)
-def add_offer(offer: Offer.OfferCreate, db: Session = Depends(setup_database.get_db)):
+def add_offer(offer: Offer.OfferCreate, current_user: Annotated[User, Depends(decode_and_validate_token)],
+              db: Session = Depends(setup_database.get_db)):
     try:
-        return Offers.create_offer(db, offer, configuration.offer_root_dir)
+        # TODO: Validate user group
+        if offer.user_id == current_user.id:
+            return Offers.create_offer(db, offer, configuration.offer_root_dir)
+        raise HTTPException(status_code=400,
+                            detail="Creating a offer for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
@@ -29,9 +37,14 @@ def add_offer(offer: Offer.OfferCreate, db: Session = Depends(setup_database.get
 
 
 @router.put("/", response_model=Offer.Offer)
-def update_offer(offer: Offer.Offer, db: Session = Depends(setup_database.get_db)):
+def update_offer(offer: Offer.Offer, current_user: Annotated[User, Depends(decode_and_validate_token)],
+                 db: Session = Depends(setup_database.get_db)):
     try:
-        return Offers.update_offer(db, offer, configuration.offer_root_dir)
+        # TODO: Validate user group
+        if offer.user_id == current_user.id:
+            return Offers.update_offer(db, offer, configuration.offer_root_dir)
+        raise HTTPException(status_code=400,
+                            detail="Updating a offer for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
@@ -41,9 +54,15 @@ def update_offer(offer: Offer.Offer, db: Session = Depends(setup_database.get_db
 
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
-def delete_offer(offer_id: int, db: Session = Depends(setup_database.get_db)):
+def delete_offer(offer_id: int, current_user: Annotated[User, Depends(decode_and_validate_token)],
+                 db: Session = Depends(setup_database.get_db)):
     try:
-        Offers.delete_offer(db, offer_id, configuration.offer_root_dir)
+        # TODO: Validate user group
+        offer = Offers.get_offer(db, offer_id)
+        if offer.user_id == current_user.id:
+            Offers.delete_offer(db, offer_id, configuration.offer_root_dir)
+        raise HTTPException(status_code=400,
+                            detail="Updating a offer for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
@@ -104,12 +123,19 @@ def get_offer_image(offer_id: int, image_name: str, db: Session = Depends(setup_
 
 
 @router.post("/{offer_id}/images", status_code=status.HTTP_201_CREATED)
-def create_offer_images(offer_id: int, files: list[UploadFile], db: Session = Depends(setup_database.get_db)):
+def create_offer_images(offer_id: int, files: list[UploadFile],
+                        current_user: Annotated[User, Depends(decode_and_validate_token)],
+                        db: Session = Depends(setup_database.get_db)):
     try:
-        if all("image" in file.content_type for file in files):
-            Offers.save_offer_images(db, offer_id, configuration.offer_root_dir, files)
-        else:
-            raise HTTPException(status_code=400, detail="At least one file is not an image")
+        # TODO: Validate user group
+        offer = Offers.get_offer(db, offer_id)
+        if offer.user_id == current_user.id:
+            if all("image" in file.content_type for file in files):
+                Offers.save_offer_images(db, offer_id, configuration.offer_root_dir, files)
+            else:
+                raise HTTPException(status_code=400, detail="At least one file is not an image")
+        raise HTTPException(status_code=400,
+                            detail="Deleting offer images for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
@@ -119,9 +145,16 @@ def create_offer_images(offer_id: int, files: list[UploadFile], db: Session = De
 
 
 @router.delete("/{offer_id}/images/{image_name}")
-def delete_offer_image(offer_id: int, image_name: str, db: Session = Depends(setup_database.get_db)):
+def delete_offer_image(offer_id: int, image_name: str,
+                       current_user: Annotated[User, Depends(decode_and_validate_token)],
+                       db: Session = Depends(setup_database.get_db)):
     try:
-        Offers.delete_offer_image(db, offer_id, image_name, configuration.offer_root_dir)
+        # TODO: Validate user group
+        offer = Offers.get_offer(db, offer_id)
+        if offer.user_id == current_user.id:
+            Offers.delete_offer_image(db, offer_id, image_name, configuration.offer_root_dir)
+        raise HTTPException(status_code=400,
+                            detail="Deleting an offer image for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except FileNotFoundError as e:
@@ -147,4 +180,3 @@ def get_offer_thumbnail(offer_id: int, db: Session = Depends(setup_database.get_
         raise HTTPException(status_code=400, detail=os_error.args)
     except EntryNotFoundException as e:
         raise HTTPException(status_code=404, detail=e.args)
-

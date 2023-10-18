@@ -11,12 +11,8 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-
-
-class UserLogin(BaseModel):
-    email: str | None = None
-    name: str | None = None
-    password: str
+    class Config:
+        from_attributes = True
 
 
 class User(UserBase):

@@ -70,13 +70,23 @@ class Offer(Base):
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, Identity(), primary_key=True)
+    role_id = Column(Integer, ForeignKey('roles.id'))
     name = Column(String(150), nullable=False)
     email = Column(String(200), nullable=False)
     password_salt = Column(Text, nullable=False)
     password_hash = Column(Text, nullable=False)
     phone_number = Column(Text)
     time_created = Column(TIMESTAMP(timezone=True), nullable=False)
+    related_role = relationship("Roles", back_populates="related_users")
     related_offers = relationship("Offer", back_populates="related_user", cascade="all, delete")
     __table_args__ = (UniqueConstraint('name', 'email', name='ue_users'),)
+
+
+class Roles(Base):
+    __tablename__ = 'roles'
+    id = Column(Integer, Identity(), primary_key=True)
+    name = Column(String(50), nullable=False)
+    short_name = Column(String(25), nullable=False)
+    related_users = relationship("User", back_populates="related_role")
 
 

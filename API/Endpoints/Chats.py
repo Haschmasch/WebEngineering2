@@ -8,6 +8,9 @@ from API.Utils.Exceptions import EntryNotFoundException
 from API.Websockets.ConnectionManager import ConnectionManager
 from API.setup_database import get_db
 from API.Utils.ConfigManager import configuration
+from API.Schemas.User import User
+from API.Utils.Authentication import decode_and_validate_token
+from typing import Annotated
 
 
 router = APIRouter(
@@ -30,9 +33,13 @@ async def websocket_endpoint(websocket: WebSocket, offer_id: str, db: Session = 
 
 
 @router.post("/", response_model=Chat.Chat, status_code=status.HTTP_201_CREATED)
-def add_chat(chat: Chat.ChatCreate, db: Session = Depends(get_db)):
+def add_chat(chat: Chat.ChatCreate, current_user: Annotated[User, Depends(decode_and_validate_token)],
+             db: Session = Depends(get_db)):
     try:
-        return Chats.create_chat(db, chat, configuration.chat_root_dir)
+        # TODO: Validate user group
+        if chat.creator_id == current_user.id:
+            return Chats.create_chat(db, chat, configuration.chat_root_dir)
+        raise HTTPException(status_code=400, detail="Adding a chat for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
@@ -41,22 +48,15 @@ def add_chat(chat: Chat.ChatCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.delete("/{chat_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_chat(chat_id: int, db: Session = Depends(get_db)):
+@router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
+def delete_chat(chat_id: int, current_user: Annotated[User, Depends(decode_and_validate_token)],
+                db: Session = Depends(get_db)):
     try:
-        Chats.delete_chat(db, chat_id, configuration.chat_root_dir)
-    except exc.DatabaseError as e:
-        raise HTTPException(status_code=400, detail=e.args)
-    except OSError as os_error:
-        raise HTTPException(status_code=400, detail=os_error.strerror)
-    except EntryNotFoundException as e:
-        raise HTTPException(status_code=404, detail=e.args)
-
-
-@router.put("/", response_model=Chat.Chat)
-def update_chat(chat: Chat.Chat, db: Session = Depends(get_db)):
-    try:
-        return Chats.update_chat(db, chat)
+        # TODO: Validate user group
+        chat = Chats.get_chat(db, chat_id)
+        if chat.creator_id == current_user.id:
+            Chats.delete_chat(db, chat_id, configuration.chat_root_dir)
+        raise HTTPException(status_code=400, detail="Deleting a chat from a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
