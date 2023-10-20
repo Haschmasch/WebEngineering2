@@ -59,6 +59,21 @@ def update_user(user: User, current_user: Annotated[User, Depends(decode_and_val
         raise HTTPException(status_code=404, detail=e.args)
 
 
+@router.put("/password", status_code=status.HTTP_204_NO_CONTENT)
+def update_user_password(user_id: int, user: UserCreate,
+                         current_user: Annotated[User, Depends(decode_and_validate_token)],
+                         db: Session = Depends(setup_database.get_db)):
+    try:
+        # TODO: Validate user group
+        if user_id == current_user.id:
+            return Users.update_user_password(db, user_id, user)
+        raise HTTPException(status_code=400, detail="Updating a user aside from the authenticated user is not allowed.")
+    except exc.DatabaseError as e:
+        raise HTTPException(status_code=400, detail=e.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
+
+
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(user_id: int, current_user: Annotated[User, Depends(decode_and_validate_token)],
                 db: Session = Depends(setup_database.get_db)):
