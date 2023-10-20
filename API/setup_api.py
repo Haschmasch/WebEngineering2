@@ -1,4 +1,5 @@
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from API.Endpoints.Chats import router as chat_router
 from API.Endpoints.Followings import router as following_router
@@ -40,6 +41,13 @@ app.include_router(subcategory_router)
 app.include_router(offer_router)
 app.include_router(search_router)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 def run_api():
     print("Starting HTTP server in run_api()", flush=True)
