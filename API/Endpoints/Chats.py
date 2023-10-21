@@ -17,7 +17,7 @@ router = APIRouter(
     prefix="/chats",
     tags=["chats"])
 
-
+"""Endpoint for websocket connection"""
 @router.websocket("/ws/{offer_id}/{user_id}")
 async def websocket_endpoint(websocket: WebSocket, offer_id: str, db: Session = Depends(get_db),
                              chat_dir: str = configuration.chat_root_dir):
@@ -32,6 +32,7 @@ async def websocket_endpoint(websocket: WebSocket, offer_id: str, db: Session = 
         await manager.disconnect(websocket, offer_id)
 
 
+"""Endpoints for db operations on chats"""
 @router.post("/", response_model=Chat.Chat, status_code=status.HTTP_201_CREATED)
 def add_chat(chat: Chat.ChatCreate, current_user: Annotated[User, Depends(decode_and_validate_token)],
              db: Session = Depends(get_db)):

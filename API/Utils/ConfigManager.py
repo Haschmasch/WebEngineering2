@@ -6,6 +6,9 @@ Properties can be accessed via the attributes of the ConfigManager class.
 from API.Utils.FileOperations import read_json
 
 
+"""ConfigManager is used to read the configuration file"""""
+
+
 class ConfigManager:
     def __init__(self, path="Utils/config.json"):
         self.path = path

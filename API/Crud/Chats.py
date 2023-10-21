@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy.orm import Session
-from sqlalchemy import insert, update, delete, select
+from sqlalchemy import update, delete, select
 from API import models
 from API.Schemas import Chat
 from API.Utils.FileOperations import write_json, remove_file, get_chat_file_path
@@ -33,7 +33,6 @@ def delete_chat(db: Session, chat_id: int, chat_root_directory: str):
         db.commit()
     else:
         raise EntryNotFoundException(f"No database entry found for chat_id: {chat_id}")
-
 
 
 def update_chat(db: Session, chat: Chat.Chat):
