@@ -5,6 +5,7 @@ from API import models
 
 
 def search_by_category(db: Session, category_id: int = None, subcategory_id: int = None):
+    """Generate filter conditions based on category and subcategory."""
     conditions = []
 
     if category_id:
@@ -17,6 +18,7 @@ def search_by_category(db: Session, category_id: int = None, subcategory_id: int
 
 
 def search_by_location(db: Session, location: str = None, postcode: str = None):
+    """Generate filter conditions based on location and postcode."""
     conditions = []
 
     if location:
@@ -29,6 +31,7 @@ def search_by_location(db: Session, location: str = None, postcode: str = None):
 
 
 def extended_search(db: Session, min_price: float = None, max_price: float = None, min_date=None, max_date=None):
+    """Generate filter conditions based on price range and date range."""
     conditions = []
 
     if min_price:
@@ -49,6 +52,7 @@ def extended_search(db: Session, min_price: float = None, max_price: float = Non
 def search_offers(db: Session, query: str = None, category_id: int = None, subcategory_id: int = None,
                   location: str = None, postcode: str = None, min_price: float = None, max_price: float = None,
                   min_date=None, max_date=None):
+    """Search for offers in the database based on various criteria."""
 
     base_query = select(models.Offer)
 
@@ -58,7 +62,7 @@ def search_offers(db: Session, query: str = None, category_id: int = None, subca
     conditions.extend(search_by_location(db, location, postcode))
     conditions.extend(extended_search(db, min_price, max_price, min_date, max_date))
 
-    # text query condition
+    # text query condition (searches title of offers)
     if query:
         conditions.append(models.Offer.title.contains(query))
 
