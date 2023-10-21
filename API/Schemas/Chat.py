@@ -1,3 +1,9 @@
+"""
+Schemas for the chat over the api.
+Contains schemas for chat.
+"""
+
+
 import datetime
 
 from pydantic import BaseModel

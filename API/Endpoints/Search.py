@@ -1,3 +1,8 @@
+"""
+Contains the API endpoint for the '/search' route.
+"""
+
+
 import datetime
 
 from sqlalchemy.orm import Session

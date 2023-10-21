@@ -1,3 +1,7 @@
+"""
+ConnectionManager is used to manage websocket connections
+"""
+
 from fastapi import WebSocket
 from sqlalchemy.orm import Session
 
@@ -5,8 +9,6 @@ from API.Utils.FileOperations import read_json, write_json, get_chat_file_path
 from API.models import Chat
 from API.Crud import Chats as ChatCrud
 
-
-"""ConnectionManager is used to manage websocket connections"""
 
 class ConnectionManager:
 

@@ -1,3 +1,7 @@
+"""
+Contains all create, read, update and delete operations for chats.
+"""
+
 import datetime
 
 from sqlalchemy.orm import Session
