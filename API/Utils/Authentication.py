@@ -1,9 +1,14 @@
+"""
+Utilities for authentication using JWT bearer tokens.
+Follows the OAuth2 standard, since it is supported by the fastapi framework.
+"""
+
 from datetime import datetime, timedelta
 from typing import Annotated
 from sqlalchemy.orm import Session
 from API import setup_database
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import Depends,  HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from API.Schemas.JwtTokenData import TokenData
 from API.Utils.ConfigManager import configuration
@@ -13,10 +18,17 @@ from API.Utils.Exceptions import EntryNotFoundException
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 150
 
+# The tokenUrl specifies the api endpoint where the token can be created with the user credentials
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/login")
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    """
+    This funtion creates a new jwt token based on the passed data.
+    :param data: The data to be encoded
+    :param expires_delta: The expiration time delta.
+    :return: The encoded jwt token.
+    """
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -29,6 +41,12 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 def decode_and_validate_token(token: Annotated[str, Depends(oauth2_scheme)],
                               db: Session = Depends(setup_database.get_db)):
+    """
+    Decodes and validates the jwt token. Raises an error, of the token could not be validated.
+    :param token: The jwt token.
+    :param db: The database object, that is supplied via dependency injection.
+    :return: The user model that was evaluated by reading the jwt sub
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

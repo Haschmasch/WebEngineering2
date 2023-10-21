@@ -1,3 +1,8 @@
+"""
+Schemas for the communication over the api.
+Contains schemas for users.
+"""
+
 import datetime
 
 from pydantic import BaseModel
@@ -11,6 +16,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+
     class Config:
         from_attributes = True
 
@@ -18,7 +24,6 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     time_created: datetime.datetime | None = None
+
     class Config:
         from_attributes = True
-
-

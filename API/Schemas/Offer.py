@@ -1,5 +1,9 @@
-import datetime
+"""
+Schemas for the communication over the api.
+Contains schemas for offers.
+"""
 
+import datetime
 from pydantic import BaseModel
 
 

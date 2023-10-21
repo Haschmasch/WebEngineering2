@@ -1,6 +1,10 @@
+"""
+Contains all create, read, update and delete operations for users.
+"""
+
 import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert, update, delete, or_
+from sqlalchemy import select, update, delete, or_
 from API.Utils import Hashing
 from API import models
 from API.Schemas import User

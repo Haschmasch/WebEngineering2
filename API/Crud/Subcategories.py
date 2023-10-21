@@ -1,5 +1,9 @@
+"""
+Contains all create, read, update and delete operations for subcategories.
+"""
+
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert, update, delete
+from sqlalchemy import select, update, delete
 from API import models
 from API.Schemas import Subcategory
 from API.Utils.Exceptions import EntryNotFoundException

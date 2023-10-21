@@ -1,4 +1,7 @@
-import datetime
+"""
+Schemas for the communication over the api.
+Contains schemas for jwt token communication.
+"""
 
 from pydantic import BaseModel
 

@@ -1,7 +1,12 @@
+"""
+Contains all create, read, update and delete operations for offers.
+This file also contains directory operations for saving images
+"""
+
 import datetime
 from API.Utils.Exceptions import EntryNotFoundException
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert, update, delete
+from sqlalchemy import select, update, delete
 from fastapi import UploadFile
 from API import models
 from API.Utils import FileOperations
@@ -69,7 +74,7 @@ def update_offer(db: Session, offer: Offer.Offer, offer_root_directory: str):
                                 primary_image=offer.primary_image,
                                 short_description=offer.short_description,
                                 description=offer.description))
-    # Note, that the userid and timeposted fields are purposefully not overwritten here,
+    # Note, that the userid and time posted fields are purposefully not overwritten here,
     # since they only receive an initial value.
     db.commit()
     image_path = get_image_directory(offer_root_directory, offer.user_id, offer.id)
@@ -163,7 +168,3 @@ def get_short_description(description: str):
             last_blank = short_description.rfind(' ', 0, last_blank)
         short_description = description[0:last_blank]
     return short_description
-
-
-
-

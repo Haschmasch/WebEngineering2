@@ -1,3 +1,8 @@
+"""
+Schemas for the communication over the api.
+Contains schemas for followings.
+"""
+
 import datetime
 
 from pydantic import BaseModel

@@ -1,3 +1,8 @@
+"""
+Schemas for the communication over the api.
+Contains schemas for subcategories.
+"""
+
 from pydantic import BaseModel
 
 

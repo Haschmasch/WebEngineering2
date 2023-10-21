@@ -1,5 +1,8 @@
-import datetime
+"""
+Contains all create, read, update and delete operations for followings.
+"""
 
+import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete
 from API import models

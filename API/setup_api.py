@@ -1,4 +1,8 @@
-from fastapi import Depends, FastAPI, HTTPException
+"""
+Includes setup functionalities for the API.
+"""
+
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from API.Endpoints.Chats import router as chat_router
@@ -49,6 +53,10 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+
 def run_api():
+    """
+    This starts the API using the uvicorn server.
+    """
     print("Starting HTTP server in run_api()", flush=True)
     uvicorn.run(app, host="127.0.0.1", port=8000)

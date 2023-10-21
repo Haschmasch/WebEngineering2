@@ -1,3 +1,8 @@
+"""
+Schemas for the communication over the api.
+Contains schemas for categories.
+"""
+
 from pydantic import BaseModel
 
 
@@ -11,6 +16,6 @@ class CategoryCreate(CategoryBase):
 
 class Category(CategoryBase):
     id: int
+
     class Config:
         from_attributes = True
-

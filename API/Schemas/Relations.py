@@ -1,3 +1,8 @@
+"""
+Schemas for the communication over the api.
+Contains mixed schemas representing the relations between the database models.
+"""
+
 from API.Schemas.Category import Category
 from API.Schemas.Subcategory import Subcategory
 from API.Schemas.Offer import Offer

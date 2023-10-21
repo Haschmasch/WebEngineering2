@@ -1,7 +1,11 @@
+"""
+The database tables and their relations are defined here.
+This uses the ORM provided by sqlalchemy.
+"""
+
 from sqlalchemy import Boolean, ForeignKey, Column, Integer, String, Text, Identity, UniqueConstraint, \
     TIMESTAMP, CheckConstraint, Numeric, CHAR
 import datetime
-
 from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()

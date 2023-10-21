@@ -1,3 +1,8 @@
+"""
+Helper file for reading the config.json.
+Properties can be accessed via the attributes of the ConfigManager class.
+"""
+
 from API.Utils.FileOperations import read_json
 
 
