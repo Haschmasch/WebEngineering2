@@ -56,7 +56,8 @@ def delete_chat(chat_id: int, current_user: Annotated[User, Depends(decode_and_v
         chat = Chats.get_chat(db, chat_id)
         if chat.creator_id == current_user.id:
             Chats.delete_chat(db, chat_id, configuration.chat_root_dir)
-        raise HTTPException(status_code=400, detail="Deleting a chat from a user who is not authenticated is not allowed")
+        else:
+            raise HTTPException(status_code=400, detail="Deleting a chat from a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:

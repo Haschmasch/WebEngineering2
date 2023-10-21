@@ -39,7 +39,8 @@ def delete_following(following_id: int, current_user: Annotated[User, Depends(de
         following = Followings.get_following(db, following_id)
         if following.user_id == current_user.id:
             Followings.delete_following(db, following_id)
-        raise HTTPException(status_code=400, detail="Deleting a following for a user who is not authenticated is not allowed")
+        else:
+            raise HTTPException(status_code=400, detail="Deleting a following for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except EntryNotFoundException as e:

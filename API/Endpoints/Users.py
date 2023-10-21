@@ -81,7 +81,9 @@ def delete_user(user_id: int, current_user: Annotated[User, Depends(decode_and_v
         # TODO: Validate user group
         if user_id == current_user.id:
             Users.delete_user(db, user_id)
-        raise HTTPException(status_code=400, detail="Deleting a user aside from the authenticated user is not allowed.")
+        else:
+            raise HTTPException(status_code=400,
+                                detail="Deleting a user aside from the authenticated user is not allowed.")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except EntryNotFoundException as e:

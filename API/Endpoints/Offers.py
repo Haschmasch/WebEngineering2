@@ -61,8 +61,10 @@ def delete_offer(offer_id: int, current_user: Annotated[User, Depends(decode_and
         offer = Offers.get_offer(db, offer_id)
         if offer.user_id == current_user.id:
             Offers.delete_offer(db, offer_id, configuration.offer_root_dir)
-        raise HTTPException(status_code=400,
-                            detail="Updating a offer for a user who is not authenticated is not allowed")
+
+        else:
+            raise HTTPException(status_code=400,
+                                detail="Updating a offer for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
@@ -134,8 +136,9 @@ def create_offer_images(offer_id: int, files: list[UploadFile],
                 Offers.save_offer_images(db, offer_id, configuration.offer_root_dir, files)
             else:
                 raise HTTPException(status_code=400, detail="At least one file is not an image")
-        raise HTTPException(status_code=400,
-                            detail="Deleting offer images for a user who is not authenticated is not allowed")
+        else:
+            raise HTTPException(status_code=400,
+                                detail="Creating offer images for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except OSError as os_error:
@@ -153,8 +156,9 @@ def delete_offer_image(offer_id: int, image_name: str,
         offer = Offers.get_offer(db, offer_id)
         if offer.user_id == current_user.id:
             Offers.delete_offer_image(db, offer_id, image_name, configuration.offer_root_dir)
-        raise HTTPException(status_code=400,
-                            detail="Deleting an offer image for a user who is not authenticated is not allowed")
+        else:
+            raise HTTPException(status_code=400,
+                                detail="Deleting an offer image for a user who is not authenticated is not allowed")
     except exc.DatabaseError as e:
         raise HTTPException(status_code=400, detail=e.args)
     except FileNotFoundError as e:
