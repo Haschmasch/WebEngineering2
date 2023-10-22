@@ -1,0 +1,108 @@
+{
+  "categories": [
+    {
+      "name": "Fahrzeuge"
+    },
+    {
+      "name": "Elektronik"
+    },
+    {
+      "name": "Jobs"
+    },
+    {
+      "name": "Immobilien"
+    },
+    {
+      "name": "Zu Verschenken"
+    },
+    {
+      "name": "Anderes"
+    }
+  ],
+  "subcategories": [
+    {
+      "category_id": "1",
+      "name": "Auto"
+    },
+    {
+      "category_id": "1",
+      "name": "Boot"
+    },
+    {
+      "category_id": "1",
+      "name": "Fahrrad"
+    },
+    {
+      "category_id": "1",
+      "name": "Motorrad"
+    },
+    {
+      "category_id": "1",
+      "name": "Anderes"
+    },
+    {
+      "category_id": "2",
+      "name": "Handy & Telefon"
+    },
+    {
+      "category_id": "2",
+      "name": "Notebooks"
+    },
+        {
+      "category_id": "2",
+      "name": "Konsolen"
+    },
+    {
+      "category_id": "2",
+      "name": "PC-Zubehör & -Software"
+    },
+    {
+      "category_id": "2",
+      "name": "Haushaltsgeräte"
+    },
+    {
+      "category_id": "2",
+      "name": "Anderes"
+    },
+    {
+      "category_id": "3",
+      "name": "Produktion"
+    },
+    {
+      "category_id": "3",
+      "name": "Gastronomie & Tourismus"
+    },
+    {
+      "category_id": "3",
+      "name": "Mini- und Nebenjobs"
+    },
+    {
+      "category_id": "3",
+      "name": "Praktika"
+    },
+    {
+      "category_id": "3",
+      "name": "weitere Jobs"
+    },
+        {
+      "category_id": "4",
+      "name": "Mietwohnungen"
+    },
+        {
+      "category_id": "4",
+      "name": "Häuser"
+    },
+        {
+      "category_id": "4",
+      "name": "Eigentumswohnungen"
+    },
+        {
+      "category_id": "4",
+      "name": "Umzug und Transport"
+    },
+        {
+      "category_id": "4",
+      "name": "Gewerbeimmobilien"
+    }
+  ]
+}
