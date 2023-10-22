@@ -174,6 +174,27 @@ def get_offer_images(offer_id: int, db: Session = Depends(setup_database.get_db)
         raise HTTPException(status_code=404, detail=e.args)
 
 
+@router.get("/{offer_id}/images/names")
+def get_offer_images(offer_id: int, db: Session = Depends(setup_database.get_db)):
+    """
+    Gets all image names associated with an offer by the id as a list of strings.
+    :param offer_id: The id of the offer.
+    :param db: The database object, that is supplied via dependency injection.
+    :return: If successful, a 200 status code with a zip file  will be returned.
+    If a database error occurred, a 400 status code with an error message will be returned.
+    If the offer was not found, a 404 status code with an error message will be returned.
+    An internal server error (500) is returned, when an unhandled exception is raised.
+    """
+    try:
+        return Offers.get_offer_image_names(db, offer_id, configuration.offer_root_dir)
+    except exc.DatabaseError as e:
+        raise HTTPException(status_code=400, detail=e.args)
+    except OSError as os_error:
+        raise HTTPException(status_code=400, detail=os_error.args)
+    except EntryNotFoundException as e:
+        raise HTTPException(status_code=404, detail=e.args)
+
+
 @router.get("/{offer_id}/images/{image_name}")
 def get_offer_image(offer_id: int, image_name: str, db: Session = Depends(setup_database.get_db)):
     """

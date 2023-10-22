@@ -139,6 +139,16 @@ def get_file_paths(directory):
     return [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in os.walk(resolved_dir) for f in filenames]
 
 
+def get_file_names(directory):
+    """
+    Gets the name of all files from a directory.
+    :param directory: The directory of the files
+    :return: A list of all file names
+    """
+    resolved_dir = try_resolve_relative_path(directory)
+    return [f for (dirpath, dirnames, filenames) in os.walk(resolved_dir) for f in filenames]
+
+
 def mkdir_and_resolve_relative_path(path):
     """
     This creates the directories that leads to the path and resolves relative paths.

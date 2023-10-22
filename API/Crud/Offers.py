@@ -138,6 +138,12 @@ def get_offer_images(db: Session, offer_id: int, offer_root_directory: str):
     return resp
 
 
+def get_offer_image_names(db: Session, offer_id: int, offer_root_directory: str):
+    offer = get_offer(db, offer_id)
+    path = get_image_directory(offer_root_directory, offer.user_id, offer_id)
+    return FileOperations.get_file_names(path)
+
+
 def get_image_path(db: Session, offer_id: int, image_name: str, offer_root_directory: str):
     offer = get_offer(db, offer_id)
     path = get_image_directory(offer_root_directory, offer.user_id, offer_id)
