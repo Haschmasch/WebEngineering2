@@ -184,8 +184,8 @@ def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(setup_datab
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/current", response_model=User)
-def get_user(current_user: Annotated[User, Depends(decode_and_validate_token)]):
+@router.get("/current/user", response_model=User)
+def get_current_user(current_user: Annotated[User, Depends(decode_and_validate_token)]):
     """
     Gets the user from the current JWT token.
     :param current_user: The current user. Acquired by decoding the jwt token.
