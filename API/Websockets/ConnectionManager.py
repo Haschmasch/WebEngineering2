@@ -18,8 +18,6 @@ class ConnectionManager:
         # Dictionary to store WebSockets associated with each offerid and user_id
         self.chats: dict[str, dict[str, WebSocket]] = {}
 
-        #self.offers: dict[str, list[WebSocket]] = {}
-
     def _get_chat_db(self, offerid: str):
         """Retrieve chat from database using offer ID."""
         return ChatCrud.get_chat_by_offer(self.db, int(offerid))
@@ -43,6 +41,9 @@ class ConnectionManager:
         message_history = self._load_message_history(chat.id)
         for message in message_history:
             await websocket.send_text(message)
+
+        if offerid in self.chats and userid in self.chats[offerid]:
+            await self.chats[offerid][userid].close()
         # store the WebSocket connection
         if offerid not in self.chats:
             self.chats[offerid] = {}
@@ -59,12 +60,7 @@ class ConnectionManager:
             del self.chats[offerid][userid]
             if not self.chats[offerid]:
                 del self.chats[offerid]
-        '''
-        if offerid in self.offers and websocket in self.offers[offerid]:
-            self.offers[offerid].remove(websocket)
-            if not self.offers[offerid]:
-                del self.offers[offerid]
-        '''
+
 
     async def broadcast(self, message: str, offerid: str, sender_userid: str):
         """Broadcast a message to all clients associated with a specific offer ID."""
@@ -77,16 +73,14 @@ class ConnectionManager:
         message_history = self._load_message_history(chat.id)
         message_history.append(message)
         self._save_message_history(chat.id, message_history)
+        if offerid not in self.chats:
+            print("No active chats for this offer")
+            return
+
         # send the message to all clients in the room
         for userid, connection in self.chats.get(offerid, {}).items():
-            if userid != sender_userid:
+            if str(userid) != str(sender_userid):
                 await connection.send_text(message)
-        '''
-        for connection in self.offers.get(offerid, []):
-            if connection != sender:
-                await connection.send_text(message)
-        '''
-
 
 
     def _load_message_history(self, chat_id: int):
