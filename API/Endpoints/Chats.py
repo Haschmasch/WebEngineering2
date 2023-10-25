@@ -26,17 +26,16 @@ Contains all API endpoints for the '/chats' route.
 """
 
 @router.websocket("/ws/{offer_id}/{user_id}")
-async def websocket_endpoint(websocket: WebSocket, offer_id: str, db: Session = Depends(get_db),
+async def websocket_endpoint(websocket: WebSocket, offer_id: str, user_id: str, db: Session = Depends(get_db),
                              chat_dir: str = configuration.chat_root_dir):
     manager = ConnectionManager(db, chat_dir)
-    await manager.connect(websocket, offer_id)
+    await manager.connect(websocket, offer_id, user_id)
     try:
         while True:
             data = await websocket.receive_text()
-            await manager.send_personal_message(f"{data}", websocket)
-            await manager.broadcast(f"{data}", offer_id)
+            await manager.broadcast(f"{data}", offer_id, user_id)
     except WebSocketDisconnect:
-        await manager.disconnect(websocket, offer_id)
+        await manager.disconnect(websocket, offer_id, user_id)
 
 
 """

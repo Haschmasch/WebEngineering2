@@ -15,8 +15,10 @@ class ConnectionManager:
     def __init__(self, db: Session, chat_dir: str):
         self.db = db
         self.chat_dir = chat_dir
-        # dictionary to store WebSockets associated with each offerid
-        self.offers: dict[str, list[WebSocket]] = {}
+        # Dictionary to store WebSockets associated with each offerid and user_id
+        self.chats: dict[str, dict[str, WebSocket]] = {}
+
+        #self.offers: dict[str, list[WebSocket]] = {}
 
     def _get_chat_db(self, offerid: str):
         """Retrieve chat from database using offer ID."""
@@ -26,7 +28,7 @@ class ConnectionManager:
         """Convert database chat object to Chat model instance."""
         return Chat(**{column.name: getattr(chat_db, column.name) for column in chat_db.__table__.columns})
 
-    async def connect(self, websocket: WebSocket, offerid: str):
+    async def connect(self, websocket: WebSocket, offerid: str, userid: str):
         """Establish a WebSocket connection and retrieve previous chat messages."""
         await websocket.accept()
         chat_db = self._get_chat_db(offerid)
@@ -36,28 +38,35 @@ class ConnectionManager:
             new_chat = Chat.ChatCreate(offerid=int(offerid), creatorid=None)
             chat_db = ChatCrud.create_chat(self.db, new_chat, self.chat_dir)
 
-        # append the new WebSocket connection to the list of active connections for the offer
-        self.offers.setdefault(offerid, []).append(websocket)
-
         # retrieve and send previous messages to the connected client
         chat = self._get_chat_from_db(chat_db)
         message_history = self._load_message_history(chat.id)
         for message in message_history:
             await websocket.send_text(message)
+        # store the WebSocket connection
+        if offerid not in self.chats:
+            self.chats[offerid] = {}
+        self.chats[offerid][userid] = websocket
+
 
     async def send_personal_message(self, message: str, websocket: WebSocket):
         """Send a personal message to a specific WebSocket."""
         await websocket.send_text(message)
 
-    async def disconnect(self, websocket: WebSocket, offerid: str):
-        """Disconnect a WebSocket and notify other clients."""
+    async def disconnect(self, websocket: WebSocket, offerid: str, userid: str):
+        """Disconnect a WebSocket."""
+        if offerid in self.chats and userid in self.chats[offerid]:
+            del self.chats[offerid][userid]
+            if not self.chats[offerid]:
+                del self.chats[offerid]
+        '''
         if offerid in self.offers and websocket in self.offers[offerid]:
             self.offers[offerid].remove(websocket)
             if not self.offers[offerid]:
                 del self.offers[offerid]
-        await self.broadcast(f"A user left the chat", offerid)
+        '''
 
-    async def broadcast(self, message: str, offerid: str):
+    async def broadcast(self, message: str, offerid: str, sender_userid: str):
         """Broadcast a message to all clients associated with a specific offer ID."""
         chat_db = self._get_chat_db(offerid)
         if not chat_db:
@@ -68,10 +77,17 @@ class ConnectionManager:
         message_history = self._load_message_history(chat.id)
         message_history.append(message)
         self._save_message_history(chat.id, message_history)
-
         # send the message to all clients in the room
+        for userid, connection in self.chats.get(offerid, {}).items():
+            if userid != sender_userid:
+                await connection.send_text(message)
+        '''
         for connection in self.offers.get(offerid, []):
-            await connection.send_text(message)
+            if connection != sender:
+                await connection.send_text(message)
+        '''
+
+
 
     def _load_message_history(self, chat_id: int):
         """Load message history for a given chat ID from a file."""
