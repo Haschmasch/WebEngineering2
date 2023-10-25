@@ -166,7 +166,7 @@ def get_subcategory_with_offers(subcategory_id: int, db: Session = Depends(setup
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("category/{subcategory_id}/", response_model=Relations.SubcategoryWithCategory)
+@router.get("/category/{subcategory_id}/", response_model=Relations.SubcategoryWithCategory)
 def get_subcategory_with_category(subcategory_id: int, db: Session = Depends(setup_database.get_db)):
     """
      Gets the provided subcategory by the subcategory id from the database.
