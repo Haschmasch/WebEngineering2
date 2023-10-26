@@ -73,14 +73,19 @@ class ConnectionManager:
         message_history = self._load_message_history(chat.id)
         message_history.append(message)
         self._save_message_history(chat.id, message_history)
+
+        # Reload the message history to get the most up-to-date data
+        message_history = self._load_message_history(chat.id)
+
         if offerid not in self.chats:
             print("No active chats for this offer")
             return
 
-        # send the message to all clients in the room
+        # Send the last message in the history to all clients in the room
+        last_message = message_history[-1] if message_history else ""
         for userid, connection in self.chats.get(offerid, {}).items():
             if str(userid) != str(sender_userid):
-                await connection.send_text(message)
+                await connection.send_text(last_message)
 
 
     def _load_message_history(self, chat_id: int):
