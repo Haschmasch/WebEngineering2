@@ -4,22 +4,22 @@ Contains schemas for offers.
 """
 
 import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class OfferBase(BaseModel):
     title: str
     category_id: int
     subcategory_id: int
-    price: float
-    currency: str
+    price: float | None = Field(default=None, gt=0, description="The price must be greater then zero or None instead")
+    currency: str = Field(default='€', max_length=1, description="The currency of the offer")
     postcode: str
     city: str
     address: str
     description: str
     primary_image: str
-    description: str
-    short_description: str | None = None
+    short_description: str | None = Field(default=None,
+                                          description="The short description is a substring of the description")
 
 
 class OfferCreate(OfferBase):
