@@ -52,7 +52,7 @@ class Offer(Base):
     title = Column(String(200), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id'))
     subcategory_id = Column(Integer, ForeignKey('subcategories.id'))
-    price = Column(Numeric(12, 4), CheckConstraint('price > 0'), nullable=True)
+    price = Column(Numeric(12, 4), CheckConstraint('price >= 0'), nullable=True)
     currency = Column(CHAR(1))
     user_id = Column(Integer, ForeignKey('users.id'))
     time_posted = Column(TIMESTAMP(timezone=True), nullable=False)
