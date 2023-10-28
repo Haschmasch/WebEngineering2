@@ -48,7 +48,7 @@ def get_followings(db: Session, first: int, last: int):
 
 
 def get_followings_by_user(db: Session, user_id: int):
-    result = db.scalars(select(models.Following).where(models.Following.userid == user_id))
+    result = db.scalars(select(models.Following).where(models.Following.user_id == user_id))
     res = result.all()
     if res is not None:
         return res
