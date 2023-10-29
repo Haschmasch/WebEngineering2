@@ -1,7 +1,8 @@
 """
 ConnectionManager is used to manage websocket connections
 """
-
+import json
+from datetime import datetime
 from fastapi import WebSocket
 from sqlalchemy.orm import Session
 
@@ -40,7 +41,7 @@ class ConnectionManager:
         chat = self._get_chat_from_db(chat_db)
         message_history = self._load_message_history(chat.id)
         for message in message_history:
-            await websocket.send_text(message)
+            await websocket.send_text(json.dumps(message))
 
         if offerid in self.chats and userid in self.chats[offerid]:
             await self.chats[offerid][userid].close()
@@ -71,7 +72,10 @@ class ConnectionManager:
 
         chat = self._get_chat_from_db(chat_db)
         message_history = self._load_message_history(chat.id)
-        message_history.append(message)
+        timestamp = datetime.utcnow()
+        formatted_timestamp = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        message_with_timestamp = {"text": message, "timestamp": formatted_timestamp}
+        message_history.append(message_with_timestamp)
         self._save_message_history(chat.id, message_history)
 
         # Reload the message history to get the most up-to-date data
@@ -82,7 +86,7 @@ class ConnectionManager:
             return
 
         # Send the last message in the history to all clients in the room
-        last_message = message_history[-1] if message_history else ""
+        last_message = json.dumps(message_history[-1] if message_history else "")
         for userid, connection in self.chats.get(offerid, {}).items():
             if str(userid) != str(sender_userid):
                 await connection.send_text(last_message)
