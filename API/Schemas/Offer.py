@@ -11,7 +11,7 @@ class OfferBase(BaseModel):
     title: str
     category_id: int
     subcategory_id: int
-    price: float | None = Field(default=None, gt=0, description="The price must be greater then zero or None instead")
+    price: float | None = Field(default=None, ge=0, description="The price must be greater then zero or None instead")
     currency: str = Field(default='€', max_length=1, description="The currency of the offer")
     postcode: str
     city: str
