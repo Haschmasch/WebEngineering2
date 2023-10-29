@@ -41,7 +41,7 @@ class Following(Base):
     __tablename__ = 'followings'
     id = Column(Integer, Identity(), primary_key=True)
     offer_id = Column(Integer, ForeignKey('offers.id'))
-    userid = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     time_followed = Column(TIMESTAMP(timezone=True), nullable=False)
     related_offer = relationship("Offer", back_populates="related_followings")
 
