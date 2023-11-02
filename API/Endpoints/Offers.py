@@ -2,18 +2,18 @@
 Contains all API endpoints for the '/offers' route.
 """
 
-from API import setup_database
-from API.Crud import Offers
-from API.Schemas import Offer
-from API.Schemas import Relations
+import setup_database
+from Crud import Offers
+from Schemas import Offer
+from Schemas import Relations
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, Depends, status, UploadFile, APIRouter
 from sqlalchemy import exc
-from API.Utils.ConfigManager import configuration
+from Utils.ConfigManager import configuration
 from fastapi.responses import Response, FileResponse
-from API.Utils.Exceptions import EntryNotFoundException
-from API.Schemas.User import User
-from API.Utils.Authentication import decode_and_validate_token
+from Utils.Exceptions import EntryNotFoundException
+from Schemas.User import User
+from Utils.Authentication import decode_and_validate_token
 from typing import Annotated
 
 

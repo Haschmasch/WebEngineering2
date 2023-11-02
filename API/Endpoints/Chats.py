@@ -6,14 +6,14 @@ from fastapi import WebSocket, APIRouter, Depends, WebSocketDisconnect, HTTPExce
 from sqlalchemy import exc
 from sqlalchemy.orm import Session
 
-from API.Crud import Chats
-from API.Schemas import Chat, Relations
-from API.Utils.Exceptions import EntryNotFoundException
-from API.Websockets.ConnectionManager import ConnectionManager
-from API.setup_database import get_db
-from API.Utils.ConfigManager import configuration
-from API.Schemas.User import User
-from API.Utils.Authentication import decode_and_validate_token
+from Crud import Chats
+from Schemas import Chat, Relations
+from Utils.Exceptions import EntryNotFoundException
+from Websockets.ConnectionManager import ConnectionManager
+from setup_database import get_db
+from Utils.ConfigManager import configuration
+from Schemas.User import User
+from Utils.Authentication import decode_and_validate_token
 from typing import Annotated
 
 
@@ -46,7 +46,6 @@ Endpoints for db operations on chats
 def add_chat(chat: Chat.ChatCreate, current_user: Annotated[User, Depends(decode_and_validate_token)],
              db: Session = Depends(get_db)):
     try:
-        # TODO: Validate user group
         if chat.creator_id == current_user.id:
             return Chats.create_chat(db, chat, configuration.chat_root_dir)
         raise HTTPException(status_code=400, detail="Adding a chat for a user who is not authenticated is not allowed")
@@ -62,7 +61,6 @@ def add_chat(chat: Chat.ChatCreate, current_user: Annotated[User, Depends(decode
 def delete_chat(chat_id: int, current_user: Annotated[User, Depends(decode_and_validate_token)],
                 db: Session = Depends(get_db)):
     try:
-        # TODO: Validate user group
         chat = Chats.get_chat(db, chat_id)
         if chat.creator_id == current_user.id:
             Chats.delete_chat(db, chat_id, configuration.chat_root_dir)

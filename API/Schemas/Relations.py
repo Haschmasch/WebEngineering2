@@ -3,12 +3,12 @@ Schemas for the communication over the api.
 Contains mixed schemas representing the relations between the database models.
 """
 
-from API.Schemas.Category import Category
-from API.Schemas.Subcategory import Subcategory
-from API.Schemas.Offer import Offer
-from API.Schemas.User import User
-from API.Schemas.Following import Following
-from API.Schemas.Chat import Chat
+from Schemas.Category import Category
+from Schemas.Subcategory import Subcategory
+from Schemas.Offer import Offer
+from Schemas.User import User
+from Schemas.Following import Following
+from Schemas.Chat import Chat
 
 
 class OfferWithRelations(Offer):

@@ -5,13 +5,13 @@ Includes setup functionalities for the API.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from API.Endpoints.Chats import router as chat_router
-from API.Endpoints.Followings import router as following_router
-from API.Endpoints.Users import router as user_router
-from API.Endpoints.Categories import router as category_router
-from API.Endpoints.Subcategories import router as subcategory_router
-from API.Endpoints.Offers import router as offer_router
-from API.Endpoints.Search import router as search_router
+from Endpoints.Chats import router as chat_router
+from Endpoints.Followings import router as following_router
+from Endpoints.Users import router as user_router
+from Endpoints.Categories import router as category_router
+from Endpoints.Subcategories import router as subcategory_router
+from Endpoints.Offers import router as offer_router
+from Endpoints.Search import router as search_router
 
 description = """
 This is the backend for the GenuineGoods WebApp.

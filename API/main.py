@@ -1,5 +1,5 @@
-from API.init_database import init_db
-from API.setup_api import run_api
+from init_database import init_db
+from setup_api import run_api
 
 
 def main():

@@ -8,9 +8,9 @@ import datetime
 from sqlalchemy.orm import Session
 from fastapi import Depends, APIRouter
 
-from API.setup_database import get_db
-from API.Search.Search import search_offers
-from API.Schemas import Relations
+from setup_database import get_db
+from Search.Search import search_offers
+from Schemas import Relations
 
 router = APIRouter(
     prefix="/search",

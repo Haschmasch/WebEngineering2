@@ -5,9 +5,9 @@ Contains all create, read, update and delete operations for followings.
 import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete
-from API import models
-from API.Schemas import Following
-from API.Utils.Exceptions import EntryNotFoundException
+import models
+from Schemas import Following
+from Utils.Exceptions import EntryNotFoundException
 
 
 def create_following(db: Session, following: Following.FollowingCreate):

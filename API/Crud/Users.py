@@ -5,10 +5,10 @@ Contains all create, read, update and delete operations for users.
 import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import select, update, delete, or_
-from API.Utils import Hashing
-from API import models
-from API.Schemas import User
-from API.Utils.Exceptions import EntryNotFoundException
+from Utils import Hashing
+import models
+from Schemas import User
+from Utils.Exceptions import EntryNotFoundException
 
 
 def create_user(db: Session, user: User.UserCreate):

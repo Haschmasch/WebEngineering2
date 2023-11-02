@@ -4,7 +4,7 @@ This establishes the database connection and provides functionalities to get the
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from API.Utils.ConfigManager import configuration
+from Utils.ConfigManager import configuration
 
 engine = create_engine(configuration.db_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

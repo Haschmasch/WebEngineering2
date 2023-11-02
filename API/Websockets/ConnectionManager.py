@@ -6,9 +6,9 @@ from datetime import datetime
 from fastapi import WebSocket
 from sqlalchemy.orm import Session
 
-from API.Utils.FileOperations import read_json, write_json, get_chat_file_path
-from API.models import Chat
-from API.Crud import Chats as ChatCrud
+from Utils.FileOperations import read_json, write_json, get_chat_file_path
+from models import Chat
+from Crud import Chats as ChatCrud
 
 
 class ConnectionManager:

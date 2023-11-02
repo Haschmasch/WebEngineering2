@@ -3,19 +3,19 @@ Contains all API endpoints for the '/users' route.
 """
 
 from datetime import timedelta
-from API import setup_database
-from API.Crud import Users
-from API.Schemas import JwtTokenData
-from API.Schemas.User import User, UserCreate
-from API.Schemas import Relations
-from API.Utils.Authentication import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token, decode_and_validate_token
+import setup_database
+from Crud import Users
+from Schemas import JwtTokenData
+from Schemas.User import User, UserCreate
+from Schemas import Relations
+from Utils.Authentication import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token, decode_and_validate_token
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, Depends, status, APIRouter
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import exc
 from typing import Annotated
+from Utils.Exceptions import EntryNotFoundException
 
-from API.Utils.Exceptions import EntryNotFoundException
 
 router = APIRouter(
     prefix="/users",

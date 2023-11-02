@@ -4,13 +4,13 @@ This file also contains directory operations for saving images
 """
 
 import datetime
-from API.Utils.Exceptions import EntryNotFoundException
+from Utils.Exceptions import EntryNotFoundException
 from sqlalchemy.orm import Session
 from sqlalchemy import select, update, delete
 from fastapi import UploadFile
-from API import models
-from API.Utils import FileOperations
-from API.Schemas import Offer
+import models
+from Utils import FileOperations
+from Schemas import Offer
 import os
 import zipfile
 import io

@@ -1,7 +1,7 @@
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from API import models
+import models
 
 
 def search_by_category(db: Session, category_id: int = None, subcategory_id: int = None):

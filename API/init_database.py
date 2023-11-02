@@ -2,8 +2,8 @@
 Functionalities for initializing the database using the sqlalchemy models.
 """
 
-from API import models
-from API.setup_database import engine
+import models
+from setup_database import engine
 from sqlalchemy import event
 from sqlalchemy_utils import database_exists, create_database
 from Utils.FileOperations import read_json

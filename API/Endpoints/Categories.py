@@ -2,18 +2,18 @@
 Contains all API endpoints for the '/categories' route.
 """
 
-from API import setup_database
-from API.Crud import Categories
-from API.Schemas import Category
-from API.Schemas import Relations
+import setup_database
+from Crud import Categories
+from Schemas import Category
+from Schemas import Relations
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
-from API.Schemas.User import User
-from API.Utils.Authentication import decode_and_validate_token
+from Schemas.User import User
+from Utils.Authentication import decode_and_validate_token
 from typing import Annotated
+from Utils.Exceptions import EntryNotFoundException
 
-from API.Utils.Exceptions import EntryNotFoundException
 
 router = APIRouter(
     prefix="/categories",

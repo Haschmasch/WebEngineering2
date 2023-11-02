@@ -2,16 +2,16 @@
 Contains all API endpoints for the '/subcategories' route.
 """
 
-from API import setup_database
-from API.Crud import Subcategories
-from API.Schemas import Subcategory
-from API.Schemas import Relations
+import setup_database
+from Crud import Subcategories
+from Schemas import Subcategory
+from Schemas import Relations
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, Depends, status, APIRouter
 from sqlalchemy import exc
-from API.Utils.Exceptions import EntryNotFoundException
-from API.Schemas.User import User
-from API.Utils.Authentication import decode_and_validate_token
+from Utils.Exceptions import EntryNotFoundException
+from Schemas.User import User
+from Utils.Authentication import decode_and_validate_token
 from typing import Annotated
 
 

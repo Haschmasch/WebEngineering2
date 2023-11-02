@@ -1,5 +1,5 @@
 {
-  "ConnectionString" : "postgresql://username:password@127.0.0.1:5432/web2_db",
+  "ConnectionString" : "postgresql://postgres:Lederlappen57#2@127.0.0.1:5432/web2_db",
   "OfferRootDir" : "../Storage/Offers",
   "ChatRootDir" : "../Storage/Chats",
   "JwtSecret" : "beb155f5f1084010adb338910eb568b8e0c8df573efdeb6b4435d8f4ae189fe7"

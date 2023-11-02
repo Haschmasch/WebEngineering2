@@ -6,14 +6,14 @@ Follows the OAuth2 standard, since it is supported by the fastapi framework.
 from datetime import datetime, timedelta
 from typing import Annotated
 from sqlalchemy.orm import Session
-from API import setup_database
+import setup_database
 from fastapi import Depends,  HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from API.Schemas.JwtTokenData import TokenData
-from API.Utils.ConfigManager import configuration
-from API.Crud.Users import get_user_by_name
-from API.Utils.Exceptions import EntryNotFoundException
+from Schemas.JwtTokenData import TokenData
+from Utils.ConfigManager import configuration
+from Crud.Users import get_user_by_name
+from Utils.Exceptions import EntryNotFoundException
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 150

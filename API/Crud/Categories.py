@@ -4,9 +4,9 @@ Contains all create, read, update and delete operations for categories.
 
 from sqlalchemy.orm import Session
 from sqlalchemy import select, update, delete
-from API import models
-from API.Schemas import Category
-from API.Utils.Exceptions import EntryNotFoundException
+import models
+from Schemas import Category
+from Utils.Exceptions import EntryNotFoundException
 
 
 def create_category(db: Session, category: Category.CategoryCreate):

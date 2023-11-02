@@ -5,10 +5,10 @@ Contains all create, read, update and delete operations for chats.
 import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import update, delete, select
-from API import models
-from API.Schemas import Chat
-from API.Utils.FileOperations import write_json, remove_file, get_chat_file_path
-from API.Utils.Exceptions import EntryNotFoundException
+import models
+from Schemas import Chat
+from Utils.FileOperations import write_json, remove_file, get_chat_file_path
+from Utils.Exceptions import EntryNotFoundException
 
 
 def create_chat(db: Session, chat: Chat.ChatCreate, chat_root_directory: str):
