@@ -16,7 +16,7 @@ from Crud.Users import get_user_by_name
 from Utils.Exceptions import EntryNotFoundException
 
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 150
+ACCESS_TOKEN_EXPIRE_MINUTES = 360
 
 # The tokenUrl specifies the api endpoint where the token can be created with the user credentials
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/login")
