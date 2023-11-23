@@ -1,0 +1,29 @@
+/* OfferView.css */
+.offer-view {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.offerview-infobox{
+    padding: 10px;
+    /*display: flex;
+    margin: 5px;
+    width: 50px;
+    box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
+    -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+    filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+    border-radius: 10px;*/
+}

@@ -1,0 +1,10 @@
+.fill-content {
+    min-height: calc(100vh - 165px - 178px);
+    margin: 50px;
+    z-index: 1;
+}
+
+.fill-content h1 {
+    text-align: center;
+    color: #476096;
+}
