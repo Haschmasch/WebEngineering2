@@ -19,9 +19,9 @@ class ConnectionManager:
         # Dictionary to store WebSockets associated with each offerid and user_id
         self.chats: dict[str, dict[str, WebSocket]] = {}
 
-    def _get_chat_db(self, offerid: str):
-        """Retrieve chat from database using offer ID."""
-        return ChatCrud.get_chat_by_offer(self.db, int(offerid))
+    def _get_chat_db(self, offerid: str, userid: str):
+        """Retrieve chat from database using offer ID and user ID."""
+        return ChatCrud.get_chat_by_offerid_and_userid(self.db, int(offerid), int(userid))
 
     def _get_chat_from_db(self, chat_db):
         """Convert database chat object to Chat model instance."""
@@ -30,7 +30,7 @@ class ConnectionManager:
     async def connect(self, websocket: WebSocket, offerid: str, userid: str):
         """Establish a WebSocket connection and retrieve previous chat messages."""
         await websocket.accept()
-        chat_db = self._get_chat_db(offerid)
+        chat_db = self._get_chat_db(offerid, userid)
 
         # if no chat exists for the given offer ID, create one
         if not chat_db:
@@ -65,7 +65,7 @@ class ConnectionManager:
 
     async def broadcast(self, message: str, offerid: str, sender_userid: str):
         """Broadcast a message to all clients associated with a specific offer ID."""
-        chat_db = self._get_chat_db(offerid)
+        chat_db = self._get_chat_db(offerid, sender_userid)
         if not chat_db:
             print("Error: Offer ID not found")
             return
