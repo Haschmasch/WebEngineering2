@@ -4,7 +4,7 @@ Contains all create, read, update and delete operations for chats.
 
 import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import update, delete, select
+from sqlalchemy import update, delete, select, and_
 import models
 from Schemas import Chat
 from Utils.FileOperations import write_json, remove_file, get_chat_file_path
@@ -73,7 +73,7 @@ def get_chats(db: Session, first: int, last: int):
 
 def get_chat_by_offer(db: Session, offer_id: int):
     result = db.scalars(select(models.Chat).where(models.Chat.offer_id == offer_id))
-    res = result.first()
+    res = result.all()
     if res is not None:
         return res
     else:
@@ -88,3 +88,10 @@ def get_chat_by_user(db: Session, user_id: int):
     else:
         raise EntryNotFoundException(f"No database entry found for user_id: {user_id}")
 
+def get_chat_by_offerid_and_userid(db: Session, offer_id: int, user_id: int):
+    result = db.scalars(select(models.Chat).where(and_(models.Chat.offer_id == offer_id, models.Chat.creator_id == user_id)))
+    res = result.first()
+    if res is not None:
+        return res
+    else:
+        raise EntryNotFoundException(f"No database entry found for user_id: {user_id}")

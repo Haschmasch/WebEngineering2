@@ -141,7 +141,7 @@ def get_chats(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail=e.args)
 
 
-@router.get("/offer/{offer_id}", response_model=Chat.Chat)
+@router.get("/offer/{offer_id}", response_model=list[Chat.Chat])
 def get_chat_by_offer(offer_id: int, db: Session = Depends(get_db)):
     """
     Fetches a chat associated with a specific offer.
