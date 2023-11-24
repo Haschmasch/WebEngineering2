@@ -73,15 +73,18 @@ export default function AddOffers() {
     ];
 
     useEffect(() => {
-        getCategory(category_id).then((data) => {
-            if (data?.related_subcategories?.length > 0) {
-                setSubcategories(data.related_subcategories);
-                setSubcategory_id(data.related_subcategories[0]?.id);
-            } else {
-                setSubcategories(null);
-                setSubcategory_id('');
-            }
-        }).catch((error) => console.error(error));
+        const response = getCategory(category_id);
+        if (response) {
+            response.then((data) => {
+                if (data?.related_subcategories?.length > 0) {
+                    setSubcategories(data.related_subcategories);
+                    setSubcategory_id(data.related_subcategories[0]?.id);
+                } else {
+                    setSubcategories(null);
+                    setSubcategory_id('');
+                }
+            }).catch((error) => console.error(error));
+        }
     }, [category_id]);
 
     const handleImageChange = (e) => {
@@ -90,7 +93,13 @@ export default function AddOffers() {
     };
 
     const submitOffer = () => {
-        const subcategoryId = subcategory_id ? subcategory_id : null;
+        let subcategoryId = 0;
+        if (subcategory_id === '') {
+            subcategoryId = null;
+        } else {
+            subcategoryId = subcategory_id;
+        }
+
         if (selectedFiles.length === 0) {
             Swal.fire({
                 title: "Bitte ein Bild auswählen!",
