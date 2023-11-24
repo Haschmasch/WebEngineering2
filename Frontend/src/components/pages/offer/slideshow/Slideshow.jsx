@@ -20,10 +20,6 @@ export default function Slideshow(props) {
         return `http://localhost:8000/offers/${offer.id}/images/${imageNames[currentIndex]}`
     }
 
-    function getImageLink() {
-        return `http://localhost:8000/offers/${offer.id}/images/${imageNames[currentIndex]}`
-    }
-
     const nextSlide = () => {
         setCurrentIndex(imageNames.length === 0 ? 0 : (currentIndex + 1) % imageNames.length);
     };
