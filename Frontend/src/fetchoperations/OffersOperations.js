@@ -63,21 +63,20 @@ export async function addOffer(title,
         }),
     };
     return fetch(location, requestOptions)
-
 }
 
-export async function createOfferImage(offer_id, image) {
-    console.log(image)
+export async function createOfferImages(offer_id, images) {
     const formData = new FormData();
-    formData.append('files', image);
+    images.forEach(image => formData.append('files', image))
     console.log(formData)
     const requestOptions = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+/*            "boundary": Math.random().toString().substr(2),
+            "Content-Type": "multipart/form-data",*/
             Authorization: `Bearer ${getAccessToken()}`
         },
-        body: image,
+        body: formData,
     };
     return fetch(location + `${offer_id}/images`, requestOptions)
         .then((response) => {

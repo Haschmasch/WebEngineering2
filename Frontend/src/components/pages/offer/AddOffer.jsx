@@ -11,7 +11,7 @@ import {createTheme, styled, ThemeProvider} from "@mui/material/styles";
 import {FormLabel, MenuItem} from "@mui/material";
 import Swal from "sweetalert2";
 
-import {addOffer, createOfferImage} from "../../../fetchoperations/OffersOperations";
+import {addOffer, createOfferImages} from "../../../fetchoperations/OffersOperations";
 import {getCategories, getCategory} from "../../../fetchoperations/CategoriesOperations";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
@@ -28,18 +28,17 @@ export default function AddOffers() {
     const [city, setCity] = useState("");
     const [address, setAddress] = useState("");
     const [description, setDescription] = useState("");
-    const [primary_image, setPrimary_image] = useState("");
+    const [images, setImages] = useState([]);
     const [short_description, setShort_description] = useState("");
-
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [subcategories, setSubcategories] = useState([]);
     const [categories, setCategories] = useState([]);
+
     useEffect(() => {
-        const response = getCategories();
-        if (response) {
-            response.then((data) => {
-                setCategories(data);
-                setCategory_id(1)
-            }).catch((error) => console.error(error));
-        }
+        getCategories().then((data) => {
+            setCategories(data);
+            setCategory_id(1)
+        }).catch((error) => console.error(error));
     }, []);
 
     const VisuallyHiddenInput = styled('input')({
@@ -73,7 +72,6 @@ export default function AddOffers() {
         },
     ];
 
-    const [subcategories, setSubcategories] = useState([]);
     useEffect(() => {
         const response = getCategory(category_id);
         if (response) {
@@ -89,22 +87,25 @@ export default function AddOffers() {
         }
     }, [category_id]);
 
-    const [selectedFile, setSelectedFile] = useState();
     const handleImageChange = (e) => {
-        let files = e.target.files;
-        setPrimary_image(files[0].name)
-        setSelectedFile(files[0])
+        const files = e.target.files;
+        setSelectedFiles(Array.from(files))
     };
 
-    const submitOffer = async () => {
-        let subcategoryId = 0;
-        if (subcategory_id === '') {
-            subcategoryId = null;
-        } else {
-            subcategoryId = subcategory_id;
+    const submitOffer = () => {
+        const subcategoryId = subcategory_id ? subcategory_id : null;
+        if(selectedFiles.length === 0){
+            Swal.fire({
+                title: "Bitte ein Bild auswählen!",
+                icon: "error",
+                showCloseButton: true,
+                focusConfirm: false,
+                confirmButtonText: "Weiter",
+                confirmButtonColor: "#0989ff",
+            })
+            return;
         }
-
-        await addOffer(title,
+        addOffer(title,
             category_id,
             subcategoryId,
             price,
@@ -113,14 +114,13 @@ export default function AddOffers() {
             city,
             address,
             description,
-            primary_image,
+            selectedFiles[0].name,
             short_description,
-        ).then(async (offer) => {
-            offer.json().then(async (data) => {
-                console.log(data);
-                await createOfferImage(data.id, selectedFile).then(() => {
+        ).then((offer) => {
+            offer.json().then((offer) => {
+                createOfferImages(offer.id, selectedFiles).then(() => {
                     Swal.fire({
-                        title: "<b>Angebot erfolgreich hinzugefügt </b>",
+                        title: "Angebot erfolgreich hinzugefügt",
                         icon: "success",
                         showCloseButton: true,
                         focusConfirm: false,
@@ -134,7 +134,7 @@ export default function AddOffers() {
             })
         }, (response) => {
             Swal.fire({
-                title: "<b>Angebot hinzufügen fehlgeschlagen </b>",
+                title: "Angebot hinzufügen fehlgeschlagen",
                 icon: "error",
                 html: "Fehler im Backend\n" + response,
                 showCloseButton: true,
@@ -168,9 +168,6 @@ export default function AddOffers() {
         }
         if (!description.length > 0) {
             errors.push("<br/> Geben Sie eine Beschreibung an!");
-        }
-        if (!short_description.length > 0) {
-            errors.push("<br/> Geben Sie eine Kurzbeschreibung an!");
         }
         if (errors?.length > 0) {
             Swal.fire({
@@ -234,7 +231,8 @@ export default function AddOffers() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormLabel>Preis:</FormLabel><br/>
-                                    <TextField style={{width: "300px"}} type="number"  InputProps={{ inputProps: { min: 0 } }} name="price"
+                                    <TextField style={{width: "300px"}} type="number"
+                                               InputProps={{inputProps: {min: 0}}} name="price"
                                                disabled={category_id === "3" || category_id === "5"}
                                                value={price} onChange={(e) => setPrice(e.target.value)}/>
                                 </Grid>
@@ -292,18 +290,11 @@ export default function AddOffers() {
                                         startIcon={<CloudUploadIcon/>}
                                         component="label">Datei auswählen
                                         <VisuallyHiddenInput type="file" name="primary_image"
-                                                             onChange={handleImageChange} hidden/>
+                                                             onChange={handleImageChange} hidden multiple/>
                                         {/*<input type="file"*/}
 
                                         {/*/>*/}
                                     </Button>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormLabel>Kurzbeschreibung:</FormLabel><br/>
-                                    <TextField style={{width: "300px"}} type="text" name="short_description"
-                                               value={short_description}
-                                               onChange={(e) => setShort_description(e.target.value)}
-                                               variant="outlined"/>
                                 </Grid>
                                 <Button type="submit" variant="contained" style={{
                                     marginTop: "40px",
