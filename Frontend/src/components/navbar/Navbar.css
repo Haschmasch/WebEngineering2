@@ -84,6 +84,10 @@ nav ul li a {
     color: #456385;
 }
 
+.main-header .container .icon .fa-icon .link:hover {
+    color: #89aacb;
+}
+
 .header {
     box-sizing: border-box;
     width: 70%;

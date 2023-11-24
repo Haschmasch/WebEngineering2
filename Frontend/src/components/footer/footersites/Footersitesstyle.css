@@ -1,51 +1,124 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    background: #fefefe;
+    border-radius: 8px;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.2);
+    margin: 0 8px 8px 8px;
+    transition: 0.3s;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
 .footer > h1 {
-	text-align: left;
-	color: #466481;
-	padding: 10px;
-	padding-top: 20px;
-	padding-left: 20px
+    text-align: center;
+    color: #466481;
+    padding: 10px;
+    padding-top: 20px;
+    padding-left: 20px
+}
+
+.footer .date {
+    font-size: 10px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .footer > h2 {
-	color: #466481;
-	padding-left: 20px;
-	padding-right: 20px;
-	padding-bottom: 20px;
+    color: #466481;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
 }
 
 .footer > h3 {
-	color: #466481;
-	padding-left: 25px;
-	padding-right: 25px;
-	padding-bottom: 20px;
+    color: #466481;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 20px;
 }
 
 .footer > p {
-	padding-bottom: 10px;
-	padding-left: 25px;
-	padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    padding-right: 20px;
+    margin: 20px;
+    line-height: 200%;
 }
 
 .footer > hr {
-	border: 1px solid #d3deec;
-	border-radius: 1px;
-	margin-bottom: 10px;
-	box-shadow: 10px 1px 5px #d3deec;
+    border: 1px solid #d3deec;
+    border-radius: 1px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    box-shadow: 10px 1px 5px #d3deec;
 }
 
 .footer > ul {
-	padding-left: 30px;
-	padding-bottom: 20px;
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+
+.footer > ul li::marker {
+    color: #466481;
+    font-size: 2em;
 }
 
 .footer > a {
-	color: black;
+    color: black;
 }
 
 .footer > a:hover {
-	color: #466481;
+    color: #466481;
 }
 
 .index-link:visited {
-	color: #456385;
+    color: #456385;
+}
+
+.list {
+    position: relative;
+    width: 40%;
+}
+
+.list ul {
+    position: relative;
+}
+
+.list ul li {
+    position: relative;
+    left: 0;
+    color: #fce4ec;
+    list-style: none;
+    margin: 4px 0;
+    border-left: 2px solid #466481;
+    transition: 0.5s;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.list ul li a {
+    color: #354c64;
+}
+
+.list ul li:hover {
+    left: 10px;
+    padding: 10px;
+}
+
+.list ul li span {
+    position: relative;
+    padding: 8px;
+    padding-left: 12px;
+    display: inline-block;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.list ul li:hover span {
+    color: #111;
+}
+
+.list ul li:hover:before {
+    transform: scaleX(1);
 }

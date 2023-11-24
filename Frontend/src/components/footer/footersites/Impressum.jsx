@@ -3,7 +3,8 @@ import "./Footersitesstyle.css"
 
 const Datenschutz = () =>{
     return(
-        <> 
+        <>
+            <div className="section">
             <div class='footer'>
                 <h1>Impressum</h1>
                 <p>Angaben gemäß § 5 TMG</p>
@@ -94,6 +95,7 @@ const Datenschutz = () =>{
 
                 <br/> 
                     Website Impressum von <a href="https://www.impressum-generator.de">impressum-generator.de</a>
+            </div>
             </div>
         </>
     );

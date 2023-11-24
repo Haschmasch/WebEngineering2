@@ -1,0 +1,66 @@
+/*
+.home-title h1 {
+    font-size: 40px;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: normal;
+    color: #466481;
+    --s: 0.1em; !* the thickness of the line *!
+    --c: #466481; !* the color *!
+    padding-bottom: var(--s);
+    background: linear-gradient(90deg, var(--c) 50%, transparent 50%) 0 100%/var(--_p, 0%) var(--s) no-repeat,
+                linear-gradient(var(--c) 0 0) 0% 100%/var(--_p, 0%) var(--s) no-repeat;
+    -webkit-background-clip: text, padding-box;
+    background-clip: text, padding-box;
+    transition: 0.5s;
+}
+
+.home-title h1:hover {
+    --_p: 100%;
+    cursor: pointer;
+}
+*/
+
+.home-title h1 {
+    --s: 0.1em; /* the thickness of the line */
+    --c: #466481; /* the color */
+
+    color: #0000;
+    padding-bottom: var(--s);
+    background: linear-gradient(90deg, var(--c) 50%, #000 0) calc(100% - var(--_p, 0%))/200% 100%/*,
+    linear-gradient(var(--c) 0 0) 0% 100%/var(--_p, 0%) var(--s) no-repeat*/;
+    -webkit-background-clip: text, padding-box;
+    background-clip: text, padding-box;
+    transition: 0.5s;
+}
+
+.home-title h1:hover {
+    --_p: 100%
+}
+
+.home-title {
+    height: 100px;
+    margin: 0;
+    display: grid;
+    place-content: center;
+    margin: 10px;
+}
+
+
+.home-title h1 {
+    font-family: system-ui, sans-serif;
+    font-size: 3rem;
+    cursor: pointer;
+}
+
+.home-title p {
+    font-family: "Lucida Grande", Tahoma;
+    font-size: 18px;
+    font-weight: lighter;
+    font-variant: normal;
+    text-transform: uppercase;
+    color: #666666;
+    margin-top: 10px;
+    text-align: center !important;
+    letter-spacing: 0.3em;
+}
