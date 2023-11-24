@@ -203,17 +203,17 @@ function OfferView() {
                             <Slideshow offer={offer} imageNames={imageNames}/>
                         </div>
                         <div className="offer-info">
-                        <FormLabel classname="offer-info-title">
+                        <FormLabel className="offer-info-title">
                             Preis:
                         </FormLabel><br/>
                         {offer?.price} {offer?.currency}<br/><br/>
 
-                        <FormLabel classname="offer-info-title">
+                        <FormLabel className="offer-info-title">
                             Standort:
                         </FormLabel><br/>
                         {offer?.city}<br/><br/>
 
-                        <FormLabel classname="offer-info-title">
+                        <FormLabel className="offer-info-title">
                             Beschreibung:
                         </FormLabel><br/>
                         {offer?.description}<br/><br/>
