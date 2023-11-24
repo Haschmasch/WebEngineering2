@@ -1,4 +1,5 @@
-/* Subcategory page where all Offers to associated Subcategory shows up */
+/* Subcategory page where all Offers to associated Subcategory shows up,
+* usage of MUI library  */
 
 import React, {useEffect, useState} from 'react';
 import {getSubcategoryWithOffers} from "../../../fetchoperations/SubCategoriesOperations";

@@ -1,4 +1,5 @@
-/* Category page where all Offers to associated Category shows up */
+/* Category page where all Offers to associated Category shows up,
+* usage of MUI library  */
 
 import React, {useEffect, useState} from 'react';
 import {getCategoryWithOffers} from "../../../fetchoperations/CategoriesOperations";

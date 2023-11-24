@@ -1,4 +1,6 @@
-/* List of max. 4 Offers that are associated to the Search */
+/* List of max. 4 Offers that are associated to the Search, a skeleton
+is shown when searching and rendering something, so for the case the renderings takes longer,
+the possible results are imitated by Skeletons by MUI Library (usage of MUI library) */
 
 import React from "react";
 import {SearchResult} from "./SearchResult";

@@ -1,4 +1,5 @@
-/* Contains individual Offers from the Overview and summarizes them in a Box */
+/* Contains individual Offers from the Overview and summarizes them in a Box,
+* usage of MUI library */
 
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';

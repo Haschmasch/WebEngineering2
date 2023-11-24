@@ -1,3 +1,6 @@
+/* File to get access to important information for currently authenticated user
+ to reducec code duplication */
+
 import {getCurrentUser} from "../../fetchoperations/UsersOperation";
 
 export async function storeCredentials(response) {

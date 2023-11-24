@@ -1,5 +1,5 @@
-/* Userprofile Page.
-Contains Usersettings, all Offers created by an individual user and all chats the User has */
+/* Userprofile Page. Contains User settings, all Offers created by an individual user
+* usage of MUI library  */
 
 import React, {useEffect, useState} from "react";
 import "./UserProfile.css";
