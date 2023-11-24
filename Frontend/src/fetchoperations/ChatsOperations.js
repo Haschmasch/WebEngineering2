@@ -1,3 +1,5 @@
+/* Fetch Operations for Chats */
+
 import {getAccessToken, getUser_id} from "../components/utils/StorageInterface";
 import {getOffers} from "./OffersOperations";
 const location = "http://127.0.0.1:8000/chats/";

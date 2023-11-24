@@ -1,3 +1,5 @@
+/* App with all Routes */
+
 import React from "react";
 import {Route, Routes} from "react-router-dom";
 import {PrivateRoute} from "./components/pages/PrivateRoute"

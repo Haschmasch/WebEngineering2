@@ -1,3 +1,5 @@
+/* List of max. 4 Offers that are associated to the Search */
+
 import React from "react";
 import {SearchResult} from "./SearchResult";
 import {Paper, Skeleton} from "@mui/material";

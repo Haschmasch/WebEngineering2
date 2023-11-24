@@ -1,3 +1,6 @@
+/* Userprofile Page.
+Contains Usersettings, all Offers created by an individual user and all chats the User has */
+
 import React, {useEffect, useState} from "react";
 import "./UserProfile.css";
 import Button from "@mui/material/Button";

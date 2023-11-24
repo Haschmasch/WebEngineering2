@@ -1,3 +1,5 @@
+/* page for Followings */
+
 import {useEffect, useState} from "react";
 import {getFollowingsByUser} from "../../../fetchoperations/FollowingsOperations";
 import Cards from "../../cards/Cards";

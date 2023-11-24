@@ -1,4 +1,4 @@
-// used to limit access to specific pages for unauthenticated users
+/* used to limit access to specific pages for unauthenticated users */
 
 import { Navigate, Outlet } from 'react-router-dom';
 import {isLoggedIn} from "../utils/StorageInterface";

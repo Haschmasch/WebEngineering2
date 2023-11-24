@@ -1,3 +1,5 @@
+/* Category page where all Offers to associated Category shows up */
+
 import React, {useEffect, useState} from 'react';
 import {getCategoryWithOffers} from "../../../fetchoperations/CategoriesOperations";
 import {useParams} from "react-router-dom";

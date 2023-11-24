@@ -1,3 +1,6 @@
+/* Offerview. If the Offer is from yourself, you can edit the Offer.
+If the Offer is from Someone else, you can Contact the Creator */
+
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {deleteOffer, getOffer, getOfferImagesName, updateOffer} from "../../../fetchoperations/OffersOperations";

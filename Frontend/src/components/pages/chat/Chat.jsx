@@ -1,3 +1,5 @@
+/* page for the chat. Chats are associated to Offers */
+
 import React, {useEffect, useRef, useState} from 'react';
 import './Chat.css';
 import {deleteChat, getChat, getOwnChatByOffer} from "../../../fetchoperations/ChatsOperations";

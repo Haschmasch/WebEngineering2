@@ -1,3 +1,5 @@
+/* Contains all Offers created by an User */
+
 import React, {useEffect, useState} from 'react';
 import {getUserWithOffers} from '../../../fetchoperations/UsersOperation';
 import Cards from '../../cards/Cards';

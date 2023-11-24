@@ -1,3 +1,5 @@
+/* Contains the Slideshow and is used in the Offerview */
+
 import React, {useState} from 'react';
 import {Card, CardMedia, IconButton} from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';

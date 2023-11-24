@@ -1,3 +1,5 @@
+/* Subcategory page where all Offers to associated Subcategory shows up */
+
 import React, {useEffect, useState} from 'react';
 import {getSubcategoryWithOffers} from "../../../fetchoperations/SubCategoriesOperations";
 import {useParams} from 'react-router-dom';
