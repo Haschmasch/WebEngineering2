@@ -1,5 +1,6 @@
-/* Offerview. If the Offer is from yourself, you can edit the Offer.
-If the Offer is from Someone else, you can Contact the Creator */
+/* Offerview. If the offer is from the authenticated user, one can edit the offer.
+If the offer is from someone else (not currently authenticated user), one can contact the creator,
+ usage of MUI library */
 
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";

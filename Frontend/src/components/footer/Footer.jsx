@@ -1,4 +1,5 @@
-/* Creates Footer with associated Footersites and socialmedia links */
+/* Creates Footer with associated Footersites and socialmedia links,
+* Usage of FontAwesome Library */
 
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

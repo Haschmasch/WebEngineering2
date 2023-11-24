@@ -1,4 +1,5 @@
-/* Creates Grid with CardItems(individual Offers) and gives the required Information for an Offer */
+/* Creates Grid with CardItems(individual Offers) and gives the required Information for an Offer,
+* usage of MUI library  */
 
 import React, {useEffect, useState} from 'react';
 

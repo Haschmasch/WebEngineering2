@@ -1,4 +1,5 @@
-/* page for the chat. Chats are associated to Offers */
+/* chatroom between two user and offer creator, Chats are associated to Offers,
+* usage of MUI library  */
 
 import React, {useEffect, useRef, useState} from 'react';
 import './Chat.css';

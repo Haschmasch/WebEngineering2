@@ -1,4 +1,4 @@
-/* creates Chat, is associated to an Offer and an User */
+/* renders all Chats from DB associated to User and lists them in Drawer (Usage of MUI Library) */
 
 import React, {useEffect, useState} from "react";
 import Box from '@mui/material/Box';
