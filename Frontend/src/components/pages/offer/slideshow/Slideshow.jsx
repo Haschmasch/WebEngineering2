@@ -9,6 +9,18 @@ export default function Slideshow(props) {
     const {offer, imageNames} = props
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    function getPicturesWithoutThumbnail(){
+        var len = imageNames.length,
+        i = 0;
+
+        for (; i < len; i++){
+            if (imageNames[i].includes("thumbnail")){
+                imageNames.splice(i, 1);
+            }
+        }
+        return `http://localhost:8000/offers/${offer.id}/images/${imageNames[currentIndex]}`
+    }
+
     function getImageLink() {
         return `http://localhost:8000/offers/${offer.id}/images/${imageNames[currentIndex]}`
     }
@@ -27,7 +39,7 @@ export default function Slideshow(props) {
             <>
                 <div className="slideshow__container">
                     <Card sx={{maxWidth: 500, maxHeight: 700}}>
-                        <CardMedia component="img" image={getImageLink()} alt={`Slide ${currentIndex}`}
+                        <CardMedia component="img" image={getPicturesWithoutThumbnail()} alt={`Slide ${currentIndex}`}
                                    sx={{width: 500, height: 700}}>
                         </CardMedia>
                     </Card>
