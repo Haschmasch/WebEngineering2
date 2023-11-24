@@ -1,4 +1,4 @@
-/* page for Followings */
+/* page for Followings/Favorites of all offers */
 
 import {useEffect, useState} from "react";
 import {getFollowingsByUser} from "../../../fetchoperations/FollowingsOperations";

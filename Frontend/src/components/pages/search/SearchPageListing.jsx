@@ -1,3 +1,5 @@
+/* after entering something into the searchbar, one gets results with all matching offer titles,
+* usage of MUI library  */
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {getOffersBySubstring} from "../../../fetchoperations/SearchOperations";

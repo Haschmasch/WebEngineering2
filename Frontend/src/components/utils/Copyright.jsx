@@ -1,3 +1,5 @@
+/* Copyright field that is being used in the Login, Registration and Footer,
+Usage of MUI Library*/
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import React from "react";

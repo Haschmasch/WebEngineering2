@@ -1,4 +1,5 @@
-/* Page to Add an Offer. */
+/* Page to Add an Offer,
+* usage of MUI library  */
 
 import React, {useEffect, useState} from "react";
 

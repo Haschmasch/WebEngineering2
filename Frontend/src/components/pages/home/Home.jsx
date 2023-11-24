@@ -1,4 +1,5 @@
-/* Homepage with all Offers */
+/* Homepage with all Offers,
+* usage of MUI library  */
 
 import React, {useEffect, useState} from 'react';
 import {getOffers} from "../../../fetchoperations/OffersOperations";

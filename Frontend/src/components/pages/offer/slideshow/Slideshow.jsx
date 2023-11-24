@@ -1,4 +1,5 @@
-/* Contains the Slideshow and is used in the Offerview */
+/* Contains the Slideshow of the offer images and is used in the Offerview,
+* usage of MUI library  */
 
 import React, {useState} from 'react';
 import {Card, CardMedia, IconButton} from "@mui/material";

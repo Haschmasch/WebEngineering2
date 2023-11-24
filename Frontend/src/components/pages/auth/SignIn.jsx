@@ -1,4 +1,5 @@
-/* Sign In page */
+/* page for registered users to log in,
+* usage of MUI library  */
 
 import React, {useState} from "react";
 import Avatar from "@mui/material/Avatar";
