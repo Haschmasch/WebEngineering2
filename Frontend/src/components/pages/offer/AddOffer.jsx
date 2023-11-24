@@ -1,3 +1,5 @@
+/* Page to Add an Offer. */
+
 import React, {useEffect, useState} from "react";
 
 import "./AddOfferStyles.css"

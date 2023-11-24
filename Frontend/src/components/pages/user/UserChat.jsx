@@ -1,3 +1,5 @@
+/* creates Chat, is associated to an Offer and an User */
+
 import React, {useEffect, useState} from "react";
 import Box from '@mui/material/Box';
 import '../../navbar/Navbar.css';

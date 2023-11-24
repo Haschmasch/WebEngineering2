@@ -1,3 +1,6 @@
+/* Navbar with all Categories and Subcategories.
+The Subcategories show up after hovering over the associated Category */
+
 import React, {useEffect, useState} from "react";
 import {AiOutlineHeart, AiOutlineUser} from "react-icons/ai";
 import {CiLogin, CiLogout} from "react-icons/ci";

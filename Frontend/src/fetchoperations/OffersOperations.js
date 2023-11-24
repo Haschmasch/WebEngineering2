@@ -1,3 +1,5 @@
+/* fetch Operations for Offers */
+
 import {getAccessToken, getUser_id} from "../components/utils/StorageInterface";
 
 const location = "http://127.0.0.1:8000/offers/";

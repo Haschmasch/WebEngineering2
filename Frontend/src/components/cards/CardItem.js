@@ -1,3 +1,5 @@
+/* Contains individual Offers from the Overview and summarizes them in a Box */
+
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import Button from "@mui/material/Button";

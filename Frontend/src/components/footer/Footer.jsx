@@ -1,7 +1,9 @@
+/* Creates Footer with associated Footersites and socialmedia links */
+
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFacebook, faInstagram} from "@fortawesome/free-brands-svg-icons";
-import "./Footer.css"
+import "./Footer.css";
 
 import {Link} from "react-router-dom";
 import Copyright from "../utils/Copyright";

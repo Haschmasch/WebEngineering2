@@ -1,3 +1,5 @@
+/* Creates Grid with CardItems(individual Offers) and gives the required Information for an Offer */
+
 import React, {useEffect, useState} from 'react';
 
 import './Cards.css';

@@ -1,3 +1,5 @@
+/* Homepage with all Offers */
+
 import React, {useEffect, useState} from 'react';
 import {getOffers} from "../../../fetchoperations/OffersOperations";
 import Cards from '../../cards/Cards';
