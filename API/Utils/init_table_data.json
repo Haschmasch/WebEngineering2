@@ -104,5 +104,97 @@
       "category_id": "4",
       "name": "Gewerbeimmobilien"
     }
+  ],
+  "users": [
+    {
+      "name": "Admin",
+      "email": "admin@example.com",
+      "password_salt": "e53f4fcfdcd6d7e37357a55a661f0d45",
+      "password_hash": "9d135eb16aedd8ff137ac6478ed9220da3cd4a4a1e1721633f35518feb461920",
+      "phone_number": "0115548861",
+      "time_created": "2023-11-24 12:05:30.461492+01"
+    }
+  ],
+  "offers": [
+    {
+      "title": "Pre-Owned Sedan for Sale",
+      "category_id": "1",
+      "subcategory_id": "1",
+      "price": "12000",
+      "currency": "$",
+      "user_id": "1",
+      "time_posted": "2023-11-23 14:54:07.655454+01",
+      "closed": false,
+      "postcode": "111111",
+      "city": "Example City",
+      "address": "Example Street 7",
+      "primary_image": "car-wheel-vehicle-sedan-24mm-f28-146087-pxhere.com.jpg",
+      "description": "Explore the open road in style! Well-maintained sedan with low mileage, perfect for those seeking a reliable and affordable vehicle.",
+      "short_description": "Well-maintained sedan with low mileage."
+    },
+    {
+      "title": "Latest Smartphone - Brand New",
+      "category_id": "2",
+      "subcategory_id": "6",
+      "price": "799",
+      "currency": "$",
+      "user_id": "1",
+      "time_posted": "2023-11-24 00:25:27.519007+01",
+      "closed": false,
+      "postcode": "111111",
+      "city": "Example City",
+      "address": "Example Street 6",
+      "primary_image": "iphone-smartphone-mobile-apple-beach-wood-1333681-pxhere.com.jpg",
+      "description": "Experience cutting-edge technology! Brand new smartphone with a sleek design, powerful features, and a stunning camera for capturing life's moments.",
+      "short_description": "Experience cutting-edge technology!"
+    },
+    {
+      "title": "Cozy Family Home for Sale",
+      "category_id": "4",
+      "subcategory_id": "18",
+      "price": "250000",
+      "currency": "$",
+      "user_id": "1",
+      "time_posted": "2023-11-24 00:31:16.932683+01",
+      "closed": false,
+      "postcode": "111111",
+      "city": "Example City",
+      "address": "Example Street 5",
+      "primary_image": "architecture-villa-house-roof-building-home-1256194-pxhere.com.jpg",
+      "description": "Make memories in this charming family home. Spacious rooms, a beautiful backyard, and a welcoming neighborhood await you.",
+      "short_description": "Make memories in this charming family home."
+    },
+    {
+      "title": "Summer Internship Opportunity",
+      "category_id": "3",
+      "subcategory_id": "15",
+      "price": "500",
+      "currency": "$",
+      "user_id": "1",
+      "time_posted": "2023-11-24 00:32:15.774665+01",
+      "closed": false,
+      "postcode": "111111",
+      "city": "Example City",
+      "address": "Example Street 4",
+      "primary_image": "group-people-young-corporate-office-professional-868210-pxhere.com.jpg",
+      "description": "Kickstart your career! Exciting summer internship in a dynamic company. Gain valuable experience, expand your skills, and build professional connections.",
+      "short_description": "Exciting summer internship in a dynamic company."
+    },
+    {
+      "title": "Unlocked Professional Camera",
+      "category_id": "2",
+      "subcategory_id": "11",
+      "price": "1200",
+      "currency": "$",
+      "user_id": "1",
+      "time_posted": "2023-11-24 00:34:08.970224+01",
+      "closed": false,
+      "postcode": "111111",
+      "city": "Example City",
+      "address": "Example Street 3",
+      "primary_image": "camera-photography-photographer-photo-slr-lens-506542-pxhere.com.jpg",
+      "description": "Elevate your photography game! High-quality, unlocked professional camera for capturing breathtaking moments. Ideal for both beginners and experienced photographers.",
+      "short_description": "High-quality, unlocked professional camera."
+    }
   ]
 }
