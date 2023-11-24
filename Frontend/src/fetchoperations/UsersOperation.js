@@ -1,20 +1,9 @@
 import Swal from "sweetalert2";
 import {getAccessToken, getUser_id} from "../components/utils/StorageInterface";
 
-// Database-Operations for Users
-
 const location = "http://127.0.0.1:8000/users/";
 
 // GET-Operations
-
-export async function getUsers() {
-  return fetch(location)
-      .then((response) => response.json())
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
 export async function getUser(user_id) {
   return fetch( location + `${user_id}`)
       .then((response) => response.json())
@@ -26,14 +15,6 @@ export async function getUser(user_id) {
 export async function checkUsernameAvailability(name) {
   const response = await fetch(location + `name/${name}`);
   return !response.ok;
-}
-
-export async function getUserByName(name) {
-  return fetch(location + `name/${name}`)
-      .then((response) => response.json())
-      .catch((error) => {
-        console.log(error);
-      });
 }
 
 export async function getCurrentUser() {
@@ -131,26 +112,6 @@ export async function updateUser(name, email, phone_number, time_created ) {
       time_created : time_created,
       id: getUser_id()
     }),
-  };
-
-  return fetch(location, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
-          return response.detail;
-        } else {
-          return response.json();
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
-export async function updateUserPassword(password) {
-  const requestOptions = {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password: password }),
   };
 
   return fetch(location, requestOptions)

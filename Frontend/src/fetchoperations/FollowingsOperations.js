@@ -3,22 +3,6 @@ import {getAccessToken, getUser_id} from "../components/utils/StorageInterface";
 const location = "http://127.0.0.1:8000";
 
 // GET-Operations
-export async function getFollowings() {
-    return fetch(location + "/followings/")
-        .then((response) => response.json())
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-export async function getFollowing(following_id) {
-    return fetch(location + `/followings/${following_id}`)
-        .then((response) => response.json())
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
 export async function getFollowingsByUser() {
     return fetch(location + `/followings/user/${getUser_id()}`)
         .then((response) => response.json())
@@ -71,8 +55,5 @@ export async function deleteFollowing(following_id) {
                 throw new Error("Fehler beim Löschen des Favoriten");
             }
             return true;
-        })
-        .then(() => {
-            //  localStorage.clear();
         });
 }

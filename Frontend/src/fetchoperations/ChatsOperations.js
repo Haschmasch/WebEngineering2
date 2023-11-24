@@ -3,10 +3,6 @@ import {getOffers} from "./OffersOperations";
 const location = "http://127.0.0.1:8000/chats/";
 
 // GET-Operations
-export async function getChats() {
-    return fetch(location).then((response) => response.json());
-}
-
 export async function getChat(chat_id) {
     return fetch(location + `${chat_id}`).then((response) => response.json());
 }
