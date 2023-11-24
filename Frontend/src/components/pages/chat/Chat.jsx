@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './Chat.css';
-import {getUser_id} from "../../utils/StorageInterface";
 import {deleteChat, getChat, getChats, getOwnChatByOffer} from "../../../fetchoperations/ChatsOperations";
 import {Container, TextField} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
@@ -18,7 +17,6 @@ const Chat = () => {
     const chatWindowRef = useRef(null);
     const socket = useRef(null);
 
-    const creator_id = getUser_id();
     const username = localStorage.getItem('user');
 
     useEffect(() => {
@@ -30,7 +28,7 @@ const Chat = () => {
     }, [chat_id]);
 
     useEffect(() => {
-        const ws = new WebSocket(`ws://localhost:8000/chats/ws/${offer_id}/${creator_id}`);
+        const ws = new WebSocket(`ws://localhost:8000/chats/ws/${offer_id}/${chat?.creator_id}`);
         console.log("Check");
         ws.onopen = (event) => {
             console.log('WebSocket connection opened:', event);
@@ -52,17 +50,19 @@ const Chat = () => {
                     scrollToBottom();
                 }
             } catch {
-                 return null;
+                console.log('event: ', event);
+                console.log('event: ', event.data);
             }
         };
 
         socket.current = ws;
 
         return () => {
+            console.log('callbackCalled');
             ws.close();
             setMessages([])
         };
-    }, [creator_id, offer_id]);
+    }, [chat?.creator_id, offer_id]);
 
     const handleChange = (e) => {
         if (e.key === 'Enter') {
