@@ -1,2 +1,27 @@
-Storage/
+\\ Exclude storage folder
+!Storage/
+Storage/*
+\\ Exclude temp files from IDE
 .idea/
+\\ Re-Include folders with dummy images. These are used for the default offers, when the API initializes a new database.
+!Storage/Offers/
+Storage/Offers/*
+
+!Storage/Offers/1/
+Storage/Offers/1/*
+
+!Storage/Offers/1/1/
+Storage/Offers/1/1/*
+!Storage/Offers/1/1/images/
+!Storage/Offers/1/2/
+Storage/Offers/1/2/*
+!Storage/Offers/1/2/images/
+!Storage/Offers/1/3/
+Storage/Offers/1/3/*
+!Storage/Offers/1/3/images/
+!Storage/Offers/1/4/
+Storage/Offers/1/4/*
+!Storage/Offers/1/4/images/
+!Storage/Offers/1/5/
+Storage/Offers/1/5/*
+!Storage/Offers/1/5/images/
