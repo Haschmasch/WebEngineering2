@@ -11,20 +11,8 @@ export async function getOffer(offer_id) {
     return fetch(location + `${offer_id}`).then((response) => response.json());
 }
 
-export async function getOfferImages(offer_id) {
-    return fetch(location + `${offer_id}/images`).then((response) => response.json());
-}
-
 export async function getOfferImagesName(offer_id) {
     return fetch(location + `${offer_id}/images/names`).then((response) => response.json());
-}
-
-export async function getOfferImageName(offer_id, image_name) {
-    return fetch(location + `${offer_id}/images/${image_name}`).then((response) => response.json());
-}
-
-export async function getOfferThumbnail(offer_id) {
-    return fetch(location + `${offer_id}/thumbnail}`).then((response) => response.json());
 }
 
 // POST-Operations
@@ -38,7 +26,6 @@ export async function addOffer(title,
                                address,
                                description,
                                primary_image,
-                               short_description,
 ) {
     const requestOptions = {
         method: "POST",
@@ -57,7 +44,7 @@ export async function addOffer(title,
             "address": address,
             "description": description,
             "primary_image": primary_image,
-            "short_description": short_description,
+            "short_description": '',
             "user_id": getUser_id(),
             "time_posted": new Date(Date.now()).toISOString()
         }),
@@ -146,27 +133,6 @@ export async function deleteOffer(offer_id) {
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Fehler beim Löschen des Angebots");
-            }
-            return true;
-        })
-        .then((error) => {
-            console.log(error);
-        });
-}
-
-export async function deleteOfferImage(offer_id, image_name) {
-    const requestOptions = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getAccessToken()}`,
-        },
-    };
-
-    return fetch(location + `${offer_id}/images/${image_name}`, requestOptions)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Fehler beim Löschen des Angebotsbild");
             }
             return true;
         })
