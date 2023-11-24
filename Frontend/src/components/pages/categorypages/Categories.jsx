@@ -1,28 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { getCategoryWithOffers } from "../../../fetchoperations/CategoriesOperations";
-import { useParams } from "react-router-dom";
-import { createSvgIcon } from '@mui/material/utils';
+import React, {useEffect, useState} from 'react';
+import {getCategoryWithOffers} from "../../../fetchoperations/CategoriesOperations";
+import {useParams} from "react-router-dom";
 import Button from "@mui/material/Button";
+import AddIcon from '@mui/icons-material/Add';
 import Cards from '../../cards/Cards';
+import {isLoggedIn} from "../../utils/StorageInterface";
 
-function Categories() {
+export default function Categories() {
     const {category_id} = useParams();
     const [offers, setOffers] = useState([]);
-    const auth = localStorage.getItem("isLogin");
     const [category, setCategory] = useState();
-
-    const PlusIcon = createSvgIcon(
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>,
-        'Plus',
-      );
 
     useEffect(() => {
         const response = getCategoryWithOffers(category_id);
@@ -37,19 +24,15 @@ function Categories() {
     return (
         <>
             <h1>{category}</h1>
-            {auth ? (<Button className={"offersNavbar"}
-                        variant="outlined"
-                        color="inherit"
-                        startIcon={<PlusIcon/>}
-                        href="../../../AddOffer"
-                        style={{ marginLeft: "20px", marginTop: "20px" }}>
-                            Angebot hinzufügen
-                        </Button>) : (<>
-            </>)}
-
+            {isLoggedIn() && (<Button className={"offersNavbar"}
+                                      variant="outlined"
+                                      color="inherit"
+                                      startIcon={<AddIcon/>}
+                                      href="../../../AddOffer"
+                                      style={{marginLeft: "20px", marginTop: "20px"}}>
+                Angebot hinzufügen
+            </Button>)}
             <Cards offers={offers}/>
         </>
     );
 }
-
-export default Categories;

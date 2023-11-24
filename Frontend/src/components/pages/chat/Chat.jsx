@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './Chat.css';
-import {deleteChat, getChat, getChats, getOwnChatByOffer} from "../../../fetchoperations/ChatsOperations";
+import {deleteChat, getChat, getOwnChatByOffer} from "../../../fetchoperations/ChatsOperations";
 import {Container, TextField} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import Button from "@mui/material/Button";
@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {useParams} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
-const Chat = () => {
+export default function Chat() {
     const {offer_id, chat_id} = useParams();
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
@@ -21,7 +21,7 @@ const Chat = () => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages]); // automatic scroll when new message
+    }, [messages]);
 
     useEffect(() => {
         getChat(chat_id).then(r => setChat(r))
@@ -29,10 +29,8 @@ const Chat = () => {
 
     useEffect(() => {
         const ws = new WebSocket(`ws://localhost:8000/chats/ws/${offer_id}/${chat?.creator_id}`);
-        console.log("Check");
-        ws.onopen = (event) => {
-            console.log('WebSocket connection opened:', event);
-            ws.send(JSON.stringify({type: 'username', user: localStorage.getItem("user")}));
+        ws.onopen = () => {
+            ws.send(JSON.stringify({type: 'username', user: username}));
         };
 
         ws.onmessage = (event) => {
@@ -50,7 +48,6 @@ const Chat = () => {
                     scrollToBottom();
                 }
             } catch {
-                console.log('event: ', event);
                 console.log('event: ', event.data);
             }
         };
@@ -58,7 +55,6 @@ const Chat = () => {
         socket.current = ws;
 
         return () => {
-            console.log('callbackCalled');
             ws.close();
             setMessages([])
         };
@@ -89,9 +85,9 @@ const Chat = () => {
     };
 
     const clearChat = async () => {
-        const chats = await getChats();
-        if (chats.length > 0) {
-            await deleteChat(await getOwnChatByOffer(offer_id));
+        const chat = await getOwnChatByOffer(offer_id);
+        if (chat) {
+            await deleteChat(chat);
             setMessages([]);
         }
     };
@@ -107,7 +103,6 @@ const Chat = () => {
         return [date, time]
     }
 
-
     if (chat === undefined) return <></>
     return (
         <Container maxWidth="sm">
@@ -115,12 +110,10 @@ const Chat = () => {
                 <div className="chat-messages" ref={chatWindowRef}>
                     {messages.map((msg, index) => (
                         <div key={index} className={msg.username === username ? "message right" : "message left"}>
-                            {/*<strong>{msg.username}:</strong> */}
                             {msg.message}
                             <Typography align={'right'} sx={{fontSize: '1vh'}}>
                                 {transformTimeStamp(msg.timestamp)[0] + ' ' + transformTimeStamp(msg.timestamp)[1].slice(0, -3)}
                             </Typography>
-
                         </div>
                     ))}
                 </div>
@@ -159,5 +152,3 @@ const Chat = () => {
         </Container>
     );
 };
-
-export default Chat;

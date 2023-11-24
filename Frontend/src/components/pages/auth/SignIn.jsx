@@ -14,24 +14,7 @@ import Swal from "sweetalert2";
 
 import {userLogin} from "../../../fetchoperations/UsersOperation";
 import {storeCredentials} from "../../utils/StorageInterface";
-
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {"Copyright © "}
-            <Link color="inherit" href="/">
-                GenuineGoods
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-        </Typography>
-    );
-}
+import Copyright from "../../utils/Copyright";
 
 const defaultTheme = createTheme();
 
@@ -39,13 +22,9 @@ export default function SignIn() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const submitLogin = async () => {
-        return await userLogin(username, password);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await submitLogin();
+        const response = await userLogin(username, password);
 
         storeCredentials(response).then(() => {
             Swal.fire({
@@ -61,8 +40,6 @@ export default function SignIn() {
             });
         }, () => {
         });
-
-
     };
 
     return (
@@ -141,3 +118,4 @@ export default function SignIn() {
         </ThemeProvider>
     );
 }
+

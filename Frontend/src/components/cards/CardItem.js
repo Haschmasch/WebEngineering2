@@ -11,11 +11,12 @@ const styleButton = {
     "&:hover": {
         backgroundColor: "white",
         color: "red"
-    }
+    },
+    color: "#466481",
 };
 
 export default function CardItem(props) {
-
+    const [hover, setHover] = useState(false);
     const handleClick = (e) => {
         e.preventDefault()
 
@@ -28,19 +29,13 @@ export default function CardItem(props) {
 
     }
 
-    const [hover, setHover] = useState(false);
-
-/*    function getImageLink() {
-        return `http://localhost:8000/offers/${props.offer_id}/images/${props.src}`
-    }*/
-
     function getImageLink() {
         return `http://localhost:8000/offers/${props.offer_id}/thumbnail`
     }
 
     return (
-        <>  
-            <li className='cards__item' >
+        <>
+            <li className='cards__item'>
                 <Link className='cards__item__link' to={props.path} id={props.id}>
                     <figure className='cards__item__pic-wrap' data-category={props.label}>
                         <img

@@ -1,5 +1,4 @@
 import React from "react";
-
 import "./SearchResult.css";
 import {Link} from "react-router-dom";
 

@@ -4,7 +4,7 @@ import {Paper, Skeleton} from "@mui/material";
 
 export const MAX_SEARCH_RESULTS_LOADING = 4;
 
-export const SearchResultsList = (props) => {
+export default function SearchResultsList(props) {
     const {results, loading} = props;
     let content = [];
     if (loading) {
@@ -17,7 +17,6 @@ export const SearchResultsList = (props) => {
         content = results.map((result, id) => <SearchResult result={result} key={id}/>)
     }
     return (
-
         <Paper sx={{
             position: 'absolute', maxHeight: '500px',
             boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)',
@@ -29,5 +28,3 @@ export const SearchResultsList = (props) => {
         </Paper>
     );
 };
-
-export default SearchResultsList;

@@ -14,24 +14,7 @@ import Swal from "sweetalert2";
 
 import {checkUsernameAvailability, registerUser, userLogin,} from "../../../fetchoperations/UsersOperation";
 import {storeCredentials} from "../../utils/StorageInterface";
-
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {"Copyright © "}
-            <Link color="inherit" href="/">
-                GenuineGoods
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-        </Typography>
-    );
-}
+import Copyright from "../../utils/Copyright";
 
 const defaultTheme = createTheme();
 

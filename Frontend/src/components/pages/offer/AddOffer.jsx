@@ -28,8 +28,6 @@ export default function AddOffers() {
     const [city, setCity] = useState("");
     const [address, setAddress] = useState("");
     const [description, setDescription] = useState("");
-    const [images, setImages] = useState([]);
-    const [short_description, setShort_description] = useState("");
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -73,18 +71,15 @@ export default function AddOffers() {
     ];
 
     useEffect(() => {
-        const response = getCategory(category_id);
-        if (response) {
-            response.then((data) => {
-                if (data?.related_subcategories?.length > 0) {
-                    setSubcategories(data.related_subcategories);
-                    setSubcategory_id(data.related_subcategories[0]?.id);
-                } else {
-                    setSubcategories(null);
-                    setSubcategory_id('');
-                }
-            }).catch((error) => console.error(error));
-        }
+        getCategory(category_id).then((data) => {
+            if (data?.related_subcategories?.length > 0) {
+                setSubcategories(data.related_subcategories);
+                setSubcategory_id(data.related_subcategories[0]?.id);
+            } else {
+                setSubcategories(null);
+                setSubcategory_id('');
+            }
+        }).catch((error) => console.error(error));
     }, [category_id]);
 
     const handleImageChange = (e) => {
@@ -94,7 +89,7 @@ export default function AddOffers() {
 
     const submitOffer = () => {
         const subcategoryId = subcategory_id ? subcategory_id : null;
-        if(selectedFiles.length === 0){
+        if (selectedFiles.length === 0) {
             Swal.fire({
                 title: "Bitte ein Bild auswählen!",
                 icon: "error",
@@ -115,7 +110,6 @@ export default function AddOffers() {
             address,
             description,
             selectedFiles[0].name,
-            short_description,
         ).then((offer) => {
             offer.json().then((offer) => {
                 createOfferImages(offer.id, selectedFiles).then(() => {

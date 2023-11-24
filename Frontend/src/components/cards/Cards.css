@@ -32,11 +32,6 @@
     overflow: hidden;
 }
 
-.fade-img {
-    animation-name: fade-img;
-    animation-duration: 2s;
-}
-
 .cards__item__pic-wrap::after {
     content: attr(data-category);
     position: absolute;

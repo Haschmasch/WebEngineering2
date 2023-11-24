@@ -54,11 +54,6 @@
   justify-content: space-between;
 }
 
-.chat-p {
-  font-size: 18px;
-  line-height: 1.5;
-}
-
 .chat-button {
   background-color: #0070f3;
   color: #fff;

@@ -5,7 +5,7 @@ import {getOffersBySubstring} from "../../fetchoperations/SearchOperations";
 import SearchResults from "./SearchResultsList";
 import {useNavigate} from "react-router-dom";
 
-export const Searchbar = () => {
+export default function Searchbar() {
     const [input, setInput] = useState("");
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -42,5 +42,3 @@ export const Searchbar = () => {
         </>
     );
 };
-
-export default Searchbar;

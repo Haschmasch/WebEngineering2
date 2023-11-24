@@ -23,7 +23,7 @@ export default function SearchPageListing() {
 
     return (
         <>
-            <Typography>showing results for "{search_String}"</Typography>
+            <Typography>Ergebnisse für: "{search_String}"</Typography>
             <div className='cards'>
                 <div className='cards__container'>
                     <div className='cards__wrapper'>

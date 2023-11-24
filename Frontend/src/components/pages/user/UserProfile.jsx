@@ -1,12 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./UserProfile.css";
 import Button from "@mui/material/Button";
-// import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Swal from "sweetalert2";
-
-// import Box from "@mui/material/Box";
-/*import {createTheme} from "@mui/material/styles";*/
-
 import {deleteUser, getUser, updateUser} from "../../../fetchoperations/UsersOperation";
 import {FormLabel, Input} from "@mui/material";
 import {getUser_id} from "../../utils/StorageInterface";
@@ -14,11 +9,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import UserOffers from "./UserOffers";
 import Box from "@mui/material/Box";
 import UserChats from "./UserChats";
-
-
-/*const defaultTheme = createTheme();*/
-
-// const auth = localStorage.getItem("isLogin");
 
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,8 +22,7 @@ const handleSubmit = async (e) => {
         cancelButtonText: "Abbrechen",
     }).then((result) => {
         if (result.isConfirmed) {
-            const response = deleteUser();
-            if (response) {
+            deleteUser().then(() => {
                 Swal.fire({
                     title: "Konto gelöscht",
                     icon: "success",
@@ -45,7 +34,7 @@ const handleSubmit = async (e) => {
                 }).then(function () {
                     window.location = "/";
                 });
-            }
+            })
         }
     });
 };
@@ -64,7 +53,6 @@ export default function UserProfile() {
             }
         )
     }, []);
-
 
     return (
         <>

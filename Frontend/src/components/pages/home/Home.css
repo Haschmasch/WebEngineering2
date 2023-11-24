@@ -40,7 +40,6 @@
 
 .home-title {
     height: 100px;
-    margin: 0;
     display: grid;
     place-content: center;
     margin: 10px;

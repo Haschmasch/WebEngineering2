@@ -7,10 +7,12 @@ import "./Navbar.css";
 import Searchbar from "../searchbar/Searchbar";
 import {Logout} from "../pages/auth/Logout";
 import {getCategories, getCategory} from "../../fetchoperations/CategoriesOperations";
+import {isLoggedIn} from "../utils/StorageInterface";
 
 const Navbar = () => {
     const [categories, setCategories] = useState([]);
-    const auth = localStorage.getItem("isLogin");
+    const auth = isLoggedIn();
+
     useEffect(() => {
         getCategories().then(r => setCategories(r))
     }, []);
@@ -111,9 +113,8 @@ const SubCatDropdown = ({category_id}) => {
         }
     }, [category_id]);
 
-    // Überprüfe, ob subcategories vorhanden sind
     if (subcategories.length === 0) {
-        return null; // Wenn keine subcategories vorhanden sind, rendere nichts
+        return null;
     }
 
     return (

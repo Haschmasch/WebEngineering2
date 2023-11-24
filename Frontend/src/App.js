@@ -1,5 +1,4 @@
 import React from "react";
-// Library mui verwendet mit "npm install @mui/material @emotion/react @emotion/styled"
 import {Route, Routes} from "react-router-dom";
 import {PrivateRoute} from "./components/pages/PrivateRoute"
 import "./App.css";
@@ -20,7 +19,7 @@ import UserProfile from "./components/pages/user/UserProfile";
 import Categories from "./components/pages/categorypages/Categories";
 import Subcategories from "./components/pages/categorypages/Subcategories";
 
-import FollowingListing from "./components/pages/following/FollowingListing";
+import Following from "./components/pages/following/Following";
 import SearchPageListing from "./components/pages/search/SearchPageListing";
 import AddOffer from "./components/pages/offer/AddOffer";
 import OfferView from "./components/pages/offer/OfferView";
@@ -43,7 +42,7 @@ function App() {
                         <Route path="chats/:offer_id/:chat_id" element={<Chat/>}/>
                         <Route path="/profile" element={<UserProfile/>}/>
                         <Route path="/addOffer" element={<AddOffer/>}/>
-                        <Route path="/followings" element={<FollowingListing/>}/>
+                        <Route path="/followings" element={<Following/>}/>
                     </Route>
                     <Route path="/signin" element={<SignInPage/>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
