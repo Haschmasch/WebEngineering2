@@ -10,10 +10,8 @@ export default function Slideshow(props) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     function getPicturesWithoutThumbnail(){
-        var len = imageNames.length,
-        i = 0;
 
-        for (; i < len; i++){
+        for (let i = 0; i < imageNames.length; i++){
             if (imageNames[i].includes("thumbnail")){
                 imageNames.splice(i, 1);
             }
