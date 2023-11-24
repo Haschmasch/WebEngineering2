@@ -26,10 +26,10 @@ export default function Categories() {
             <h1>{category}</h1>
             {isLoggedIn() && (<Button className={"offersNavbar"}
                                       variant="outlined"
-                                      color="inherit"
-                                      startIcon={<AddIcon/>}
-                                      href="../../../AddOffer"
-                                      style={{marginLeft: "20px", marginTop: "20px"}}>
+                                      bgcolor="#456385"
+                                      startIcon={<AddIcon color="#456385"/>}
+                                      href="AddOffer"
+                                      style={{marginLeft: "20px", marginTop: "50px", backgroundColor: "fefefe"}}>
                 Angebot hinzufügen
             </Button>)}
             <Cards offers={offers}/>

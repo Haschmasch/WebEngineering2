@@ -6,7 +6,7 @@ import Cards from '../../cards/Cards';
 import {isLoggedIn} from "../../utils/StorageInterface";
 import AddIcon from "@mui/icons-material/Add";
 
-function Subcategories() {
+export default function Subcategories() {
     const {subcategory_id} = useParams();
     const [subCategoryOffers, setSubCategoryOffers] = useState([]);
     const [subcategory, setSubcategory] = useState();
@@ -26,15 +26,14 @@ function Subcategories() {
             <h1>{subcategory}</h1>
             {isLoggedIn() && (<Button className={"offersNavbar"}
                                       variant="outlined"
-                                      color="inherit"
-                                      startIcon={<AddIcon/>}
-                                      href="../../../AddOffer"
-                                      style={{marginLeft: "20px", marginTop: "20px"}}>
+                                      bgcolor="#456385"
+                                      startIcon={<AddIcon color="#456385"/>}
+                                      href="AddOffer"
+                                      style={{marginLeft: "20px", marginTop: "50px", backgroundColor: "fefefe"}}>
                 Angebot hinzufügen
             </Button>)}
             <Cards offers={subCategoryOffers}/>
         </>
     );
-}
+};
 
-export default Subcategories;

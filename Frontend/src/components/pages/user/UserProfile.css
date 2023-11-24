@@ -1,18 +1,13 @@
 .UserProfilBox{
     display: flex;
     flex-flow: column;
-    position: center;
     margin: 50px;
-    width: 350px;
     box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
     -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
     filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
     border-radius: 10px;
 }
 
-hr {
-	border: 1px solid #d3deec;
-	border-radius: 1px;
-	margin-bottom: 10px;
-	box-shadow: 10px 1px 5px #d3deec;
+#profile-title {
+    text-align: left;
 }

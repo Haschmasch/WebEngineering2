@@ -5,8 +5,9 @@ import {getFollowingsByUser} from "../../fetchoperations/FollowingsOperations";
 import CardItem from "./CardItem";
 import Grid from "@mui/material/Grid";
 import {isLoggedIn} from "../utils/StorageInterface";
+import Box from "@mui/material/Box";
 
-function Cards({offers}) {
+export default function Cards({offers}) {
     const [followings, setFollowings] = useState([]);
     const [needsNewFetch, setNeedsNewFetch] = useState(0);
 
@@ -17,7 +18,7 @@ function Cards({offers}) {
     }, [needsNewFetch]);
 
     return (
-        <div className='cards'>
+        <Box className='cards' sx={{maxWidth: "100%"}}>
             <Grid container spacing={4} >
                 {offers.map((offer, index) => (
                     <Grid item xs={12} sm={4} md={3} lg={2} xl={2} key={index} margin={"10px"} className='cards__items'>
@@ -37,14 +38,6 @@ function Cards({offers}) {
                     )
                 )}
             </Grid>
-        </div>
+        </Box>
     );
-}
-
-export default Cards;
-
-// xs, extra-small: 0px
-// sm, small: 600px
-// md, medium: 900px
-// lg, large: 1200px
-// xl, extra-large: 1536px
+};

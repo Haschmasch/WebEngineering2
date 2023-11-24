@@ -13,9 +13,7 @@
 .footer > h1 {
     text-align: center;
     color: #466481;
-    padding: 10px;
-    padding-top: 20px;
-    padding-left: 20px
+    padding: 20px 10px 10px 20px;
 }
 
 .footer .date {
@@ -108,8 +106,7 @@
 
 .list ul li span {
     position: relative;
-    padding: 8px;
-    padding-left: 12px;
+    padding: 8px 8px 8px 12px;
     display: inline-block;
     z-index: 1;
     transition: 0.5s;

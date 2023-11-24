@@ -13,7 +13,7 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Schatten hinzufügen */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
 
@@ -51,7 +51,6 @@ Typography {
     color: #0070f3;
 }
 
-/* Media Query für responsive Darstellung */
 @media (max-width: 768px) {
     .offer-details {
         flex-direction: column;

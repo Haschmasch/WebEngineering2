@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useParams} from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import {getOffer} from "../../../fetchoperations/OffersOperations";
 
 export default function Chat() {
     const {offer_id, chat_id} = useParams();
@@ -58,7 +59,7 @@ export default function Chat() {
             ws.close();
             setMessages([])
         };
-    }, [chat?.creator_id, offer_id]);
+    }, [chat?.creator_id, offer_id, username]);
 
     const handleChange = (e) => {
         if (e.key === 'Enter') {

@@ -59,8 +59,6 @@ export async function createOfferImages(offer_id, images) {
     const requestOptions = {
         method: "POST",
         headers: {
-/*            "boundary": Math.random().toString().substr(2),
-            "Content-Type": "multipart/form-data",*/
             Authorization: `Bearer ${getAccessToken()}`
         },
         body: formData,

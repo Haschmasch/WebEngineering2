@@ -1,46 +1,63 @@
 import React from "react";
-import "./FooterStyles.css"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFacebook, faInstagram} from "@fortawesome/free-brands-svg-icons";
+import "./Footer.css"
 
 import {Link} from "react-router-dom";
+import Copyright from "../utils/Copyright";
 
-const Footer = () => {
+export default function Footer() {
     return (
-        <>
-            <div className="footer-box">
-                <div className="footer-container">
-                    <div className="row">
-                        <div className="column">
-                            <div className="heading">
-                                GENUINE GOODS
-                            </div>
-                            <img className="image" src="/logo.png" alt="logo"></img>
-                        </div>
-                        <div className="column" style={{paddingLeft: "45px"}}>
-                            <div className="heading">
-                                ÜBER UNS
-                            </div>
-                            <Link to="/unserteam" className="Links">
-                                Unser Team
-                            </Link>
-                            <Link to="/vision" className="Links">
-                                Vision
-                            </Link>
-                        </div>
-                        <div className="column">
-                            <div className="heading">
-                                INFORMATIONEN
-                            </div>
-                            <Link to="/datenschutz" className="Links">
-                                Datenschutzerklärung
-                            </Link>
-                            <Link to="/impressum" className="Links">
-                                Impressum
-                            </Link>
-                        </div>
+        <div className='footer-container'>
+            <div className='footer-links'>
+                <div className='footer-link-wrapper'>
+                    <div className='footer-link-items'>
+                        <h2>Über uns</h2>
+                        <Link to='/unserteam'>Unser Team</Link>
+                        <Link to='/vision'>Vision</Link>
+                    </div>
+                    <div className='footer-link-items'>
+                        <h2>Informationen</h2>
+                        <Link to='/datenschutz'>Datenschutzerklärung</Link>
+                        <Link to='/impressum'>Impressum</Link>
+                    </div>
+                    <div className='footer-link-items'>
+                        <h2>Social Media</h2>
+                        <Link to='https://www.instagram.com/'
+                              target='_blank'>Instagram</Link>
+                        <Link to='https://www.facebook.com/'
+                              target='_blank'>Facebook</Link>
                     </div>
                 </div>
             </div>
-        </>
+            <section className='social-media'>
+                <div className='social-media-wrap'>
+                    <div className='footer-logo'>
+                        <Link to='/' className='social-logo'>
+                            <img src="./logo.png" alt="Logo" className='logo'/>
+                        </Link>
+                    </div>
+                    <small className='website-rights'><Copyright/></small>
+                    <div className='social-icons'>
+                        <Link
+                            className='social-icon-link facebook'
+                            to='https://www.facebook.com/'
+                            target='_blank'
+                            aria-label='Facebook'
+                        >
+                            <FontAwesomeIcon icon={faFacebook}/>
+                        </Link>
+                        <Link
+                            className='social-icon-link instagram'
+                            to='https://www.instagram.com/'
+                            target='_blank'
+                            aria-label='Instagram'
+                        >
+                            <FontAwesomeIcon icon={faInstagram}/>
+                        </Link>
+                    </div>
+                </div>
+            </section>
+        </div>
     );
 };
-export default Footer;

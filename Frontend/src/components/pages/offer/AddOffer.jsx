@@ -285,9 +285,6 @@ export default function AddOffers() {
                                         component="label">Datei auswählen
                                         <VisuallyHiddenInput type="file" name="primary_image"
                                                              onChange={handleImageChange} hidden multiple/>
-                                        {/*<input type="file"*/}
-
-                                        {/*/>*/}
                                     </Button>
                                 </Grid>
                                 <Button type="submit" variant="contained" style={{

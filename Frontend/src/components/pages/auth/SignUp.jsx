@@ -45,7 +45,7 @@ export default function SignUp() {
                 showCloseButton: true,
                 focusConfirm: false,
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0989ff",
+                confirmButtonColor: "#456385",
             }).then(function () {
                 window.location = "/";
             });
@@ -57,7 +57,7 @@ export default function SignUp() {
                 showCloseButton: true,
                 focusConfirm: false,
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0989ff",
+                confirmButtonColor: "#456385",
             });
         }
     };
@@ -77,7 +77,7 @@ export default function SignUp() {
                 showCloseButton: true,
                 focusConfirm: false,
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0989ff",
+                confirmButtonColor: "#456385",
             });
         } else if (password.length > 5) {
             submitRegistration();
@@ -89,7 +89,7 @@ export default function SignUp() {
                 showCloseButton: true,
                 focusConfirm: false,
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0989ff",
+                confirmButtonColor: "#456385",
             });
         }
     };
@@ -106,7 +106,7 @@ export default function SignUp() {
                         alignItems: "center",
                     }}
                 >
-                    <Avatar sx={{m: 1, bgcolor: "#0989ff"}}>
+                    <Avatar sx={{m: 1, bgcolor: "#456385"}}>
                         <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -176,7 +176,7 @@ export default function SignUp() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{mt: 3, mb: 2}}
+                            sx={{mt: 3, mb: 2, bgcolor: "#456385"}}
                         >
                             Registrieren
                         </Button>

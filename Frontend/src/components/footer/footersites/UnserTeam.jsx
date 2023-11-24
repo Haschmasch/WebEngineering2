@@ -1,7 +1,8 @@
 import React from "react";
 import "./Footersitesstyle.css"
 
-const Unserteam = () => {
+
+export default function Unserteam() {
     return (
         <>
             <div className="section">
@@ -18,5 +19,3 @@ const Unserteam = () => {
         </>
     );
 };
-
-export default Unserteam;

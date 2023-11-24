@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {getOffers} from "../../../fetchoperations/OffersOperations";
 import Cards from '../../cards/Cards';
 import Button from "@mui/material/Button";
-import {createSvgIcon} from '@mui/material/utils';
 import './Home.css';
 import {isLoggedIn} from "../../utils/StorageInterface";
 import AddIcon from "@mui/icons-material/Add";
@@ -24,10 +23,10 @@ export default function Home() {
             </div>
             {isLoggedIn() && (<Button className={"offersNavbar"}
                                       variant="outlined"
-                                      color="inherit"
-                                      startIcon={<AddIcon/>}
+                                      bgcolor="#456385"
+                                      startIcon={<AddIcon color="#456385"/>}
                                       href="AddOffer"
-                                      style={{marginLeft: "20px", marginTop: "20px"}}>
+                                      style={{marginLeft: "20px", marginTop: "50px", backgroundColor: "fefefe"}}>
                 Angebot hinzufügen
             </Button>)}
             <Cards offers={offers}/>

@@ -1,19 +1,6 @@
-/* global styles*/
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: Helvetica, sans-serif;
 }
-
-/*
-html, body, #root{
-  min-height: 100vh
-}
-
-h1 {
-  text-align: left;
-	color: #466481;
-	padding-top: 20px;
-	padding-left: 20px
-}*/

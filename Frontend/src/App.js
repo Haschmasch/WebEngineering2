@@ -27,7 +27,7 @@ import OfferView from "./components/pages/offer/OfferView";
 import Home from "./components/pages/home/Home";
 import UserOffers from "./components/pages/user/UserOffers";
 
-function App() {
+export default function App() {
     return (
         <>
             <Navbar/>
@@ -56,6 +56,4 @@ function App() {
             <Footer/>
         </>
     );
-}
-
-export default App;
+};

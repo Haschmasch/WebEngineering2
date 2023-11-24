@@ -1,6 +1,6 @@
 import React from "react";
 
-const Vision = () => {
+export default function Vision() {
     return (
         <>
             <div className="section">
@@ -16,5 +16,3 @@ const Vision = () => {
         </>
     );
 };
-
-export default Vision;

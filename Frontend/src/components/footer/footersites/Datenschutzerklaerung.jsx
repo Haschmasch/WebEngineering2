@@ -2,7 +2,7 @@ import React from "react";
 
 import "./Footersitesstyle.css"
 
-const Datenschutz = () => {
+export default function Datenschutz() {
     return (
         <>
             <div className="section">
@@ -518,15 +518,8 @@ const Datenschutz = () => {
                         (Art. 6 Abs. 1 S. 1 lit. b) DSGVO), Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).
                     </span></li>
                     </ul>
-                    {/*<p class="seal">
-                        <a href="https://datenschutz-generator.de/"
-                           title="Rechtstext von Dr. Schwenke - für weitere Informationen bitte anklicken."
-                           target="_blank" rel="noopener noreferrer nofollow">Erstellt mit kostenlosem
-                            Datenschutz-Generator.de von Dr. Thomas Schwenke</a></p>*/}
                 </div>
             </div>
         </>
     );
 };
-
-export default Datenschutz;

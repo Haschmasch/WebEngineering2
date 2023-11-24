@@ -8,10 +8,10 @@ import Searchbar from "../searchbar/Searchbar";
 import {Logout} from "../pages/auth/Logout";
 import {getCategories, getCategory} from "../../fetchoperations/CategoriesOperations";
 import {isLoggedIn} from "../utils/StorageInterface";
+import UserChat from "../pages/user/UserChat";
 
-const Navbar = () => {
+export default function  Navbar() {
     const [categories, setCategories] = useState([]);
-    const auth = isLoggedIn();
 
     useEffect(() => {
         getCategories().then(r => setCategories(r))
@@ -29,7 +29,7 @@ const Navbar = () => {
                         </div>
                     </div>
                     <div className="icon">
-                        {auth && (
+                        {isLoggedIn() && (
                             <>
                                 <div className="fa-icon">
                                     <Link to="/profile" className="link">
@@ -43,12 +43,15 @@ const Navbar = () => {
                                 </div>
                             </>
                         )}
-                        {auth ? (
-                            <div className="fa-icon">
-                                <Link>
-                                    <CiLogout onClick={() => Logout()} className="link"/>
-                                </Link>
-                            </div>
+                        {isLoggedIn() ? (
+                            <>
+                                <UserChat/>
+                                <div className="fa-icon">
+                                    <Link className="link">
+                                        <CiLogout onClick={() => Logout()}/>
+                                    </Link>
+                                </div>
+                            </>
                         ) : (
                             <div className="fa-icon">
                                 <Link to="/signin" className="link">
@@ -75,7 +78,9 @@ const Navbar = () => {
     );
 };
 
-const NavbarItem = ({category}) => {
+const NavbarItem = ({
+                        category
+                    }) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
 
     const handleMouseEnter = () => {
@@ -99,7 +104,9 @@ const NavbarItem = ({category}) => {
     );
 };
 
-const SubCatDropdown = ({category_id}) => {
+const SubCatDropdown = ({
+                            category_id
+                        }) => {
     const [subcategories, setSubcategories] = useState([]);
 
     useEffect(() => {
@@ -132,5 +139,3 @@ const SubCatDropdown = ({category_id}) => {
         </ul>
     );
 };
-
-export default Navbar;

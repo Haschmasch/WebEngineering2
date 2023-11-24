@@ -3,7 +3,7 @@ import {Card, CardMedia, IconButton} from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-function Slideshow(props) {
+export default function Slideshow(props) {
     const {offer, imageNames} = props
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -47,6 +47,4 @@ function Slideshow(props) {
             </div>
         </div>
     );
-}
-
-export default Slideshow;
+};
