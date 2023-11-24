@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useParams} from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import {getOffer} from "../../../fetchoperations/OffersOperations";
 
 export default function Chat() {
     const {offer_id, chat_id} = useParams();

@@ -28,7 +28,7 @@ export default function Categories() {
                                       variant="outlined"
                                       bgcolor="#456385"
                                       startIcon={<AddIcon color="#456385"/>}
-                                      href="AddOffer"
+                                      href="../../AddOffer"
                                       style={{marginLeft: "20px", marginTop: "50px", backgroundColor: "fefefe"}}>
                 Angebot hinzufügen
             </Button>)}
